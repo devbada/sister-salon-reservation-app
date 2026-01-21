@@ -1,7 +1,14 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(git ls-tree:*)",
+      "Bash(git merge:*)",
+      "Bash(cargo build:*)"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [
     "my-mcp-server",
     "github"
-  ],
-  "enableAllProjectMcpServers": true
+  ]
 }
