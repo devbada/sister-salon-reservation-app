@@ -2,5 +2,5 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 fn main() {
-    tauri_temp_lib::run()
+    sisters_salon_reservation_app_lib::run()
 }
