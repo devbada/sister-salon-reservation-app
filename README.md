@@ -387,8 +387,8 @@ SOFTWARE.
 
 ## 연락처
 
-- **Issues**: [GitHub Issues](https://github.com/your-username/sisters-salon-reservation-app/issues)
-- **Email**: your-email@example.com
+- **Issues**: [GitHub Issues](https://github.com/devbada/sisters-salon-reservation-app/issues)
+- **Email**: imdevbada@gmail.com
 
 ---
 
