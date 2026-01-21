@@ -1,13 +1,24 @@
 import { invoke } from '@tauri-apps/api/core';
 import type { Reservation, Designer, BusinessHours, BackupInfo, ExportPeriod, CloudService, LockSettings } from '../types';
 
+// 예약 생성 입력 타입
+interface CreateReservationInput {
+  customerName: string;
+  customerPhone?: string;
+  date: string;
+  time: string;
+  designerId?: string;
+  serviceType?: string;
+  notes?: string;
+}
+
 // 예약 관리
 export const reservationApi = {
   getAll: (date?: string) => invoke<Reservation[]>('get_reservations', { date }),
   getById: (id: string) => invoke<Reservation>('get_reservation', { id }),
-  create: (data: Omit<Reservation, 'id' | 'createdAt' | 'updatedAt'>) =>
+  create: (data: CreateReservationInput) =>
     invoke<Reservation>('create_reservation', { data }),
-  update: (id: string, data: Partial<Reservation>) =>
+  update: (id: string, data: Partial<CreateReservationInput>) =>
     invoke<Reservation>('update_reservation', { id, data }),
   delete: (id: string) => invoke<void>('delete_reservation', { id }),
   updateStatus: (id: string, status: Reservation['status']) =>
