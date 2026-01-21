@@ -1,0 +1,7 @@
+{
+  "enabledMcpjsonServers": [
+    "my-mcp-server",
+    "github"
+  ],
+  "enableAllProjectMcpServers": true
+}
