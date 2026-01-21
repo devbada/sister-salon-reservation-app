@@ -655,7 +655,7 @@ git commit -m "feat: Phase 2 - 데이터베이스 구축 완료
 
 Co-Authored-By: Claude <noreply@anthropic.com>"
 
-git push origin develop
+# push는 사용자가 직접 수행
 git branch -d task/02-database
 ```
 

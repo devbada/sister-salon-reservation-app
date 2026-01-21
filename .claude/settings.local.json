@@ -1,6 +1,9 @@
 {
   "permissions": {
     "allow": [
+      "Bash(git ls-tree:*)",
+      "Bash(git merge:*)",
+      "Bash(cargo build:*)"
       "Bash(node --version:*)",
       "Bash(npm:*)",
       "Bash(rustc:*)",
