@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import type { DeviceType } from '../types';
+
+export type DeviceType = 'mobile' | 'tablet' | 'desktop';
 
 const BREAKPOINTS = {
   mobile: 640,
@@ -7,7 +8,13 @@ const BREAKPOINTS = {
 };
 
 export function useDeviceType(): DeviceType {
-  const [deviceType, setDeviceType] = useState<DeviceType>('desktop');
+  const [deviceType, setDeviceType] = useState<DeviceType>(() => {
+    if (typeof window === 'undefined') return 'desktop';
+    const width = window.innerWidth;
+    if (width < BREAKPOINTS.mobile) return 'mobile';
+    if (width < BREAKPOINTS.tablet) return 'tablet';
+    return 'desktop';
+  });
 
   useEffect(() => {
     const updateDeviceType = () => {
@@ -21,7 +28,6 @@ export function useDeviceType(): DeviceType {
       }
     };
 
-    updateDeviceType();
     window.addEventListener('resize', updateDeviceType);
     return () => window.removeEventListener('resize', updateDeviceType);
   }, []);
