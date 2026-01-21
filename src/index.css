@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: oklch(0.55 0.22 264);
+  --color-secondary: oklch(0.62 0.19 264);
+  --color-glass-light: rgba(255, 255, 255, 0.25);
+  --color-glass-dark: rgba(0, 0, 0, 0.25);
+}
+
+@layer components {
+  .glass {
+    background-color: var(--color-glass-light);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  }
+
+  .dark .glass {
+    background-color: var(--color-glass-dark);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .glass-card {
+    background-color: var(--color-glass-light);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .glass-card {
+      padding: 1.5rem;
+    }
+  }
+
+  .dark .glass-card {
+    background-color: var(--color-glass-dark);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+}
