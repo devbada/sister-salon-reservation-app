@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-primary: 79 70 229;    /* indigo-600 */
+    --color-secondary: 99 102 241; /* indigo-500 */
+  }
+
+  .dark {
+    --color-primary: 129 140 248;  /* indigo-400 */
+    --color-secondary: 165 180 252; /* indigo-300 */
+  }
+}
+
+@layer components {
+  .glass {
+    @apply bg-white/25 dark:bg-black/25 backdrop-blur-md;
+    @apply border border-white/20 dark:border-white/10;
+    @apply rounded-xl shadow-lg;
+  }
+
+  .glass-card {
+    @apply glass p-4 sm:p-6;
+  }
+}
