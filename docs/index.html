@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sisters Salon - 헤어 살롱을 위한 스마트 예약 관리 앱</title>
+    <meta name="description" content="iPhone, iPad, Mac, Windows, Android에서 사용 가능한 헤어 살롱 예약 관리 애플리케이션. 서버 없이 로컬에서 안전하게 데이터를 관리하세요.">
+    <meta name="keywords" content="헤어살롱, 예약관리, 미용실, 앱, 크로스플랫폼">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Sisters Salon - 스마트 예약 관리 앱">
+    <meta property="og:description" content="헤어 살롱을 위한 올인원 예약 관리 솔루션">
+    <meta property="og:type" content="website">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            200: '#c7d2fe',
+                            300: '#a5b4fc',
+                            400: '#818cf8',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            800: '#3730a3',
+                            900: '#312e81',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .dark .glass {
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+        }
+        .dark .gradient-bg {
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4c1d95 100%);
+        }
+        .feature-icon {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        }
+        .placeholder-img {
+            background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+        }
+        .dark .placeholder-img {
+            background: linear-gradient(135deg, #374151 0%, #4b5563 100%);
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="min-h-screen gradient-bg text-gray-900 dark:text-white transition-colors duration-300">
+    <!-- Dark Mode Toggle -->
+    <button id="theme-toggle" class="fixed top-4 right-4 z-50 p-3 rounded-full glass hover:scale-110 transition-transform">
+        <svg id="sun-icon" class="w-6 h-6 hidden dark:block" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"/>
+        </svg>
+        <svg id="moon-icon" class="w-6 h-6 block dark:hidden" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
+        </svg>
+    </button>
+
+    <!-- Header -->
+    <header class="glass sticky top-0 z-40">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-purple-600 flex items-center justify-center text-white text-xl">
+                        💇‍♀️
+                    </div>
+                    <span class="text-xl font-bold">Sisters Salon</span>
+                </div>
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="#features" class="hover:text-primary-400 transition-colors">기능</a>
+                    <a href="#screenshots" class="hover:text-primary-400 transition-colors">스크린샷</a>
+                    <a href="#platforms" class="hover:text-primary-400 transition-colors">지원 플랫폼</a>
+                    <a href="#download" class="px-4 py-2 rounded-lg bg-primary-600 hover:bg-primary-700 text-white transition-colors">다운로드</a>
+                </div>
+                <!-- Mobile menu button -->
+                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg hover:bg-white/10">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+            <!-- Mobile menu -->
+            <div id="mobile-menu" class="hidden md:hidden pb-4">
+                <div class="flex flex-col gap-2">
+                    <a href="#features" class="px-4 py-2 rounded-lg hover:bg-white/10">기능</a>
+                    <a href="#screenshots" class="px-4 py-2 rounded-lg hover:bg-white/10">스크린샷</a>
+                    <a href="#platforms" class="px-4 py-2 rounded-lg hover:bg-white/10">지원 플랫폼</a>
+                    <a href="#download" class="px-4 py-2 rounded-lg bg-primary-600 text-white text-center">다운로드</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="py-16 md:py-24 px-4">
+            <div class="max-w-7xl mx-auto">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="text-center md:text-left">
+                        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+                            헤어 살롱을 위한<br>
+                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-300 to-purple-300">
+                                스마트 예약 관리
+                            </span>
+                        </h1>
+                        <p class="text-lg md:text-xl text-white/80 dark:text-white/70 mb-8 leading-relaxed">
+                            예약부터 통계까지, 모든 것을 한 곳에서.<br>
+                            서버 없이 내 기기에서 안전하게 관리하세요.
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                            <a href="#download" class="px-8 py-4 rounded-xl bg-white text-primary-700 font-semibold hover:bg-white/90 transition-all hover:scale-105 shadow-lg text-center">
+                                무료 다운로드
+                            </a>
+                            <a href="#features" class="px-8 py-4 rounded-xl glass font-semibold hover:bg-white/20 transition-all text-center">
+                                더 알아보기
+                            </a>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <!-- App Mockup Placeholder -->
+                        <div class="relative mx-auto w-64 md:w-80">
+                            <div class="placeholder-img rounded-[3rem] p-4 shadow-2xl">
+                                <div class="bg-gray-200 dark:bg-gray-700 rounded-[2.5rem] aspect-[9/19] flex items-center justify-center">
+                                    <div class="text-center p-8">
+                                        <div class="text-6xl mb-4">📱</div>
+                                        <p class="text-gray-500 dark:text-gray-400 text-sm">앱 스크린샷<br>Coming Soon</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Floating elements -->
+                            <div class="absolute -top-4 -right-4 glass rounded-2xl p-4 shadow-lg animate-bounce">
+                                <div class="text-2xl">📅</div>
+                            </div>
+                            <div class="absolute -bottom-4 -left-4 glass rounded-2xl p-4 shadow-lg" style="animation: bounce 1s infinite 0.5s;">
+                                <div class="text-2xl">📊</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="py-16 md:py-24 px-4">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4">주요 기능</h2>
+                    <p class="text-white/70 text-lg max-w-2xl mx-auto">
+                        살롱 운영에 필요한 모든 기능을 하나의 앱에서
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Feature 1: 예약 관리 -->
+                    <div class="glass rounded-2xl p-6 hover:scale-105 transition-transform">
+                        <div class="feature-icon w-14 h-14 rounded-xl flex items-center justify-center text-white text-2xl mb-4">
+                            📅
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">예약 관리</h3>
+                        <p class="text-white/70">
+                            간편한 예약 생성, 수정, 삭제. 대기 → 확정 → 완료까지 5단계 상태 관리로 예약 현황을 한눈에 파악하세요.
+                        </p>
+                    </div>
+
+                    <!-- Feature 2: 디자이너 관리 -->
+                    <div class="glass rounded-2xl p-6 hover:scale-105 transition-transform">
+                        <div class="feature-icon w-14 h-14 rounded-xl flex items-center justify-center text-white text-2xl mb-4">
+                            👩‍🎨
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">디자이너 관리</h3>
+                        <p class="text-white/70">
+                            스타일리스트별 스케줄과 전문 분야를 관리하고, 디자이너별 예약 현황과 실적을 추적하세요.
+                        </p>
+                    </div>
+
+                    <!-- Feature 3: 통계 대시보드 -->
+                    <div class="glass rounded-2xl p-6 hover:scale-105 transition-transform">
+                        <div class="feature-icon w-14 h-14 rounded-xl flex items-center justify-center text-white text-2xl mb-4">
+                            📊
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">통계 대시보드</h3>
+                        <p class="text-white/70">
+                            일별, 월별 예약 통계와 차트로 비즈니스 인사이트를 한눈에. 디자이너별, 서비스별 분석도 제공합니다.
+                        </p>
+                    </div>
+
+                    <!-- Feature 4: 데이터 보안 -->
+                    <div class="glass rounded-2xl p-6 hover:scale-105 transition-transform">
+                        <div class="feature-icon w-14 h-14 rounded-xl flex items-center justify-center text-white text-2xl mb-4">
+                            🔒
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">데이터 보안</h3>
+                        <p class="text-white/70">
+                            모든 데이터는 내 기기에만 저장. PIN/생체인증으로 앱을 보호하고, iCloud/Google Drive로 안전하게 백업하세요.
+                        </p>
+                    </div>
+
+                    <!-- Feature 5: 멀티 플랫폼 -->
+                    <div class="glass rounded-2xl p-6 hover:scale-105 transition-transform">
+                        <div class="feature-icon w-14 h-14 rounded-xl flex items-center justify-center text-white text-2xl mb-4">
+                            💻
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">멀티 플랫폼</h3>
+                        <p class="text-white/70">
+                            iPhone, iPad, Mac, Windows, Android 어디서든 사용 가능. 각 기기에 최적화된 반응형 UI를 제공합니다.
+                        </p>
+                    </div>
+
+                    <!-- Feature 6: Excel 내보내기 -->
+                    <div class="glass rounded-2xl p-6 hover:scale-105 transition-transform">
+                        <div class="feature-icon w-14 h-14 rounded-xl flex items-center justify-center text-white text-2xl mb-4">
+                            📑
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Excel 내보내기</h3>
+                        <p class="text-white/70">
+                            예약 목록, 월별 통계, 디자이너 실적을 Excel 파일로 내보내기. 회계나 보고서 작성에 활용하세요.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Screenshots Section -->
+        <section id="screenshots" class="py-16 md:py-24 px-4">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4">스크린샷</h2>
+                    <p class="text-white/70 text-lg max-w-2xl mx-auto">
+                        모든 기기에서 아름답고 직관적인 인터페이스
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- iPhone -->
+                    <div class="text-center">
+                        <h3 class="text-lg font-semibold mb-4">iPhone</h3>
+                        <div class="placeholder-img rounded-[2rem] p-3 inline-block shadow-xl">
+                            <div class="bg-gray-200 dark:bg-gray-700 rounded-[1.5rem] w-48 aspect-[9/19] flex items-center justify-center">
+                                <div class="text-center p-4">
+                                    <div class="text-4xl mb-2">📱</div>
+                                    <p class="text-gray-500 dark:text-gray-400 text-xs">iPhone 스크린샷<br>Coming Soon</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- iPad -->
+                    <div class="text-center">
+                        <h3 class="text-lg font-semibold mb-4">iPad</h3>
+                        <div class="placeholder-img rounded-[1.5rem] p-3 inline-block shadow-xl">
+                            <div class="bg-gray-200 dark:bg-gray-700 rounded-[1rem] w-64 aspect-[4/3] flex items-center justify-center">
+                                <div class="text-center p-4">
+                                    <div class="text-4xl mb-2">📱</div>
+                                    <p class="text-gray-500 dark:text-gray-400 text-xs">iPad 스크린샷<br>Coming Soon</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Desktop -->
+                    <div class="text-center">
+                        <h3 class="text-lg font-semibold mb-4">Desktop</h3>
+                        <div class="placeholder-img rounded-xl p-2 inline-block shadow-xl">
+                            <div class="bg-gray-200 dark:bg-gray-700 rounded-lg w-72 aspect-[16/10] flex items-center justify-center">
+                                <div class="text-center p-4">
+                                    <div class="text-4xl mb-2">🖥️</div>
+                                    <p class="text-gray-500 dark:text-gray-400 text-xs">Desktop 스크린샷<br>Coming Soon</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Platforms Section -->
+        <section id="platforms" class="py-16 md:py-24 px-4">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4">지원 플랫폼</h2>
+                    <p class="text-white/70 text-lg max-w-2xl mx-auto">
+                        어디서든 동일한 경험을 제공합니다
+                    </p>
+                </div>
+
+                <div class="flex flex-wrap justify-center gap-6">
+                    <!-- macOS -->
+                    <div class="glass rounded-2xl p-6 text-center hover:scale-105 transition-transform w-40">
+                        <div class="text-5xl mb-3">🍎</div>
+                        <h3 class="font-semibold">macOS</h3>
+                        <p class="text-sm text-white/60">Intel & Apple Silicon</p>
+                    </div>
+
+                    <!-- Windows -->
+                    <div class="glass rounded-2xl p-6 text-center hover:scale-105 transition-transform w-40">
+                        <div class="text-5xl mb-3">🪟</div>
+                        <h3 class="font-semibold">Windows</h3>
+                        <p class="text-sm text-white/60">Windows 10+</p>
+                    </div>
+
+                    <!-- Linux -->
+                    <div class="glass rounded-2xl p-6 text-center hover:scale-105 transition-transform w-40">
+                        <div class="text-5xl mb-3">🐧</div>
+                        <h3 class="font-semibold">Linux</h3>
+                        <p class="text-sm text-white/60">Ubuntu, Debian</p>
+                    </div>
+
+                    <!-- iOS -->
+                    <div class="glass rounded-2xl p-6 text-center hover:scale-105 transition-transform w-40">
+                        <div class="text-5xl mb-3">📱</div>
+                        <h3 class="font-semibold">iOS</h3>
+                        <p class="text-sm text-white/60">iPhone & iPad</p>
+                    </div>
+
+                    <!-- Android -->
+                    <div class="glass rounded-2xl p-6 text-center hover:scale-105 transition-transform w-40">
+                        <div class="text-5xl mb-3">🤖</div>
+                        <h3 class="font-semibold">Android</h3>
+                        <p class="text-sm text-white/60">Android 7.0+</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Download Section -->
+        <section id="download" class="py-16 md:py-24 px-4">
+            <div class="max-w-4xl mx-auto">
+                <div class="glass rounded-3xl p-8 md:p-12 text-center">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4">지금 바로 시작하세요</h2>
+                    <p class="text-white/70 text-lg mb-8 max-w-xl mx-auto">
+                        무료로 다운로드하고 살롱 예약 관리를 더 스마트하게
+                    </p>
+
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                        <!-- App Store -->
+                        <a href="#" class="flex items-center justify-center gap-3 px-6 py-4 bg-black rounded-xl hover:bg-gray-900 transition-colors">
+                            <svg class="w-8 h-8" viewBox="0 0 24 24" fill="white">
+                                <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                            </svg>
+                            <div class="text-left text-white">
+                                <div class="text-xs">Download on the</div>
+                                <div class="text-lg font-semibold">App Store</div>
+                            </div>
+                        </a>
+
+                        <!-- Google Play -->
+                        <a href="#" class="flex items-center justify-center gap-3 px-6 py-4 bg-black rounded-xl hover:bg-gray-900 transition-colors">
+                            <svg class="w-8 h-8" viewBox="0 0 24 24" fill="white">
+                                <path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z"/>
+                            </svg>
+                            <div class="text-left text-white">
+                                <div class="text-xs">GET IT ON</div>
+                                <div class="text-lg font-semibold">Google Play</div>
+                            </div>
+                        </a>
+
+                        <!-- Mac App -->
+                        <a href="#" class="flex items-center justify-center gap-3 px-6 py-4 bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl hover:from-blue-700 hover:to-blue-800 transition-colors">
+                            <span class="text-3xl">🍎</span>
+                            <div class="text-left text-white">
+                                <div class="text-xs">Download for</div>
+                                <div class="text-lg font-semibold">macOS</div>
+                            </div>
+                        </a>
+
+                        <!-- Windows -->
+                        <a href="#" class="flex items-center justify-center gap-3 px-6 py-4 bg-gradient-to-r from-cyan-600 to-blue-600 rounded-xl hover:from-cyan-700 hover:to-blue-700 transition-colors">
+                            <span class="text-3xl">🪟</span>
+                            <div class="text-left text-white">
+                                <div class="text-xs">Download for</div>
+                                <div class="text-lg font-semibold">Windows</div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <p class="text-white/50 text-sm">
+                        * 현재 개발 중입니다. 출시 시 알림을 받으시려면 이메일을 남겨주세요.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="glass mt-16">
+        <div class="max-w-7xl mx-auto px-4 py-12">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <!-- Brand -->
+                <div class="md:col-span-2">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-purple-600 flex items-center justify-center text-white text-xl">
+                            💇‍♀️
+                        </div>
+                        <span class="text-xl font-bold">Sisters Salon</span>
+                    </div>
+                    <p class="text-white/60 max-w-md">
+                        헤어 살롱을 위한 스마트 예약 관리 앱.<br>
+                        서버 없이 로컬에서 안전하게 데이터를 관리하세요.
+                    </p>
+                </div>
+
+                <!-- Links -->
+                <div>
+                    <h4 class="font-semibold mb-4">법적 고지</h4>
+                    <ul class="space-y-2 text-white/60">
+                        <li><a href="privacy.html" class="hover:text-white transition-colors">개인정보보호방침</a></li>
+                        <li><a href="terms.html" class="hover:text-white transition-colors">이용약관</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h4 class="font-semibold mb-4">문의</h4>
+                    <ul class="space-y-2 text-white/60">
+                        <li><a href="mailto:support@example.com" class="hover:text-white transition-colors">support@example.com</a></li>
+                        <li><a href="https://github.com/your-username/sisters-salon-reservation-app" class="hover:text-white transition-colors">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-white/40 text-sm">
+                    © 2026 Sisters Salon. All rights reserved.
+                </p>
+                <p class="text-white/40 text-sm">
+                    Made with ❤️ using <a href="https://tauri.app" class="hover:text-white">Tauri</a> + <a href="https://react.dev" class="hover:text-white">React</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Dark mode toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+
+        // Check for saved theme preference or default to system preference
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            html.classList.add('dark');
+        } else {
+            html.classList.remove('dark');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            localStorage.theme = html.classList.contains('dark') ? 'dark' : 'light';
+        });
+
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu when clicking a link
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+    </script>
+</body>
+</html>

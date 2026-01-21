@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이용약관 - Sisters Salon</title>
+    <meta name="description" content="Sisters Salon 앱의 이용약관입니다.">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            200: '#c7d2fe',
+                            300: '#a5b4fc',
+                            400: '#818cf8',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            800: '#3730a3',
+                            900: '#312e81',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .dark .glass {
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+        }
+        .dark .gradient-bg {
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4c1d95 100%);
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        .prose h2 {
+            scroll-margin-top: 100px;
+        }
+    </style>
+</head>
+<body class="min-h-screen gradient-bg text-gray-900 dark:text-white transition-colors duration-300">
+    <!-- Dark Mode Toggle -->
+    <button id="theme-toggle" class="fixed top-4 right-4 z-50 p-3 rounded-full glass hover:scale-110 transition-transform">
+        <svg id="sun-icon" class="w-6 h-6 hidden dark:block" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"/>
+        </svg>
+        <svg id="moon-icon" class="w-6 h-6 block dark:hidden" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
+        </svg>
+    </button>
+
+    <!-- Header -->
+    <header class="glass sticky top-0 z-40">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <a href="index.html" class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-purple-600 flex items-center justify-center text-white text-xl">
+                        💇‍♀️
+                    </div>
+                    <span class="text-xl font-bold">Sisters Salon</span>
+                </a>
+                <a href="index.html" class="px-4 py-2 rounded-lg hover:bg-white/10 transition-colors">
+                    ← 홈으로
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 py-12">
+        <div class="glass rounded-3xl p-6 md:p-10">
+            <!-- Title -->
+            <div class="text-center mb-10">
+                <h1 class="text-3xl md:text-4xl font-bold mb-4">이용약관</h1>
+                <p class="text-white/60">시행일자: 2026년 1월 21일</p>
+            </div>
+
+            <!-- Table of Contents -->
+            <div class="glass rounded-xl p-6 mb-10">
+                <h2 class="font-semibold mb-4">목차</h2>
+                <nav class="grid md:grid-cols-2 gap-2 text-sm">
+                    <a href="#section1" class="hover:text-primary-300 transition-colors">제1조 (목적)</a>
+                    <a href="#section2" class="hover:text-primary-300 transition-colors">제2조 (정의)</a>
+                    <a href="#section3" class="hover:text-primary-300 transition-colors">제3조 (약관의 효력)</a>
+                    <a href="#section4" class="hover:text-primary-300 transition-colors">제4조 (서비스의 제공)</a>
+                    <a href="#section5" class="hover:text-primary-300 transition-colors">제5조 (서비스의 변경 및 중단)</a>
+                    <a href="#section6" class="hover:text-primary-300 transition-colors">제6조 (이용자의 의무)</a>
+                    <a href="#section7" class="hover:text-primary-300 transition-colors">제7조 (지적재산권)</a>
+                    <a href="#section8" class="hover:text-primary-300 transition-colors">제8조 (면책조항)</a>
+                    <a href="#section9" class="hover:text-primary-300 transition-colors">제9조 (손해배상)</a>
+                    <a href="#section10" class="hover:text-primary-300 transition-colors">제10조 (분쟁해결)</a>
+                </nav>
+            </div>
+
+            <!-- Content -->
+            <div class="prose prose-invert max-w-none space-y-10">
+                <!-- Section 1 -->
+                <section id="section1">
+                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b border-white/20">제1조 (목적)</h2>
+                    <p class="text-white/80 leading-relaxed">
+                        본 약관은 Sisters Salon(이하 "개발자")이 제공하는 Sisters Salon Reservation App(이하 "앱")의
+                        이용과 관련하여 개발자와 이용자 간의 권리, 의무 및 책임사항, 기타 필요한 사항을 규정함을 목적으로 합니다.
+                    </p>
+                </section>
+
+                <!-- Section 2 -->
+                <section id="section2">
+                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b border-white/20">제2조 (정의)</h2>
+                    <p class="text-white/80 leading-relaxed mb-4">
+                        본 약관에서 사용하는 용어의 정의는 다음과 같습니다:
+                    </p>
+                    <div class="space-y-3">
+                        <div class="p-4 bg-white/5 rounded-xl">
+                            <p class="text-white/80">
+                                <strong>1. "앱"</strong>이란 개발자가 제공하는 Sisters Salon Reservation App 및 관련 서비스를 의미합니다.
+                            </p>
+                        </div>
+                        <div class="p-4 bg-white/5 rounded-xl">
+                            <p class="text-white/80">
+                                <strong>2. "이용자"</strong>란 본 약관에 따라 앱을 이용하는 자를 의미합니다.
+                            </p>
+                        </div>
+                        <div class="p-4 bg-white/5 rounded-xl">
+                            <p class="text-white/80">
+                                <strong>3. "콘텐츠"</strong>란 이용자가 앱을 통해 입력, 저장하는 예약 정보, 디자이너 정보, 설정 정보 등 모든 데이터를 의미합니다.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 3 -->
+                <section id="section3">
+                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b border-white/20">제3조 (약관의 효력)</h2>
+                    <div class="space-y-4 text-white/80">
+                        <p>
+                            <strong>①</strong> 본 약관은 앱 내에 게시하거나 기타의 방법으로 이용자에게 공지함으로써 효력이 발생합니다.
+                        </p>
+                        <p>
+                            <strong>②</strong> 개발자는 필요한 경우 관련 법령을 위배하지 않는 범위 내에서 본 약관을 변경할 수 있습니다.
+                        </p>
+                        <p>
+                            <strong>③</strong> 변경된 약관은 앱 내 공지사항 또는 앱 업데이트를 통해 공지되며, 공지 후 7일이 경과한 후부터 효력이 발생합니다.
+                        </p>
+                        <p>
+                            <strong>④</strong> 이용자가 변경된 약관에 동의하지 않는 경우, 앱 이용을 중단하고 앱을 삭제할 수 있습니다.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Section 4 -->
+                <section id="section4">
+                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b border-white/20">제4조 (서비스의 제공)</h2>
+                    <p class="text-white/80 leading-relaxed mb-4">
+                        개발자는 다음과 같은 서비스를 제공합니다:
+                    </p>
+                    <ul class="space-y-2 text-white/80">
+                        <li class="flex items-start gap-2">
+                            <span class="text-primary-400">1.</span>
+                            예약 관리 서비스 (생성, 조회, 수정, 삭제, 상태 관리)
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-primary-400">2.</span>
+                            디자이너 관리 서비스
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-primary-400">3.</span>
+                            영업시간 관리 서비스
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-primary-400">4.</span>
+                            통계 및 분석 서비스
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-primary-400">5.</span>
+                            데이터 내보내기 서비스 (Excel, CSV)
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-primary-400">6.</span>
+                            데이터 백업 서비스 (로컬, iCloud, Google Drive)
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-primary-400">7.</span>
+                            앱 보안 서비스 (PIN, 생체인증)
+                        </li>
+                    </ul>
+                </section>
+
+                <!-- Section 5 -->
+                <section id="section5">
+                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b border-white/20">제5조 (서비스의 변경 및 중단)</h2>
+                    <div class="space-y-4 text-white/80">
+                        <p>
+                            <strong>①</strong> 개발자는 서비스의 품질 향상을 위해 서비스의 전부 또는 일부를 변경할 수 있습니다.
+                        </p>
+                        <p>
+                            <strong>②</strong> 앱은 로컬 전용 서비스로서, 인터넷 연결 없이도 기본 기능을 사용할 수 있습니다.
+                        </p>
+                        <p>
+                            <strong>③</strong> 클라우드 백업 서비스는 해당 클라우드 서비스 제공자(Apple, Google)의 정책에 따라
+                            변경되거나 중단될 수 있습니다.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Section 6 -->
+                <section id="section6">
+                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b border-white/20">제6조 (이용자의 의무)</h2>
+                    <p class="text-white/80 leading-relaxed mb-4">
+                        이용자는 다음 행위를 하여서는 안 됩니다:
+                    </p>
+                    <ul class="space-y-2 text-white/80">
+                        <li class="flex items-start gap-2">
+                            <span class="text-red-400">①</span>
+                            앱의 무단 복제, 배포, 수정, 역공학
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-red-400">②</span>
+                            앱을 이용하여 타인의 권리를 침해하는 행위
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-red-400">③</span>
+                            앱의 정상적인 운영을 방해하는 행위
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-red-400">④</span>
+                            기타 법령에 위반되는 행위
+                        </li>
+                    </ul>
+                </section>
+
+                <!-- Section 7 -->
+                <section id="section7">
+                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b border-white/20">제7조 (지적재산권)</h2>
+                    <div class="space-y-4 text-white/80">
+                        <p>
+                            <strong>①</strong> 앱에 대한 저작권 및 지적재산권은 개발자에게 귀속됩니다.
+                        </p>
+                        <p>
+                            <strong>②</strong> 이용자가 앱을 통해 생성한 콘텐츠에 대한 권리는 이용자에게 귀속됩니다.
+                        </p>
+                        <p>
+                            <strong>③</strong> 이용자는 앱을 통해 얻은 정보를 개발자의 사전 승낙 없이 영리 목적으로 이용하거나
+                            제3자에게 이용하게 할 수 없습니다.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Section 8 -->
+                <section id="section8">
+                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b border-white/20">제8조 (면책조항)</h2>
+                    <div class="space-y-4 text-white/80">
+                        <p>
+                            <strong>①</strong> 개발자는 이용자의 귀책사유로 인한 서비스 이용 장애에 대해 책임을 지지 않습니다.
+                        </p>
+                        <p>
+                            <strong>②</strong> 개발자는 이용자가 앱을 통해 입력, 저장한 데이터의 손실에 대해 책임을 지지 않습니다.
+                            이용자는 정기적인 데이터 백업을 권장합니다.
+                        </p>
+                        <p>
+                            <strong>③</strong> 개발자는 이용자 기기의 오류, 분실, 고장 등으로 인한 데이터 손실에 대해 책임을 지지 않습니다.
+                        </p>
+                        <p>
+                            <strong>④</strong> 클라우드 백업 서비스 이용 시 발생하는 문제에 대해서는 해당 서비스 제공자의
+                            약관 및 정책이 적용됩니다.
+                        </p>
+                    </div>
+                    <div class="mt-4 p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-xl">
+                        <p class="text-yellow-300 font-medium">
+                            ⚠️ 중요: 정기적인 데이터 백업을 권장합니다.
+                        </p>
+                        <p class="text-yellow-200/70 text-sm mt-2">
+                            앱 삭제, 기기 분실, 하드웨어 오류 등으로 인한 데이터 손실을 방지하기 위해
+                            정기적으로 클라우드 백업 또는 Excel 내보내기를 이용해 주세요.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Section 9 -->
+                <section id="section9">
+                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b border-white/20">제9조 (손해배상)</h2>
+                    <div class="space-y-4 text-white/80">
+                        <p>
+                            <strong>①</strong> 개발자는 무료로 제공하는 서비스의 이용과 관련하여 이용자에게 발생한 손해에 대해
+                            책임을 지지 않습니다. 단, 개발자의 고의 또는 중대한 과실로 인한 경우는 예외로 합니다.
+                        </p>
+                        <p>
+                            <strong>②</strong> 이용자가 본 약관의 규정을 위반하여 개발자에게 손해가 발생한 경우,
+                            해당 이용자는 개발자에게 발생한 모든 손해를 배상하여야 합니다.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Section 10 -->
+                <section id="section10">
+                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b border-white/20">제10조 (분쟁해결)</h2>
+                    <div class="space-y-4 text-white/80">
+                        <p>
+                            <strong>①</strong> 개발자와 이용자 간에 발생한 분쟁에 관한 소송은 대한민국 법령에 따릅니다.
+                        </p>
+                        <p>
+                            <strong>②</strong> 서비스 이용 중 발생한 분쟁에 대해 이용자는 개발자에게 이의를 제기할 수 있으며,
+                            개발자는 이에 대해 성실히 답변합니다.
+                        </p>
+                    </div>
+                    <div class="mt-6 p-4 bg-white/5 rounded-xl">
+                        <p class="text-white/80 font-medium mb-2">문의처</p>
+                        <p class="text-white/60">
+                            이메일: <a href="mailto:support@example.com" class="text-primary-400 hover:underline">support@example.com</a>
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Supplementary -->
+                <section class="mt-10 pt-10 border-t border-white/20">
+                    <h2 class="text-xl font-semibold mb-4">부칙</h2>
+                    <p class="text-white/80">
+                        본 약관은 2026년 1월 21일부터 시행됩니다.
+                    </p>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="glass mt-16">
+        <div class="max-w-7xl mx-auto px-4 py-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-primary-500 to-purple-600 flex items-center justify-center text-white">
+                        💇‍♀️
+                    </div>
+                    <span class="font-bold">Sisters Salon</span>
+                </div>
+                <div class="flex items-center gap-6 text-sm text-white/60">
+                    <a href="index.html" class="hover:text-white transition-colors">홈</a>
+                    <a href="privacy.html" class="hover:text-white transition-colors">개인정보보호방침</a>
+                    <a href="terms.html" class="text-white">이용약관</a>
+                </div>
+                <p class="text-white/40 text-sm">
+                    © 2026 Sisters Salon
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Dark mode toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            html.classList.add('dark');
+        } else {
+            html.classList.remove('dark');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            localStorage.theme = html.classList.contains('dark') ? 'dark' : 'light';
+        });
+    </script>
+</body>
+</html>
