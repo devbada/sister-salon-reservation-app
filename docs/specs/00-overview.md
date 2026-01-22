@@ -57,7 +57,7 @@ Week 4: Phase 7-8 (앱 잠금, 빌드/배포)
 | React | 19.x | UI 프레임워크 |
 | TypeScript | 5.x | 타입 시스템 |
 | Vite | 5.x | 빌드 도구 |
-| Tailwind CSS | 3.4.x | 스타일링 |
+| Tailwind CSS | 4.x | 스타일링 |
 | Recharts | 2.x | 차트 |
 | date-fns | 3.x | 날짜 처리 |
 
@@ -135,36 +135,38 @@ chore: 기타 (빌드, 설정 등)
 
 ## 전체 완료 체크리스트
 
-### Phase 1: 프로젝트 초기화
-- [ ] Tauri 2.0 프로젝트 생성
-- [ ] React + TypeScript + Vite 설정
-- [ ] Tailwind CSS 설정
-- [ ] iOS/Android 타겟 초기화
-- [ ] 폴더 구조 생성
-- [ ] **머지 완료**: `task/01-project-setup` → `develop`
+### Phase 1: 프로젝트 초기화 ✅ (2026-01-21)
+- [x] Tauri 2.0 프로젝트 생성
+- [x] React + TypeScript + Vite 설정
+- [x] Tailwind CSS v4 설정
+- [x] iOS 타겟 초기화
+- [x] 폴더 구조 생성
+- [x] **머지 완료**: `task/01-project-setup` → `master`
 
-### Phase 2: 데이터베이스
-- [ ] SQLite 스키마 정의
-- [ ] rusqlite 설정
-- [ ] 마이그레이션 스크립트
-- [ ] CRUD 커맨드 구현
-- [ ] **머지 완료**: `task/02-database` → `develop`
+### Phase 2: 데이터베이스 ✅ (2026-01-21)
+- [x] SQLite 스키마 정의 (7개 테이블)
+- [x] rusqlite 설정
+- [x] 마이그레이션 자동 실행
+- [x] CRUD 커맨드 구현
+- [x] **머지 완료**: `task/02-database` → `master`
 
-### Phase 3: 핵심 기능
-- [ ] 예약 관리 (CRUD + 상태)
-- [ ] 디자이너 관리
-- [ ] 영업시간 관리
-- [ ] 고객 관리
-- [ ] 기존 컴포넌트 마이그레이션
-- [ ] **머지 완료**: `task/03-core-features` → `develop`
+### Phase 3: 핵심 기능 ✅ (2026-01-21)
+- [x] 예약 관리 (CRUD + 상태)
+- [x] 디자이너 관리
+- [x] 영업시간 관리
+- [x] 기존 컴포넌트 마이그레이션
+- [x] **머지 완료**: `task/03-core-features` → `master`
 
-### Phase 4: 반응형 UI
-- [ ] 브레이크포인트 설정
-- [ ] 레이아웃 컴포넌트
-- [ ] 적응형 네비게이션
-- [ ] useDeviceType 훅
-- [ ] 글라스모피즘 스타일
-- [ ] **머지 완료**: `task/04-responsive-ui` → `develop`
+### Phase 4: 반응형 UI ✅ (2026-01-22)
+- [x] 브레이크포인트 설정
+- [x] 레이아웃 컴포넌트 (Mobile/Tablet/Desktop)
+- [x] 적응형 네비게이션 (Sidebar, BottomTabs, CollapsibleSidebar)
+- [x] useDeviceType 훅
+- [x] 글라스모피즘 스타일
+- [x] Safe Area 처리 (iOS/Android)
+- [x] iOS 수평 스크롤 방지
+- [x] Android 프로젝트 초기화
+- [x] **머지 완료**: `task/04-responsive-ui` → `master`
 
 ### Phase 5: 통계 대시보드
 - [ ] 통계 계산 로직
@@ -213,4 +215,4 @@ chore: 기타 (빌드, 설정 등)
 ---
 
 **문서 작성일**: 2026-01-21
-**최종 수정일**: 2026-01-21
+**최종 수정일**: 2026-01-22

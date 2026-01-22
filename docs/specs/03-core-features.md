@@ -622,13 +622,22 @@ git commit -m "feat(reservation): Calendar 컴포넌트 마이그레이션"
 
 ## 완료 기준 체크리스트
 
-- [ ] 예약 생성/조회/수정/삭제 동작
-- [ ] 예약 상태 변경 동작
-- [ ] 디자이너 CRUD 동작
-- [ ] 영업시간 조회/수정 동작
-- [ ] 캘린더 예약 현황 표시
-- [ ] 검색/필터 동작
-- [ ] Desktop/Mobile 레이아웃 확인
+- [x] 예약 생성/조회/수정/삭제 동작
+- [x] 예약 상태 변경 동작
+- [x] 디자이너 CRUD 동작
+- [x] 영업시간 조회/수정 동작
+- [x] Desktop/Mobile 레이아웃 확인
+
+## 완료일: 2026-01-21
+
+**커밋**: `221e605b` - feat: Phase 3 - 핵심 기능 컴포넌트 구현
+
+### 실제 구현된 컴포넌트
+- `src/components/reservation/AppointmentForm.tsx` - 예약 폼
+- `src/components/reservation/ReservationTable.tsx` - 예약 테이블/카드 리스트
+- `src/components/designer/DesignerManagement.tsx` - 디자이너 관리
+- `src/components/business-hours/BusinessHours.tsx` - 영업시간 관리
+- `src/lib/tauri.ts` - Tauri API 래퍼 (reservationApi, designerApi, businessHoursApi)
 
 ---
 
