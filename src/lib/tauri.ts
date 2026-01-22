@@ -3,6 +3,9 @@ import type {
   Reservation,
   Designer,
   BusinessHours,
+  Customer,
+  CreateCustomerInput,
+  CustomerReservation,
   BackupInfo,
   ExportPeriod,
   CloudService,
@@ -53,6 +56,22 @@ export const designerApi = {
 export const businessHoursApi = {
   getAll: () => invoke<BusinessHours[]>('get_business_hours'),
   update: (data: BusinessHours[]) => invoke<void>('update_business_hours', { data }),
+};
+
+// 고객 관리
+export const customerApi = {
+  getAll: () => invoke<Customer[]>('get_customers'),
+  getById: (id: string) => invoke<Customer>('get_customer', { id }),
+  create: (data: CreateCustomerInput) => invoke<Customer>('create_customer', { data }),
+  update: (id: string, data: Partial<CreateCustomerInput>) =>
+    invoke<Customer>('update_customer', { id, data }),
+  delete: (id: string) => invoke<void>('delete_customer', { id }),
+  search: (query: string) => invoke<Customer[]>('search_customers', { query }),
+  getByPhone: (phone: string) => invoke<Customer | null>('get_customer_by_phone', { phone }),
+  getReservations: (customerId: string) =>
+    invoke<CustomerReservation[]>('get_customer_reservations', { customerId }),
+  updateVisitStats: (customerId: string) =>
+    invoke<void>('update_customer_visit_stats', { customerId }),
 };
 
 // 통계

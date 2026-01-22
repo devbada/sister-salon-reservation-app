@@ -1,4 +1,4 @@
-import { Calendar, Users, Clock, Settings } from 'lucide-react';
+import { Calendar, Users, Settings, UserRoundSearch } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
 interface BottomTabsProps {
@@ -14,8 +14,8 @@ interface TabItem {
 
 const tabs: TabItem[] = [
   { id: 'reservations', icon: Calendar, label: '예약' },
+  { id: 'customers', icon: UserRoundSearch, label: '고객' },
   { id: 'designers', icon: Users, label: '디자이너' },
-  { id: 'business-hours', icon: Clock, label: '영업시간' },
   { id: 'settings', icon: Settings, label: '설정' },
 ];
 

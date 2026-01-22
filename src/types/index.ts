@@ -43,8 +43,40 @@ export interface Customer {
   name: string;
   phone?: string;
   email?: string;
+  birthdate?: string;
+  gender?: 'male' | 'female' | 'other';
+  preferredDesignerId?: string;
+  preferredService?: string;
+  allergies?: string;
+  totalVisits: number;
+  lastVisitDate?: string;
   notes?: string;
   createdAt: string;
+  updatedAt: string;
+}
+
+// 고객 생성 입력
+export interface CreateCustomerInput {
+  name: string;
+  phone?: string;
+  email?: string;
+  birthdate?: string;
+  gender?: 'male' | 'female' | 'other';
+  preferredDesignerId?: string;
+  preferredService?: string;
+  allergies?: string;
+  notes?: string;
+}
+
+// 고객 예약 이력
+export interface CustomerReservation {
+  id: string;
+  date: string;
+  time: string;
+  serviceType?: string;
+  designerName?: string;
+  status: string;
+  notes?: string;
 }
 
 // 디바이스 타입

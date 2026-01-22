@@ -4,13 +4,14 @@ import { reservationApi } from './lib/tauri';
 import { ResponsiveContainer } from './components/layout/ResponsiveContainer';
 import { AppointmentForm } from './components/reservation/AppointmentForm';
 import { ReservationTable } from './components/reservation/ReservationTable';
+import { CustomerManagement } from './components/customer/CustomerManagement';
 import { DesignerManagement } from './components/designer/DesignerManagement';
 import { BusinessHours } from './components/business-hours/BusinessHours';
 import { StatisticsDashboard } from './components/statistics/StatisticsDashboard';
 import { SettingsPage } from './components/settings/SettingsPage';
 import type { Reservation } from './types';
 
-type Page = 'reservations' | 'designers' | 'business-hours' | 'statistics' | 'settings';
+type Page = 'reservations' | 'customers' | 'designers' | 'business-hours' | 'statistics' | 'settings';
 
 function App() {
   const [currentPage, setCurrentPage] = useState<Page>('reservations');
@@ -121,6 +122,9 @@ function App() {
             />
           </div>
         );
+
+      case 'customers':
+        return <CustomerManagement />;
 
       case 'designers':
         return <DesignerManagement />;

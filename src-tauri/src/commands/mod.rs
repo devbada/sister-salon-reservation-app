@@ -4,3 +4,4 @@ pub mod business_hours;
 pub mod statistics;
 pub mod export;
 pub mod backup;
+pub mod customers;

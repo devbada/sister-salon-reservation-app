@@ -45,6 +45,16 @@ pub fn run() {
             commands::backup::restore_backup,
             commands::backup::delete_backup,
             commands::backup::cleanup_old_backups,
+            // 고객
+            commands::customers::get_customers,
+            commands::customers::get_customer,
+            commands::customers::create_customer,
+            commands::customers::update_customer,
+            commands::customers::delete_customer,
+            commands::customers::search_customers,
+            commands::customers::get_customer_by_phone,
+            commands::customers::get_customer_reservations,
+            commands::customers::update_customer_visit_stats,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
