@@ -68,7 +68,7 @@ export function MobileLayout({ children, currentPage, onNavigate }: MobileLayout
 
 // Simple icon component
 function TabIcon({ name }: { name: string }) {
-  const icons: Record<string, JSX.Element> = {
+  const icons: Record<string, React.ReactElement> = {
     calendar: (
       <svg className="bottom-tab-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
         <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />

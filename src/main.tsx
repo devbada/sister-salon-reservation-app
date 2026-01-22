@@ -7,7 +7,6 @@ import "./index.css";
 (function preventHorizontalScroll() {
   let touchStartX = 0;
   let touchStartY = 0;
-  let touchStartTime = 0;
   let isHorizontalScroll = false;
 
   // 터치 시작 시 초기 위치 저장
@@ -16,7 +15,6 @@ import "./index.css";
       const touch = e.touches[0];
       touchStartX = touch.clientX;
       touchStartY = touch.clientY;
-      touchStartTime = Date.now();
       isHorizontalScroll = false;
     }
   }, { passive: true });

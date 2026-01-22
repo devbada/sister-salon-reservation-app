@@ -1,5 +1,18 @@
 import { invoke } from '@tauri-apps/api/core';
-import type { Reservation, Designer, BusinessHours, BackupInfo, ExportPeriod, CloudService, LockSettings } from '../types';
+import type {
+  Reservation,
+  Designer,
+  BusinessHours,
+  BackupInfo,
+  ExportPeriod,
+  CloudService,
+  LockSettings,
+  StatisticsSummary,
+  DailyStatistic,
+  HourlyStatistic,
+  DesignerStatistic,
+  StatisticsPeriod,
+} from '../types';
 
 // 예약 생성 입력 타입
 interface CreateReservationInput {
@@ -44,9 +57,14 @@ export const businessHoursApi = {
 
 // 통계
 export const statisticsApi = {
-  getSummary: (period: string) => invoke<any>('get_statistics_summary', { period }),
+  getSummary: (period: StatisticsPeriod) =>
+    invoke<StatisticsSummary>('get_statistics_summary', { period }),
   getDaily: (startDate: string, endDate: string) =>
-    invoke<any[]>('get_daily_statistics', { startDate, endDate }),
+    invoke<DailyStatistic[]>('get_daily_statistics', { startDate, endDate }),
+  getHourly: (period: StatisticsPeriod) =>
+    invoke<HourlyStatistic[]>('get_hourly_statistics', { period }),
+  getByDesigner: (period: StatisticsPeriod) =>
+    invoke<DesignerStatistic[]>('get_designer_statistics', { period }),
 };
 
 // 내보내기
