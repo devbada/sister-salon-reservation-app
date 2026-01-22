@@ -441,34 +441,47 @@ src-tauri/target/release/bundle/
 
 ## 마이그레이션 체크리스트
 
-### Phase 1: 프로젝트 초기화
-- [ ] Tauri 2.0 프로젝트 생성 (`npm create tauri-app@latest`)
-- [ ] React + TypeScript + Vite 설정
-- [ ] Tailwind CSS 설정 (반응형 브레이크포인트 포함)
-- [ ] 프로젝트 구조 구성
-- [ ] **Tauri iOS/Android 타겟 설정**
-  - [ ] `npm run tauri ios init`
-  - [ ] `npm run tauri android init`
-- [ ] **반응형 레이아웃 컴포넌트 생성**
-  - [ ] ResponsiveContainer.tsx
-  - [ ] DesktopLayout / TabletLayout / MobileLayout
-  - [ ] Sidebar / BottomTabs / CollapsibleSidebar
+### Phase 1: 프로젝트 초기화 ✅ (2026-01-21)
+- [x] Tauri 2.0 프로젝트 생성 (`npm create tauri-app@latest`)
+- [x] React + TypeScript + Vite 설정
+- [x] Tailwind CSS v4 설정 (반응형 브레이크포인트 포함)
+- [x] 프로젝트 구조 구성
+- [x] **Tauri iOS/Android 타겟 설정**
+  - [x] `npm run tauri ios init`
+  - [x] `npm run tauri android init`
 
-### Phase 2: 데이터베이스
-- [ ] rusqlite 설정
-- [ ] 스키마 생성 (migration)
-- [ ] 기본 CRUD 커맨드 구현
+### Phase 2: 데이터베이스 ✅ (2026-01-21)
+- [x] rusqlite 설정
+- [x] 스키마 생성 (7개 테이블)
+- [x] 기본 CRUD 커맨드 구현
 
-### Phase 3: 컴포넌트 마이그레이션
-- [ ] 기존 컴포넌트 복사
-- [ ] Axios → Tauri invoke 변환
-- [ ] 타입 정의 이전
-- [ ] **반응형 스타일 적용**
-  - [ ] 모바일 카드 리스트 뷰
-  - [ ] 태블릿 2컬럼 레이아웃
-  - [ ] 데스크탑 3컬럼 레이아웃
+### Phase 3: 핵심 기능 ✅ (2026-01-21)
+- [x] 기존 컴포넌트 마이그레이션
+- [x] Axios → Tauri invoke 변환
+- [x] 타입 정의
+- [x] 예약 관리 (CRUD + 상태)
+- [x] 디자이너 관리
+- [x] 영업시간 관리
 
-### Phase 4: 추가 기능
+### Phase 4: 반응형 UI ✅ (2026-01-22)
+- [x] **반응형 레이아웃 컴포넌트 생성**
+  - [x] ResponsiveContainer.tsx
+  - [x] DesktopLayout / TabletLayout / MobileLayout
+  - [x] Sidebar / BottomTabs / CollapsibleSidebar
+- [x] **반응형 스타일 적용**
+  - [x] 모바일 카드 리스트 뷰
+  - [x] 태블릿 접이식 사이드바
+  - [x] 데스크탑 고정 사이드바
+- [x] Safe Area 처리 (iOS/Android)
+- [x] iOS 수평 스크롤/바운스 방지
+- [x] Android 프로젝트 설정 및 테스트
+
+### Phase 5: 통계 대시보드 (예정)
+- [ ] 통계 계산 로직
+- [ ] 차트 컴포넌트 (Recharts)
+- [ ] 기간별 필터링
+
+### Phase 6: 내보내기 & 백업 (예정)
 - [ ] Excel 내보내기 (rust_xlsxwriter)
   - [ ] 예약목록 시트
   - [ ] 월별통계 시트
@@ -479,17 +492,18 @@ src-tauri/target/release/bundle/
   - [ ] Google Drive 연동 (Android/선택적)
   - [ ] 자동 백업 스케줄러
   - [ ] 백업 복원 기능
-- [ ] 앱 잠금 기능
-  - [ ] PIN 설정/해제
-  - [ ] **생체인증 (플랫폼별)**
-    - [ ] Face ID / Touch ID (iOS)
-    - [ ] Touch ID (macOS)
-    - [ ] Windows Hello
-    - [ ] 지문인식 (Android)
-  - [ ] 자동 잠금 타이머
+
+### Phase 7: 앱 잠금 (예정)
+- [ ] PIN 설정/해제
+- [ ] **생체인증 (플랫폼별)**
+  - [ ] Face ID / Touch ID (iOS)
+  - [ ] Touch ID (macOS)
+  - [ ] Windows Hello
+  - [ ] 지문인식 (Android)
+- [ ] 자동 잠금 타이머
 - [ ] 앱 설정 화면
 
-### Phase 5: 테스트 및 배포
+### Phase 8: 빌드 & 배포 (예정)
 - [ ] 기능 테스트 (모든 플랫폼)
 - [ ] **Desktop 빌드**
   - [ ] macOS (DMG)
@@ -539,9 +553,20 @@ src-tauri/target/release/bundle/
     - Android: Android Studio 및 SDK 필요
     - 모바일 권한 설정 (파일 접근, iCloud 등)
 
+11. **Safe Area 처리**:
+    - iOS: `env(safe-area-inset-*)` 사용
+    - Android: `max()` fallback 사용 (WebView에서 safe-area-inset 미지원)
+    - 예: `padding-top: max(env(safe-area-inset-top, 0px), 36px);`
+
+12. **Android 개발 환경**:
+    - Android SDK cmdline-tools 필요
+    - NDK 27.0 설치 필요
+    - Java 17 필요 (JAVA_HOME 설정)
+
 ---
 
 **프로젝트 시작일**: 2026-01-21
-**기존 프로젝트 완성도**: 100%
-**예상 마이그레이션 기간**: 3-4주
+**최종 업데이트**: 2026-01-22
+**현재 진행 상황**: Phase 1-4 완료, Phase 5 대기중
 **지원 플랫폼**: macOS, Windows, Linux, iOS, Android
+**테스트 완료 플랫폼**: macOS, iOS (iPhone/iPad), Android

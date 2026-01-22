@@ -509,14 +509,19 @@ git commit -m "feat(setup): iOS/Android 타겟 초기화"
 
 ## 완료 기준 체크리스트
 
-- [ ] `npm run tauri dev` 로 Desktop 앱 실행 가능
-- [ ] `npm run tauri ios dev` 로 iOS 시뮬레이터 실행 가능 (macOS)
-- [ ] `npm run tauri android dev` 로 Android 에뮬레이터 실행 가능
-- [ ] Tailwind CSS 스타일 적용 확인
-- [ ] 반응형 브레이크포인트 동작 확인
-- [ ] 폴더 구조 완성
-- [ ] 타입 정의 파일 생성
-- [ ] Tauri API 래퍼 파일 생성
+- [x] `npm run tauri dev` 로 Desktop 앱 실행 가능
+- [x] `npm run tauri ios dev` 로 iOS 시뮬레이터 실행 가능 (macOS)
+- [x] `npm run tauri android dev` 로 Android 에뮬레이터 실행 가능
+- [x] Tailwind CSS v4 스타일 적용 확인
+- [x] 반응형 브레이크포인트 동작 확인
+- [x] 폴더 구조 완성
+- [x] 타입 정의 파일 생성
+- [x] Tauri API 래퍼 파일 생성
+- [x] .nvmrc 파일 추가 (Node.js 22)
+
+## 완료일: 2026-01-21
+
+**커밋**: `384e68f7` - feat(설정): Tauri 2.0 프로젝트 초기화
 
 ---
 

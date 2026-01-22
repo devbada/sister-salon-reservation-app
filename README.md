@@ -93,7 +93,7 @@
 | React | 19.x | UI 프레임워크 |
 | TypeScript | 5.x | 타입 시스템 |
 | Vite | 5.x | 빌드 도구 |
-| Tailwind CSS | 3.4.x | 스타일링 (Glassmorphism) |
+| Tailwind CSS | 4.x | 스타일링 (Glassmorphism) |
 | Recharts | 2.x | 차트/데이터 시각화 |
 | date-fns | 3.x | 날짜 처리 |
 
@@ -305,18 +305,24 @@ sisters-salon-reservation-app/
 
 ## 개발 로드맵
 
-| Phase | 내용 | 상태 |
-|:-----:|------|:----:|
-| 1 | 프로젝트 초기화 (Tauri + React + TypeScript) | ⬜ |
-| 2 | 데이터베이스 (SQLite 스키마, CRUD) | ⬜ |
-| 3 | 핵심 기능 (예약, 디자이너, 영업시간) | ⬜ |
-| 4 | 반응형 UI (Mobile, Tablet, Desktop) | ⬜ |
-| 5 | 통계 대시보드 (Recharts) | ⬜ |
-| 6 | 내보내기 & 백업 (Excel, iCloud, GDrive) | ⬜ |
-| 7 | 앱 잠금 (PIN, 생체인증) | ⬜ |
-| 8 | 빌드 & 배포 (CI/CD, 앱 스토어) | ⬜ |
+| Phase | 내용 | 상태 | 완료일 |
+|:-----:|------|:----:|:------:|
+| 1 | 프로젝트 초기화 (Tauri + React + TypeScript) | ✅ | 2026-01-21 |
+| 2 | 데이터베이스 (SQLite 스키마, CRUD) | ✅ | 2026-01-21 |
+| 3 | 핵심 기능 (예약, 디자이너, 영업시간) | ✅ | 2026-01-21 |
+| 4 | 반응형 UI (Mobile, Tablet, Desktop) | ✅ | 2026-01-22 |
+| 5 | 통계 대시보드 (Recharts) | ⬜ | - |
+| 6 | 내보내기 & 백업 (Excel, iCloud, GDrive) | ⬜ | - |
+| 7 | 앱 잠금 (PIN, 생체인증) | ⬜ | - |
+| 8 | 빌드 & 배포 (CI/CD, 앱 스토어) | ⬜ | - |
 
 **범례**: ⬜ 대기중 · 🔄 진행중 · ✅ 완료
+
+### 테스트 완료 플랫폼 (Phase 4 기준)
+- ✅ macOS (Desktop)
+- ✅ iOS Simulator (iPhone)
+- ✅ iOS Simulator (iPad)
+- ✅ Android Emulator
 
 ---
 
