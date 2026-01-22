@@ -72,3 +72,44 @@ export interface LockSettings {
   autoLockTimeout: number;
   lockOnBackground: boolean;
 }
+
+// 통계 기간
+export type StatisticsPeriod = '7d' | '30d' | '90d' | 'all';
+
+// 통계 요약
+export interface StatisticsSummary {
+  totalReservations: number;
+  completed: number;
+  cancelled: number;
+  noShow: number;
+  completionRate: number;
+  averagePerDay: number;
+  busiestDay?: string;
+  busiestHour?: string;
+  topDesigner?: { name: string; count: number };
+  topService?: { name: string; count: number };
+  period: string;
+}
+
+// 일별 통계
+export interface DailyStatistic {
+  date: string;
+  total: number;
+  completed: number;
+  cancelled: number;
+}
+
+// 시간대별 통계
+export interface HourlyStatistic {
+  hour: string;
+  count: number;
+}
+
+// 디자이너별 통계
+export interface DesignerStatistic {
+  designerId: string;
+  designerName: string;
+  total: number;
+  completed: number;
+  completionRate: number;
+}

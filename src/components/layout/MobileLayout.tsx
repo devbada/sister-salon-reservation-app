@@ -45,7 +45,7 @@ export function MobileLayout({ children, currentPage, onNavigate }: MobileLayout
           {[
             { id: 'reservations', icon: 'calendar', label: '예약' },
             { id: 'designers', icon: 'users', label: '디자이너' },
-            { id: 'business-hours', icon: 'clock', label: '영업시간' },
+            { id: 'statistics', icon: 'chart', label: '통계' },
             { id: 'settings', icon: 'settings', label: '설정' },
           ].map((tab) => {
             const isActive = currentPage === tab.id;
@@ -68,7 +68,7 @@ export function MobileLayout({ children, currentPage, onNavigate }: MobileLayout
 
 // Simple icon component
 function TabIcon({ name }: { name: string }) {
-  const icons: Record<string, JSX.Element> = {
+  const icons: Record<string, React.ReactElement> = {
     calendar: (
       <svg className="bottom-tab-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
         <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
@@ -89,6 +89,13 @@ function TabIcon({ name }: { name: string }) {
       <svg className="bottom-tab-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
         <circle cx="12" cy="12" r="10" />
         <polyline points="12 6 12 12 16 14" />
+      </svg>
+    ),
+    chart: (
+      <svg className="bottom-tab-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
+        <line x1="18" y1="20" x2="18" y2="10" />
+        <line x1="12" y1="20" x2="12" y2="4" />
+        <line x1="6" y1="20" x2="6" y2="14" />
       </svg>
     ),
     settings: (

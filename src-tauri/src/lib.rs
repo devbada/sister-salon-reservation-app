@@ -29,6 +29,11 @@ pub fn run() {
             // 영업시간
             commands::business_hours::get_business_hours,
             commands::business_hours::update_business_hours,
+            // 통계
+            commands::statistics::get_statistics_summary,
+            commands::statistics::get_daily_statistics,
+            commands::statistics::get_hourly_statistics,
+            commands::statistics::get_designer_statistics,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
