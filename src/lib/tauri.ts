@@ -69,17 +69,21 @@ export const statisticsApi = {
 
 // 내보내기
 export const exportApi = {
-  toExcel: (period: ExportPeriod, outputPath?: string) =>
-    invoke<string>('export_to_excel', { period, outputPath }),
-  toCsv: (period: ExportPeriod, outputPath?: string) =>
-    invoke<string>('export_to_csv', { period, outputPath }),
+  toExcel: (period: ExportPeriod) =>
+    invoke<string>('export_to_excel', { period }),
+  toCsv: (period: ExportPeriod) =>
+    invoke<string>('export_to_csv', { period }),
+  getExportPath: () => invoke<string>('get_export_path'),
 };
 
 // 백업
 export const backupApi = {
   list: (service: CloudService) => invoke<BackupInfo[]>('list_backups', { service }),
-  create: (service: CloudService) => invoke<BackupInfo>('backup_to_cloud', { service }),
-  restore: (backupId: string) => invoke<void>('restore_from_backup', { backupId }),
+  create: (service: CloudService) => invoke<BackupInfo>('create_backup', { service }),
+  restore: (backupFilename: string, service: CloudService) =>
+    invoke<void>('restore_backup', { backupFilename, service }),
+  delete: (backupFilename: string) => invoke<void>('delete_backup', { backupFilename }),
+  cleanup: (keepCount: number) => invoke<void>('cleanup_old_backups', { keepCount }),
 };
 
 // 보안
