@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Plus, Settings, Construction } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { reservationApi } from './lib/tauri';
 import { ResponsiveContainer } from './components/layout/ResponsiveContainer';
 import { AppointmentForm } from './components/reservation/AppointmentForm';
@@ -7,6 +7,7 @@ import { ReservationTable } from './components/reservation/ReservationTable';
 import { DesignerManagement } from './components/designer/DesignerManagement';
 import { BusinessHours } from './components/business-hours/BusinessHours';
 import { StatisticsDashboard } from './components/statistics/StatisticsDashboard';
+import { SettingsPage } from './components/settings/SettingsPage';
 import type { Reservation } from './types';
 
 type Page = 'reservations' | 'designers' | 'business-hours' | 'statistics' | 'settings';
@@ -131,17 +132,7 @@ function App() {
         return <StatisticsDashboard />;
 
       case 'settings':
-        return (
-          <div className="glass-card empty-state">
-            <Settings className="empty-state-icon" />
-            <h2 className="heading-2 mb-2">설정</h2>
-            <p className="text-caption mb-4">설정 기능은 준비 중입니다.</p>
-            <div className="flex items-center gap-2 text-sm text-primary-500">
-              <Construction className="w-4 h-4" />
-              <span>Coming Soon</span>
-            </div>
-          </div>
-        );
+        return <SettingsPage />;
 
       default:
         return null;

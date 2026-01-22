@@ -1,5 +1,6 @@
 mod commands;
 mod db;
+mod services;
 
 use db::init_database;
 
@@ -34,6 +35,16 @@ pub fn run() {
             commands::statistics::get_daily_statistics,
             commands::statistics::get_hourly_statistics,
             commands::statistics::get_designer_statistics,
+            // 내보내기
+            commands::export::export_to_excel,
+            commands::export::export_to_csv,
+            commands::export::get_export_path,
+            // 백업
+            commands::backup::list_backups,
+            commands::backup::create_backup,
+            commands::backup::restore_backup,
+            commands::backup::delete_backup,
+            commands::backup::cleanup_old_backups,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
