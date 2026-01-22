@@ -1,7 +1,29 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(git ls-tree:*)",
+      "Bash(git merge:*)",
+      "Bash(cargo build:*)"
+      "Bash(node --version:*)",
+      "Bash(npm:*)",
+      "Bash(rustc:*)",
+      "Bash(cargo --version:*)",
+      "Bash(git checkout:*)",
+      "Bash(curl:*)",
+      "Bash(sh:*)",
+      "Bash(source \"$HOME/.cargo/env\")",
+      "Bash(npx tailwindcss:*)",
+      "Bash(./node_modules/.bin/tailwindcss:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(pkill:*)",
+      "Bash(xargs kill -9)",
+      "Bash(lsof:*)"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [
     "my-mcp-server",
     "github"
-  ],
-  "enableAllProjectMcpServers": true
+  ]
 }

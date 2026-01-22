@@ -625,13 +625,24 @@ git commit -m "feat(db): 영업시간 CRUD Tauri 커맨드 구현"
 
 ## 완료 기준 체크리스트
 
-- [ ] SQLite 스키마 정의 완료
-- [ ] 마이그레이션 자동 실행
-- [ ] 예약 CRUD 커맨드 구현
-- [ ] 디자이너 CRUD 커맨드 구현
-- [ ] 영업시간 CRUD 커맨드 구현
-- [ ] 예약 상태 변경 및 이력 기록
-- [ ] Frontend에서 API 호출 테스트 성공
+- [x] SQLite 스키마 정의 완료 (7개 테이블)
+- [x] 마이그레이션 자동 실행
+- [x] 예약 CRUD 커맨드 구현
+- [x] 디자이너 CRUD 커맨드 구현
+- [x] 영업시간 CRUD 커맨드 구현
+- [x] 예약 상태 변경 및 이력 기록
+- [x] Frontend에서 API 호출 테스트 성공
+
+## 완료일: 2026-01-21
+
+**커밋**: `ebb48220` - feat(db): SQLite 데이터베이스 스키마 및 CRUD 커맨드 구현
+
+### 실제 생성된 파일
+- `src-tauri/src/db/mod.rs` - 데이터베이스 모듈
+- `src-tauri/src/db/schema.rs` - 스키마 정의
+- `src-tauri/src/commands/reservations.rs` - 예약 커맨드
+- `src-tauri/src/commands/designers.rs` - 디자이너 커맨드
+- `src-tauri/src/commands/business_hours.rs` - 영업시간 커맨드
 
 ---
 
@@ -655,7 +666,7 @@ git commit -m "feat: Phase 2 - 데이터베이스 구축 완료
 
 Co-Authored-By: Claude <noreply@anthropic.com>"
 
-git push origin develop
+# push는 사용자가 직접 수행
 git branch -d task/02-database
 ```
 
