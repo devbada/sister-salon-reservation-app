@@ -22,12 +22,13 @@
 | 4 | [반응형 UI](./04-responsive-ui.md) | `task/04-responsive-ui` | 2-3일 |
 | 5 | [통계 대시보드](./05-statistics.md) | `task/05-statistics` | 2일 |
 | 6 | [내보내기/백업](./06-export-backup.md) | `task/06-export-backup` | 3일 |
+| **9** | **[고객 관리](./09-customer-management.md)** | `task/09-customer-management` | **2-3일** |
 | 7 | [앱 잠금](./07-app-lock.md) | `task/07-app-lock` | 2일 |
 | 8 | [빌드/배포](./08-build-deploy.md) | `task/08-build-deploy` | 2-3일 |
 
 ---
 
-## 예상 일정 (3-4주)
+## 예상 일정 (4-5주)
 
 ```
 Week 1: Phase 1-2 (프로젝트 초기화, 데이터베이스)
@@ -42,9 +43,12 @@ Week 3: Phase 5-6 (통계, 내보내기/백업)
 ├── Day 1-2: 통계 대시보드
 └── Day 3-5: Excel 내보내기, 클라우드 백업
 
-Week 4: Phase 7-8 (앱 잠금, 빌드/배포)
-├── Day 1-2: PIN/생체인증
-└── Day 3-5: 플랫폼별 빌드, 배포 준비
+Week 4: Phase 9-7 (고객 관리, 앱 잠금)
+├── Day 1-3: 고객 CRUD, 검색/자동완성, 예약 폼 통합
+└── Day 4-5: PIN/생체인증
+
+Week 5: Phase 8 (빌드/배포)
+└── Day 1-3: 플랫폼별 빌드, 배포 준비
 ```
 
 ---
@@ -85,6 +89,7 @@ main                    # 릴리즈 브랜치 (프로덕션)
     ├── task/04-responsive-ui
     ├── task/05-statistics
     ├── task/06-export-backup
+    ├── task/09-customer-management  ← Phase 6 이후 진행
     ├── task/07-app-lock
     └── task/08-build-deploy
 ```
@@ -182,6 +187,15 @@ chore: 기타 (빌드, 설정 등)
 - [ ] Google Drive 백업
 - [ ] 복원 기능
 - [ ] **머지 완료**: `task/06-export-backup` → `develop`
+
+### Phase 9: 고객 관리 (Phase 6 이후 진행)
+- [ ] 고객 테이블 스키마 확장
+- [ ] 고객 CRUD 커맨드
+- [ ] 고객 검색/자동완성
+- [ ] 고객 관리 UI 컴포넌트
+- [ ] 예약 폼 고객 검색 통합
+- [ ] 고객별 예약 이력 조회
+- [ ] **머지 완료**: `task/09-customer-management` → `develop`
 
 ### Phase 7: 앱 잠금
 - [ ] PIN 잠금
