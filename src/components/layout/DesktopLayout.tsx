@@ -9,13 +9,18 @@ interface DesktopLayoutProps {
 
 export function DesktopLayout({ children, currentPage, onNavigate }: DesktopLayoutProps) {
   return (
-    <div className="min-h-screen flex bg-gradient-to-br from-pink-100 via-purple-50 to-indigo-100 dark:from-gray-900 dark:via-purple-900 dark:to-indigo-900">
-      {/* 고정 사이드바 */}
+    <div className="fixed inset-0 flex bg-gradient-to-br from-pink-50 via-purple-50 to-indigo-50 dark:from-gray-900 dark:via-purple-950 dark:to-indigo-950">
+      {/* Fixed Sidebar */}
       <Sidebar currentPage={currentPage} onNavigate={onNavigate} />
 
-      {/* 메인 콘텐츠 */}
-      <main className="flex-1 ml-52 p-6 overflow-y-auto">
-        {children}
+      {/* Main Content */}
+      <main
+        className="flex-1 ml-56 px-8 pb-8 overflow-y-auto"
+        style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 20px)' }}
+      >
+        <div className="max-w-6xl mx-auto animate-fade-in">
+          {children}
+        </div>
       </main>
     </div>
   );

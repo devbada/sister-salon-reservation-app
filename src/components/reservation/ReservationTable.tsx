@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Pencil, Trash2, MoreVertical, Calendar, Clock, User, Scissors, Loader2 } from 'lucide-react';
 import { reservationApi } from '../../lib/tauri';
 import type { Reservation, ReservationStatus } from '../../types';
 
@@ -8,24 +9,17 @@ interface ReservationTableProps {
   onRefresh: () => void;
 }
 
-const statusColors: Record<ReservationStatus, string> = {
-  pending: 'bg-yellow-100 text-yellow-800',
-  confirmed: 'bg-blue-100 text-blue-800',
-  completed: 'bg-green-100 text-green-800',
-  cancelled: 'bg-gray-100 text-gray-800',
-  no_show: 'bg-red-100 text-red-800',
-};
-
-const statusLabels: Record<ReservationStatus, string> = {
-  pending: '대기',
-  confirmed: '확정',
-  completed: '완료',
-  cancelled: '취소',
-  no_show: '노쇼',
+const statusConfig: Record<ReservationStatus, { label: string; className: string }> = {
+  pending: { label: '대기', className: 'badge-pending' },
+  confirmed: { label: '확정', className: 'badge-confirmed' },
+  completed: { label: '완료', className: 'badge-completed' },
+  cancelled: { label: '취소', className: 'badge-cancelled' },
+  no_show: { label: '노쇼', className: 'badge-no-show' },
 };
 
 export function ReservationTable({ reservations, onEdit, onRefresh }: ReservationTableProps) {
   const [loading, setLoading] = useState<string | null>(null);
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
 
   const handleStatusChange = async (id: string, status: ReservationStatus) => {
     setLoading(id);
@@ -55,97 +49,183 @@ export function ReservationTable({ reservations, onEdit, onRefresh }: Reservatio
 
   if (reservations.length === 0) {
     return (
-      <div className="glass-card text-center py-8 text-gray-500">
-        예약이 없습니다
+      <div className="glass-card empty-state">
+        <Calendar className="empty-state-icon" />
+        <h3 className="heading-3 mb-2">예약이 없습니다</h3>
+        <p className="text-caption">선택한 날짜에 예약이 없습니다.</p>
       </div>
     );
   }
 
   return (
-    <div className="glass-card overflow-x-auto">
-      {/* Desktop 테이블 */}
-      <table className="hidden lg:table w-full">
-        <thead>
-          <tr className="border-b border-white/20">
-            <th className="text-left p-3">날짜</th>
-            <th className="text-left p-3">시간</th>
-            <th className="text-left p-3">고객</th>
-            <th className="text-left p-3">디자이너</th>
-            <th className="text-left p-3">서비스</th>
-            <th className="text-left p-3">상태</th>
-            <th className="text-right p-3">액션</th>
-          </tr>
-        </thead>
-        <tbody>
-          {reservations.map((r) => (
-            <tr key={r.id} className="border-b border-white/10 hover:bg-white/10">
-              <td className="p-3">{r.date}</td>
-              <td className="p-3">{r.time}</td>
-              <td className="p-3">{r.customerName}</td>
-              <td className="p-3">{r.designerId || '-'}</td>
-              <td className="p-3">{r.serviceType || '-'}</td>
-              <td className="p-3">
-                <select
-                  value={r.status}
-                  onChange={(e) => handleStatusChange(r.id, e.target.value as ReservationStatus)}
-                  disabled={loading === r.id}
-                  className={`px-2 py-1 rounded text-sm ${statusColors[r.status]}`}
-                >
-                  {Object.entries(statusLabels).map(([value, label]) => (
-                    <option key={value} value={value}>{label}</option>
-                  ))}
-                </select>
-              </td>
-              <td className="p-3 text-right">
-                <button
-                  onClick={() => onEdit(r)}
-                  className="text-blue-600 hover:text-blue-800 mr-2"
-                >
-                  수정
-                </button>
-                <button
-                  onClick={() => handleDelete(r.id)}
-                  disabled={loading === r.id}
-                  className="text-red-600 hover:text-red-800"
-                >
-                  삭제
-                </button>
-              </td>
+    <div className="glass-card p-0 overflow-hidden">
+      {/* Desktop Table */}
+      <div className="hidden lg:block overflow-x-auto">
+        <table className="w-full">
+          <thead>
+            <tr className="border-b border-black/5 dark:border-white/5">
+              <th className="table-header text-left">시간</th>
+              <th className="table-header text-left">고객</th>
+              <th className="table-header text-left">디자이너</th>
+              <th className="table-header text-left">서비스</th>
+              <th className="table-header text-left">상태</th>
+              <th className="table-header text-right">액션</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {reservations.map((r, index) => (
+              <tr
+                key={r.id}
+                className="table-row animate-fade-in"
+                style={{ animationDelay: `${index * 50}ms` }}
+              >
+                <td className="px-4 py-3">
+                  <div className="flex items-center gap-2">
+                    <Clock className="w-4 h-4 text-gray-400" />
+                    <span className="font-medium">{r.time}</span>
+                  </div>
+                </td>
+                <td className="px-4 py-3">
+                  <div>
+                    <p className="font-medium">{r.customerName}</p>
+                    {r.customerPhone && (
+                      <p className="text-caption text-sm">{r.customerPhone}</p>
+                    )}
+                  </div>
+                </td>
+                <td className="px-4 py-3">
+                  <span className="text-gray-600 dark:text-gray-400">
+                    {r.designerId || '-'}
+                  </span>
+                </td>
+                <td className="px-4 py-3">
+                  {r.serviceType ? (
+                    <div className="flex items-center gap-1.5">
+                      <Scissors className="w-3.5 h-3.5 text-gray-400" />
+                      <span>{r.serviceType}</span>
+                    </div>
+                  ) : (
+                    <span className="text-gray-400">-</span>
+                  )}
+                </td>
+                <td className="px-4 py-3">
+                  <select
+                    value={r.status}
+                    onChange={(e) => handleStatusChange(r.id, e.target.value as ReservationStatus)}
+                    disabled={loading === r.id}
+                    className={`badge cursor-pointer border-0 ${statusConfig[r.status].className}`}
+                  >
+                    {Object.entries(statusConfig).map(([value, config]) => (
+                      <option key={value} value={value}>{config.label}</option>
+                    ))}
+                  </select>
+                </td>
+                <td className="px-4 py-3 text-right">
+                  <div className="flex items-center justify-end gap-1">
+                    <button
+                      onClick={() => onEdit(r)}
+                      className="btn btn-ghost btn-sm btn-icon"
+                      title="수정"
+                    >
+                      <Pencil className="w-4 h-4" />
+                    </button>
+                    <button
+                      onClick={() => handleDelete(r.id)}
+                      disabled={loading === r.id}
+                      className="btn btn-ghost btn-sm btn-icon text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950"
+                      title="삭제"
+                    >
+                      {loading === r.id ? (
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                      ) : (
+                        <Trash2 className="w-4 h-4" />
+                      )}
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
-      {/* Mobile 카드 리스트 */}
-      <div className="lg:hidden space-y-3">
-        {reservations.map((r) => (
-          <div key={r.id} className="p-4 bg-white/10 rounded-lg">
-            <div className="flex justify-between items-start mb-2">
-              <div>
-                <p className="font-medium">{r.customerName}</p>
-                <p className="text-sm text-gray-500">{r.date} {r.time}</p>
+      {/* Mobile Card List */}
+      <div className="lg:hidden divide-y divide-black/5 dark:divide-white/5">
+        {reservations.map((r, index) => (
+          <div
+            key={r.id}
+            className="p-4 animate-slide-up"
+            style={{ animationDelay: `${index * 50}ms` }}
+          >
+            <div className="flex items-start justify-between gap-3">
+              {/* Left Content */}
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="font-semibold truncate">{r.customerName}</span>
+                  <span className={`badge ${statusConfig[r.status].className}`}>
+                    {statusConfig[r.status].label}
+                  </span>
+                </div>
+                <div className="flex items-center gap-3 text-sm text-gray-500 dark:text-gray-400">
+                  <span className="flex items-center gap-1">
+                    <Clock className="w-3.5 h-3.5" />
+                    {r.time}
+                  </span>
+                  {r.serviceType && (
+                    <span className="flex items-center gap-1">
+                      <Scissors className="w-3.5 h-3.5" />
+                      {r.serviceType}
+                    </span>
+                  )}
+                </div>
+                {r.designerId && (
+                  <div className="flex items-center gap-1 text-sm text-gray-500 dark:text-gray-400 mt-1">
+                    <User className="w-3.5 h-3.5" />
+                    {r.designerId}
+                  </div>
+                )}
               </div>
-              <span className={`px-2 py-1 rounded text-xs ${statusColors[r.status]}`}>
-                {statusLabels[r.status]}
-              </span>
-            </div>
-            <div className="text-sm text-gray-600 dark:text-gray-400 mb-2">
-              {r.serviceType && <span>{r.serviceType}</span>}
-              {r.designerId && <span> · {r.designerId}</span>}
-            </div>
-            <div className="flex gap-2">
-              <button
-                onClick={() => onEdit(r)}
-                className="flex-1 py-1 text-sm bg-blue-100 text-blue-800 rounded"
-              >
-                수정
-              </button>
-              <button
-                onClick={() => handleDelete(r.id)}
-                className="flex-1 py-1 text-sm bg-red-100 text-red-800 rounded"
-              >
-                삭제
-              </button>
+
+              {/* Actions */}
+              <div className="relative">
+                <button
+                  onClick={() => setOpenMenu(openMenu === r.id ? null : r.id)}
+                  className="btn btn-ghost btn-sm btn-icon"
+                >
+                  <MoreVertical className="w-5 h-5" />
+                </button>
+
+                {openMenu === r.id && (
+                  <>
+                    <div
+                      className="fixed inset-0 z-10"
+                      onClick={() => setOpenMenu(null)}
+                    />
+                    <div className="absolute right-0 top-full mt-1 w-32 glass-card p-1 z-20 animate-scale-in">
+                      <button
+                        onClick={() => {
+                          onEdit(r);
+                          setOpenMenu(null);
+                        }}
+                        className="flex items-center gap-2 w-full px-3 py-2 text-sm rounded-lg hover:bg-black/5 dark:hover:bg-white/5"
+                      >
+                        <Pencil className="w-4 h-4" />
+                        수정
+                      </button>
+                      <button
+                        onClick={() => {
+                          handleDelete(r.id);
+                          setOpenMenu(null);
+                        }}
+                        className="flex items-center gap-2 w-full px-3 py-2 text-sm rounded-lg text-red-500 hover:bg-red-50 dark:hover:bg-red-950"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                        삭제
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
           </div>
         ))}

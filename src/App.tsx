@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Plus, Calendar as CalendarIcon, BarChart3, Settings, Construction } from 'lucide-react';
 import { reservationApi } from './lib/tauri';
 import { ResponsiveContainer } from './components/layout/ResponsiveContainer';
 import { AppointmentForm } from './components/reservation/AppointmentForm';
@@ -54,35 +55,53 @@ function App() {
     setCurrentPage(page as Page);
   };
 
+  const formatDate = (dateStr: string) => {
+    const date = new Date(dateStr);
+    const options: Intl.DateTimeFormatOptions = {
+      month: 'long',
+      day: 'numeric',
+      weekday: 'short',
+    };
+    return date.toLocaleDateString('ko-KR', options);
+  };
+
   const renderContent = () => {
     switch (currentPage) {
       case 'reservations':
         return (
           <div className="space-y-6">
+            {/* Header */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-              <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-                <h2 className="text-2xl font-bold">예약 관리</h2>
-                <input
-                  type="date"
-                  value={selectedDate}
-                  onChange={(e) => setSelectedDate(e.target.value)}
-                  className="px-3 py-2 rounded-lg bg-white/50 dark:bg-black/50 border border-white/20"
-                />
+              <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+                <h2 className="heading-2">예약 관리</h2>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="date"
+                    value={selectedDate}
+                    onChange={(e) => setSelectedDate(e.target.value)}
+                    className="input py-2 px-3 w-auto"
+                  />
+                  <span className="text-sm text-gray-500 hidden sm:block">
+                    {formatDate(selectedDate)}
+                  </span>
+                </div>
               </div>
               <button
                 onClick={() => {
                   setEditingReservation(undefined);
                   setShowForm(true);
                 }}
-                className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 whitespace-nowrap"
+                className="btn btn-primary"
               >
-                + 새 예약
+                <Plus className="w-4 h-4" />
+                새 예약
               </button>
             </div>
 
+            {/* Modal */}
             {showForm && (
-              <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-                <div className="w-full max-w-2xl max-h-[90vh] overflow-auto">
+              <div className="modal-overlay" onClick={handleCancel}>
+                <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                   <AppointmentForm
                     reservation={editingReservation}
                     onSubmit={handleFormSubmit}
@@ -92,6 +111,7 @@ function App() {
               </div>
             )}
 
+            {/* Table */}
             <ReservationTable
               reservations={reservations}
               onEdit={handleEdit}
@@ -108,17 +128,27 @@ function App() {
 
       case 'statistics':
         return (
-          <div className="glass-card text-center py-12">
-            <h2 className="text-2xl font-bold mb-4">통계</h2>
-            <p className="text-gray-500">통계 기능은 준비 중입니다.</p>
+          <div className="glass-card empty-state">
+            <BarChart3 className="empty-state-icon" />
+            <h2 className="heading-2 mb-2">통계</h2>
+            <p className="text-caption mb-4">통계 기능은 준비 중입니다.</p>
+            <div className="flex items-center gap-2 text-sm text-primary-500">
+              <Construction className="w-4 h-4" />
+              <span>Coming Soon</span>
+            </div>
           </div>
         );
 
       case 'settings':
         return (
-          <div className="glass-card text-center py-12">
-            <h2 className="text-2xl font-bold mb-4">설정</h2>
-            <p className="text-gray-500">설정 기능은 준비 중입니다.</p>
+          <div className="glass-card empty-state">
+            <Settings className="empty-state-icon" />
+            <h2 className="heading-2 mb-2">설정</h2>
+            <p className="text-caption mb-4">설정 기능은 준비 중입니다.</p>
+            <div className="flex items-center gap-2 text-sm text-primary-500">
+              <Construction className="w-4 h-4" />
+              <span>Coming Soon</span>
+            </div>
           </div>
         );
 
