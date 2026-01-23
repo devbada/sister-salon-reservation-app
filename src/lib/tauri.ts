@@ -110,6 +110,8 @@ export const securityApi = {
   setPin: (pin: string) => invoke<void>('set_lock_pin', { pin }),
   verifyPin: (pin: string) => invoke<boolean>('verify_lock_pin', { pin }),
   removePin: () => invoke<void>('remove_lock_pin'),
+  changePin: (oldPin: string, newPin: string) =>
+    invoke<void>('change_lock_pin', { oldPin, newPin }),
   authenticateBiometric: () => invoke<boolean>('authenticate_biometric'),
   isLockEnabled: () => invoke<boolean>('is_lock_enabled'),
   getSettings: () => invoke<LockSettings>('get_lock_settings'),

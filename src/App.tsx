@@ -9,6 +9,8 @@ import { DesignerManagement } from './components/designer/DesignerManagement';
 import { BusinessHours } from './components/business-hours/BusinessHours';
 import { StatisticsDashboard } from './components/statistics/StatisticsDashboard';
 import { SettingsPage } from './components/settings/SettingsPage';
+import { LockScreen } from './components/lock/LockScreen';
+import { useAppLock } from './hooks/useAppLock';
 import type { Reservation } from './types';
 
 type Page = 'reservations' | 'customers' | 'designers' | 'business-hours' | 'statistics' | 'settings';
@@ -23,11 +25,19 @@ function App() {
   const [showForm, setShowForm] = useState(false);
   const [editingReservation, setEditingReservation] = useState<Reservation | undefined>();
 
+  // App lock
+  const { isLocked, unlock, refreshSettings } = useAppLock();
+
   useEffect(() => {
     if (currentPage === 'reservations') {
       loadReservations();
     }
   }, [currentPage, selectedDate]);
+
+  // Show lock screen if locked
+  if (isLocked) {
+    return <LockScreen onUnlock={unlock} />;
+  }
 
   const loadReservations = async () => {
     try {
@@ -136,7 +146,7 @@ function App() {
         return <StatisticsDashboard />;
 
       case 'settings':
-        return <SettingsPage />;
+        return <SettingsPage onLockSettingsChange={refreshSettings} />;
 
       default:
         return null;

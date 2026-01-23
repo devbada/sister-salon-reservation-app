@@ -2,9 +2,14 @@ import { useState } from 'react';
 import { Settings, BarChart3, ChevronRight, X } from 'lucide-react';
 import { ExportSettings } from './ExportSettings';
 import { BackupSettings } from './BackupSettings';
+import { LockSettings } from './LockSettings';
 import { StatisticsDashboard } from '../statistics/StatisticsDashboard';
 
-export function SettingsPage() {
+interface SettingsPageProps {
+  onLockSettingsChange?: () => void;
+}
+
+export function SettingsPage({ onLockSettingsChange }: SettingsPageProps) {
   const [showStatistics, setShowStatistics] = useState(false);
 
   if (showStatistics) {
@@ -60,6 +65,7 @@ export function SettingsPage() {
 
       {/* Settings Sections */}
       <div className="grid gap-6 lg:grid-cols-2">
+        <LockSettings onSettingsChange={onLockSettingsChange} />
         <ExportSettings />
         <BackupSettings />
       </div>

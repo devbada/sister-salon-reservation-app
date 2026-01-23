@@ -55,6 +55,16 @@ pub fn run() {
             commands::customers::get_customer_by_phone,
             commands::customers::get_customer_reservations,
             commands::customers::update_customer_visit_stats,
+            // 보안
+            commands::security::set_lock_pin,
+            commands::security::verify_lock_pin,
+            commands::security::remove_lock_pin,
+            commands::security::change_lock_pin,
+            commands::security::is_lock_enabled,
+            commands::security::get_lock_settings,
+            commands::security::update_lock_settings,
+            commands::security::authenticate_biometric,
+            commands::security::is_biometric_available,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
