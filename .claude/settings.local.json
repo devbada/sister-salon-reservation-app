@@ -25,7 +25,10 @@
       "Bash(cd /Users/minam.cho/workspaces/study/_side-projects/sisters-salon-reservation-app/src-tauri/gen/apple __NEW_LINE_2065def65f479c52__ xcodebuild -scheme sisters-salon-reservation-app_iOS -sdk iphonesimulator -configuration Debug build)",
       "Bash(cd /Users/minam.cho/workspaces/study/_side-projects/sisters-salon-reservation-app/src-tauri/gen/apple __NEW_LINE_5c4cd2b3d28dbda1__ xcodebuild -scheme sisters-salon-reservation-app_iOS -sdk iphonesimulator -configuration Debug build)",
       "Bash(xcodebuild:*)",
-      "Bash(__NEW_LINE_557936116b6bee01__ git commit -m \"$\\(cat <<''EOF''\nfeat: 모바일 네비게이션에 고객 탭 추가 및 통계를 설정으로 이동\n\n- MobileLayout.tsx: 고객 탭 추가, 통계 탭 제거 \\(4탭 유지\\)\n- SettingsPage.tsx: 통계 대시보드 접근 버튼 추가\n- vite.config.ts: iOS/Android 개발 시 네트워크 바인딩 설정 추가\n- CLAUDE.md: iOS Xcode 빌드 설정 \\(nvm 사용자용\\) 문서 추가\n\n모바일\\(iPhone/Android\\): 예약, 고객, 디자이너, 설정 \\(통계는 설정 내부\\)\n태블릿\\(iPad\\): 사이드바에 통계 포함\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")"
+      "Bash(__NEW_LINE_557936116b6bee01__ git commit -m \"$\\(cat <<''EOF''\nfeat: 모바일 네비게이션에 고객 탭 추가 및 통계를 설정으로 이동\n\n- MobileLayout.tsx: 고객 탭 추가, 통계 탭 제거 \\(4탭 유지\\)\n- SettingsPage.tsx: 통계 대시보드 접근 버튼 추가\n- vite.config.ts: iOS/Android 개발 시 네트워크 바인딩 설정 추가\n- CLAUDE.md: iOS Xcode 빌드 설정 \\(nvm 사용자용\\) 문서 추가\n\n모바일\\(iPhone/Android\\): 예약, 고객, 디자이너, 설정 \\(통계는 설정 내부\\)\n태블릿\\(iPad\\): 사이드바에 통계 포함\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(find:*)",
+      "Bash(cargo check:*)",
+      "Bash(npx tsc:*)"
     ]
   },
   "enableAllProjectMcpServers": true,
