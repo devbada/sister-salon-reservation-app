@@ -1,4 +1,4 @@
-import { Calendar, Users, Clock, BarChart3, Settings, Scissors, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Calendar, Users, Clock, BarChart3, Settings, Scissors, ChevronLeft, ChevronRight, UserRoundSearch } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
 interface CollapsibleSidebarProps {
@@ -16,6 +16,7 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { id: 'reservations', icon: Calendar, label: '예약 관리' },
+  { id: 'customers', icon: UserRoundSearch, label: '고객' },
   { id: 'designers', icon: Users, label: '디자이너' },
   { id: 'business-hours', icon: Clock, label: '영업시간' },
   { id: 'statistics', icon: BarChart3, label: '통계' },

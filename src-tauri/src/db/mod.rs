@@ -31,6 +31,32 @@ impl Database {
 
     fn migrate(&self) -> Result<()> {
         self.conn.execute_batch(schema::SCHEMA)?;
+
+        // 기존 customers 테이블에 새 필드 추가 (마이그레이션)
+        let migrations = vec![
+            "ALTER TABLE customers ADD COLUMN birthdate TEXT",
+            "ALTER TABLE customers ADD COLUMN gender TEXT",
+            "ALTER TABLE customers ADD COLUMN preferred_designer_id TEXT",
+            "ALTER TABLE customers ADD COLUMN preferred_service TEXT",
+            "ALTER TABLE customers ADD COLUMN allergies TEXT",
+            "ALTER TABLE customers ADD COLUMN total_visits INTEGER DEFAULT 0",
+            "ALTER TABLE customers ADD COLUMN last_visit_date TEXT",
+            "ALTER TABLE customers ADD COLUMN updated_at TEXT DEFAULT (datetime('now'))",
+            // reservations 테이블에 customer_id 추가
+            "ALTER TABLE reservations ADD COLUMN customer_id TEXT REFERENCES customers(id)",
+        ];
+
+        for migration in migrations {
+            // 이미 존재하는 컬럼이면 에러 무시
+            let _ = self.conn.execute(migration, []);
+        }
+
+        // customer_id 인덱스 추가 시도
+        let _ = self.conn.execute(
+            "CREATE INDEX IF NOT EXISTS idx_reservations_customer ON reservations(customer_id)",
+            []
+        );
+
         Ok(())
     }
 

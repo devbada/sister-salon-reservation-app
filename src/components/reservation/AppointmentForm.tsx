@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
-import { X, User, Phone, Calendar, Clock, Scissors, FileText, Loader2 } from 'lucide-react';
+import { X, User, Phone, Calendar, Clock, Scissors, FileText, Loader2, UserPlus } from 'lucide-react';
 import { reservationApi, designerApi } from '../../lib/tauri';
-import type { Reservation, Designer } from '../../types';
+import { CustomerSearch } from '../customer/CustomerSearch';
+import type { Reservation, Designer, Customer } from '../../types';
 
 interface CreateReservationInput {
   customerName: string;
@@ -39,10 +40,40 @@ export function AppointmentForm({ reservation, onSubmit, onCancel }: Appointment
   });
   const [designers, setDesigners] = useState<Designer[]>([]);
   const [loading, setLoading] = useState(false);
+  const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
+  const [isNewCustomer, setIsNewCustomer] = useState(!reservation);
 
   useEffect(() => {
     loadDesigners();
   }, []);
+
+  const handleSelectCustomer = (customer: Customer) => {
+    setSelectedCustomer(customer);
+    setFormData({
+      ...formData,
+      customerName: customer.name,
+      customerPhone: customer.phone || '',
+      designerId: customer.preferredDesignerId || formData.designerId,
+      serviceType: customer.preferredService || formData.serviceType,
+    });
+    setIsNewCustomer(false);
+  };
+
+  const handleClearCustomer = () => {
+    setSelectedCustomer(null);
+    setFormData({
+      ...formData,
+      customerName: '',
+      customerPhone: '',
+    });
+  };
+
+  const handleToggleNewCustomer = () => {
+    setIsNewCustomer(!isNewCustomer);
+    if (!isNewCustomer) {
+      setSelectedCustomer(null);
+    }
+  };
 
   const loadDesigners = async () => {
     try {
@@ -92,35 +123,76 @@ export function AppointmentForm({ reservation, onSubmit, onCancel }: Appointment
       {/* Form Fields */}
       <div className="space-y-5">
         {/* Customer Info Section */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label className="label flex items-center gap-1.5">
-              <User className="w-3.5 h-3.5" />
-              고객명 <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="text"
-              value={formData.customerName}
-              onChange={(e) => setFormData({ ...formData, customerName: e.target.value })}
-              className="input"
-              placeholder="고객 이름을 입력하세요"
-              required
-            />
-          </div>
+        <div className="space-y-4">
+          {!reservation && (
+            <div className="flex items-center justify-between">
+              <label className="label flex items-center gap-1.5 mb-0">
+                <User className="w-3.5 h-3.5" />
+                고객 정보 <span className="text-red-500">*</span>
+              </label>
+              <button
+                type="button"
+                onClick={handleToggleNewCustomer}
+                className="text-xs text-primary-600 dark:text-primary-400 hover:underline flex items-center gap-1"
+              >
+                <UserPlus className="w-3 h-3" />
+                {isNewCustomer ? '기존 고객 검색' : '신규 고객 입력'}
+              </button>
+            </div>
+          )}
 
-          <div>
-            <label className="label flex items-center gap-1.5">
-              <Phone className="w-3.5 h-3.5" />
-              연락처
-            </label>
-            <input
-              type="tel"
-              value={formData.customerPhone || ''}
-              onChange={(e) => setFormData({ ...formData, customerPhone: e.target.value })}
-              className="input"
-              placeholder="010-0000-0000"
+          {!reservation && !isNewCustomer ? (
+            <CustomerSearch
+              selectedCustomer={selectedCustomer}
+              onSelect={handleSelectCustomer}
+              onClear={handleClearCustomer}
+              placeholder="고객 이름 또는 전화번호로 검색..."
             />
-          </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                {reservation && (
+                  <label className="label flex items-center gap-1.5">
+                    <User className="w-3.5 h-3.5" />
+                    고객명 <span className="text-red-500">*</span>
+                  </label>
+                )}
+                <input
+                  type="text"
+                  value={formData.customerName}
+                  onChange={(e) => setFormData({ ...formData, customerName: e.target.value })}
+                  className="input"
+                  placeholder="고객 이름을 입력하세요"
+                  required
+                />
+              </div>
+
+              <div>
+                {reservation && (
+                  <label className="label flex items-center gap-1.5">
+                    <Phone className="w-3.5 h-3.5" />
+                    연락처
+                  </label>
+                )}
+                <input
+                  type="tel"
+                  value={formData.customerPhone || ''}
+                  onChange={(e) => setFormData({ ...formData, customerPhone: e.target.value })}
+                  className="input"
+                  placeholder="010-0000-0000"
+                />
+              </div>
+            </div>
+          )}
+
+          {selectedCustomer?.allergies && (
+            <div className="p-3 rounded-lg bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800">
+              <p className="text-xs text-amber-600 dark:text-amber-400 font-medium mb-1">
+                알레르기/주의사항
+              </p>
+              <p className="text-sm text-amber-800 dark:text-amber-200">{selectedCustomer.allergies}</p>
+            </div>
+          )}
         </div>
 
         {/* Date & Time Section */}
