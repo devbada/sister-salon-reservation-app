@@ -3,6 +3,8 @@ import react from "@vitejs/plugin-react";
 
 // @ts-expect-error process is a nodejs global
 const host = process.env.TAURI_DEV_HOST;
+// @ts-expect-error process is a nodejs global
+const isMobile = process.env.TAURI_ENV_PLATFORM === 'ios' || process.env.TAURI_ENV_PLATFORM === 'android';
 
 // https://vite.dev/config/
 export default defineConfig(async () => ({
@@ -16,14 +18,21 @@ export default defineConfig(async () => ({
   server: {
     port: 1420,
     strictPort: true,
-    host: host || false,
+    // For mobile development, bind to all interfaces if TAURI_DEV_HOST not set
+    host: host || (isMobile ? '0.0.0.0' : false),
     hmr: host
       ? {
           protocol: "ws",
           host,
           port: 1421,
         }
-      : undefined,
+      : isMobile
+        ? {
+            protocol: "ws",
+            host: '0.0.0.0',
+            port: 1421,
+          }
+        : undefined,
     watch: {
       // 3. tell Vite to ignore watching `src-tauri`
       ignored: ["**/src-tauri/**"],

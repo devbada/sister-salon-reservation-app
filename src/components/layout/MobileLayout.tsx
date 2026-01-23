@@ -44,8 +44,8 @@ export function MobileLayout({ children, currentPage, onNavigate }: MobileLayout
         <div className="flex justify-around items-center h-14 px-2 max-w-lg mx-auto">
           {[
             { id: 'reservations', icon: 'calendar', label: '예약' },
+            { id: 'customers', icon: 'customer', label: '고객' },
             { id: 'designers', icon: 'users', label: '디자이너' },
-            { id: 'statistics', icon: 'chart', label: '통계' },
             { id: 'settings', icon: 'settings', label: '설정' },
           ].map((tab) => {
             const isActive = currentPage === tab.id;
@@ -83,6 +83,14 @@ function TabIcon({ name }: { name: string }) {
         <circle cx="9" cy="7" r="4" />
         <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
         <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+      </svg>
+    ),
+    customer: (
+      <svg className="bottom-tab-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
+        <circle cx="10" cy="8" r="5" />
+        <path d="M2 21v-2a7 7 0 0 1 7-7h2" />
+        <circle cx="17" cy="15" r="3" />
+        <path d="m21 21-1.9-1.9" />
       </svg>
     ),
     clock: (
