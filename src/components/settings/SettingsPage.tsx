@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { Settings, ArrowLeft, Lock, Database, Clock, BarChart3, Info } from 'lucide-react';
+import { Settings, Lock, Database, Clock, BarChart3, Info } from 'lucide-react';
 import { SettingsMain, SettingsCategory } from './SettingsMain';
 import { SecuritySettings } from './SecuritySettings';
 import { DataSettings } from './DataSettings';
 import { BusinessSettings } from './BusinessSettings';
 import { AppInfoSettings } from './AppInfoSettings';
 import { StatisticsDashboard } from '../statistics/StatisticsDashboard';
+import { SwipeableView } from '../common/SwipeableView';
 
 interface SettingsPageProps {
   onLockSettingsChange?: () => void;
@@ -79,37 +80,41 @@ export function SettingsPage({ onLockSettingsChange }: SettingsPageProps) {
     }
   };
 
-  // Category detail view
+  // Category detail view with swipe back gesture
   if (currentCategory) {
     const info = categoryInfo[currentCategory];
     return (
-      <div className="space-y-6">
-        {/* Back Header */}
-        <div className="flex items-center gap-3">
-          <button
-            onClick={handleBack}
-            className="p-2.5 rounded-xl bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400
-                       hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors
-                       active:scale-95"
-          >
-            <ArrowLeft className="w-5 h-5" />
-          </button>
+      <SwipeableView onBack={handleBack}>
+        <div className="space-y-6 p-4 pb-safe">
+          {/* Header */}
           <div className="flex items-center gap-3">
-            <div className={`p-2.5 rounded-xl ${info.iconBg}`}>
-              {info.icon}
-            </div>
-            <div>
-              <h2 className="heading-2">{info.title}</h2>
-              <p className="text-xs text-gray-500 dark:text-gray-400">{info.subtitle}</p>
+            <button
+              onClick={handleBack}
+              className="p-2.5 rounded-xl bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400
+                         hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors
+                         active:scale-95"
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            <div className="flex items-center gap-3">
+              <div className={`p-2.5 rounded-xl ${info.iconBg}`}>
+                {info.icon}
+              </div>
+              <div>
+                <h2 className="heading-2">{info.title}</h2>
+                <p className="text-xs text-gray-500 dark:text-gray-400">{info.subtitle}</p>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Content */}
-        <div className="animate-fadeIn">
-          {renderCategoryContent()}
+          {/* Content */}
+          <div className="animate-fadeIn">
+            {renderCategoryContent()}
+          </div>
         </div>
-      </div>
+      </SwipeableView>
     );
   }
 

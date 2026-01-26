@@ -44,13 +44,15 @@ export function BusinessSettings() {
     }
   };
 
+  const handleBack = () => setSubPage('menu');
+
   if (subPage !== 'menu') {
     const currentItem = menuItems.find((item) => item.id === subPage);
     return (
       <div className="space-y-4">
         {/* Sub Header */}
         <button
-          onClick={() => setSubPage('menu')}
+          onClick={handleBack}
           className="flex items-center gap-2 text-gray-600 dark:text-gray-400
                      hover:text-gray-900 dark:hover:text-white transition-colors"
         >
