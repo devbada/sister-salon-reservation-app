@@ -108,6 +108,165 @@ public final class SalonCloudKit: @unchecked Sendable {
 
     func getLastError() -> String { lastError }
     func getLastRecordId() -> String { lastRecordId }
+
+    // List all backups from CloudKit using CKQueryOperation for better control
+    // Returns JSON array: [{"id":"...", "filename":"...", "size":123, "createdAt":"..."}]
+    func listBackups() -> String {
+        os_log("[SalonCloudKit] listBackups called", log: cloudKitLog, type: .default)
+
+        let query = CKQuery(recordType: recordType, predicate: NSPredicate(value: true))
+        // Note: sortDescriptors don't work reliably with perform() API, we'll sort manually
+
+        nonisolated(unsafe) var allRecords: [CKRecord] = []
+        nonisolated(unsafe) var resultJson = "[]"
+        let sem = DispatchSemaphore(value: 0)
+
+        let operation = CKQueryOperation(query: query)
+        operation.resultsLimit = 100  // Fetch up to 100 records
+
+        // Use deprecated API for iOS 14 compatibility
+        operation.recordFetchedBlock = { record in
+            allRecords.append(record)
+        }
+
+        operation.queryCompletionBlock = { cursor, error in
+            if let error = error {
+                self.lastError = error.localizedDescription
+                os_log("[SalonCloudKit] List error: %{public}@", log: cloudKitLog, type: .error, error.localizedDescription)
+                sem.signal()
+                return
+            }
+
+            os_log("[SalonCloudKit] Query completed, total records: %d", log: cloudKitLog, type: .default, allRecords.count)
+
+            // Sort by createdDate descending (newest first)
+            let sortedRecords = allRecords.sorted { r1, r2 in
+                let d1 = r1["createdDate"] as? Date ?? Date.distantPast
+                let d2 = r2["createdDate"] as? Date ?? Date.distantPast
+                return d1 > d2
+            }
+
+            var backups: [[String: Any]] = []
+            let formatter = ISO8601DateFormatter()
+
+            for record in sortedRecords {
+                var backup: [String: Any] = [
+                    "id": record.recordID.recordName,
+                    "filename": record["filename"] as? String ?? record.recordID.recordName
+                ]
+                if let size = record["fileSize"] as? Int64 {
+                    backup["size"] = size
+                }
+                if let date = record["createdDate"] as? Date {
+                    backup["createdAt"] = formatter.string(from: date)
+                }
+                backups.append(backup)
+            }
+
+            if let jsonData = try? JSONSerialization.data(withJSONObject: backups),
+               let jsonString = String(data: jsonData, encoding: .utf8) {
+                resultJson = jsonString
+            }
+            os_log("[SalonCloudKit] Found %d backups", log: cloudKitLog, type: .default, backups.count)
+            sem.signal()
+        }
+
+        database.add(operation)
+
+        let timeout = sem.wait(timeout: .now() + 30)
+        if timeout == .timedOut {
+            lastError = "List timed out"
+            os_log("[SalonCloudKit] listBackups timed out", log: cloudKitLog, type: .error)
+        }
+
+        return resultJson
+    }
+
+    // Delete a backup from CloudKit by record ID
+    func deleteBackup(recordId: String) -> Bool {
+        os_log("[SalonCloudKit] deleteBackup called for: %{public}@", log: cloudKitLog, type: .default, recordId)
+
+        let recordID = CKRecord.ID(recordName: recordId)
+        nonisolated(unsafe) var success = false
+        let sem = DispatchSemaphore(value: 0)
+
+        database.delete(withRecordID: recordID) { deletedRecordID, error in
+            if let error = error {
+                self.lastError = error.localizedDescription
+                os_log("[SalonCloudKit] Delete error: %{public}@", log: cloudKitLog, type: .error, error.localizedDescription)
+                success = false
+            } else {
+                os_log("[SalonCloudKit] Delete success: %{public}@", log: cloudKitLog, type: .default, recordId)
+                success = true
+            }
+            sem.signal()
+        }
+
+        let timeout = sem.wait(timeout: .now() + 30)
+        if timeout == .timedOut {
+            lastError = "Delete timed out"
+            os_log("[SalonCloudKit] deleteBackup timed out", log: cloudKitLog, type: .error)
+            return false
+        }
+
+        return success
+    }
+
+    // Download a backup from CloudKit by record ID
+    // Returns the local file path where the backup was saved, or nil on error
+    func downloadBackup(recordId: String, destinationPath: String) -> Bool {
+        os_log("[SalonCloudKit] downloadBackup called for: %{public}@ -> %{public}@", log: cloudKitLog, type: .default, recordId, destinationPath)
+
+        let recordID = CKRecord.ID(recordName: recordId)
+        nonisolated(unsafe) var success = false
+        let sem = DispatchSemaphore(value: 0)
+
+        database.fetch(withRecordID: recordID) { record, error in
+            if let error = error {
+                self.lastError = error.localizedDescription
+                os_log("[SalonCloudKit] Download fetch error: %{public}@", log: cloudKitLog, type: .error, error.localizedDescription)
+                success = false
+                sem.signal()
+                return
+            }
+
+            guard let record = record,
+                  let asset = record["backupFile"] as? CKAsset,
+                  let assetURL = asset.fileURL else {
+                self.lastError = "Backup file not found in record"
+                os_log("[SalonCloudKit] Backup file not found in record", log: cloudKitLog, type: .error)
+                success = false
+                sem.signal()
+                return
+            }
+
+            do {
+                let destURL = URL(fileURLWithPath: destinationPath)
+                // Remove existing file if present
+                if FileManager.default.fileExists(atPath: destinationPath) {
+                    try FileManager.default.removeItem(at: destURL)
+                }
+                // Copy the asset to destination
+                try FileManager.default.copyItem(at: assetURL, to: destURL)
+                os_log("[SalonCloudKit] Download success: %{public}@", log: cloudKitLog, type: .default, destinationPath)
+                success = true
+            } catch {
+                self.lastError = error.localizedDescription
+                os_log("[SalonCloudKit] Download copy error: %{public}@", log: cloudKitLog, type: .error, error.localizedDescription)
+                success = false
+            }
+            sem.signal()
+        }
+
+        let timeout = sem.wait(timeout: .now() + 60)
+        if timeout == .timedOut {
+            lastError = "Download timed out"
+            os_log("[SalonCloudKit] downloadBackup timed out", log: cloudKitLog, type: .error)
+            return false
+        }
+
+        return success
+    }
 }
 
 // MARK: - Global C Functions (FFI exports)
@@ -143,6 +302,37 @@ public func swift_cloudkit_last_record_id() -> UnsafePointer<CChar>? {
     return id.isEmpty ? nil : (id as NSString).utf8String
 }
 
+// Global variable to hold the list result (to prevent deallocation)
+nonisolated(unsafe) var lastListResult: NSString?
+
+@_cdecl("swift_cloudkit_list")
+public func swift_cloudkit_list() -> UnsafePointer<CChar>? {
+    os_log("[SalonCloudKit FFI] swift_cloudkit_list called", log: cloudKitLog, type: .default)
+    let result = SalonCloudKit.instance.listBackups()
+    lastListResult = result as NSString
+    os_log("[SalonCloudKit FFI] swift_cloudkit_list returning %d chars", log: cloudKitLog, type: .default, result.count)
+    return lastListResult?.utf8String
+}
+
+@_cdecl("swift_cloudkit_delete")
+public func swift_cloudkit_delete(_ recordIdPtr: UnsafePointer<CChar>) -> Bool {
+    let recordId = String(cString: recordIdPtr)
+    os_log("[SalonCloudKit FFI] swift_cloudkit_delete called for: %{public}@", log: cloudKitLog, type: .default, recordId)
+    let result = SalonCloudKit.instance.deleteBackup(recordId: recordId)
+    os_log("[SalonCloudKit FFI] swift_cloudkit_delete returning: %{public}@", log: cloudKitLog, type: .default, result ? "true" : "false")
+    return result
+}
+
+@_cdecl("swift_cloudkit_download")
+public func swift_cloudkit_download(_ recordIdPtr: UnsafePointer<CChar>, _ destPathPtr: UnsafePointer<CChar>) -> Bool {
+    let recordId = String(cString: recordIdPtr)
+    let destPath = String(cString: destPathPtr)
+    os_log("[SalonCloudKit FFI] swift_cloudkit_download called for: %{public}@ -> %{public}@", log: cloudKitLog, type: .default, recordId, destPath)
+    let result = SalonCloudKit.instance.downloadBackup(recordId: recordId, destinationPath: destPath)
+    os_log("[SalonCloudKit FFI] swift_cloudkit_download returning: %{public}@", log: cloudKitLog, type: .default, result ? "true" : "false")
+    return result
+}
+
 // MARK: - Registration function (called at app startup)
 // This ensures the Swift code is linked and symbols are available
 
@@ -153,19 +343,5 @@ public func swift_cloudkit_init() {
     NSLog("[SalonCloudKit] CloudKit module initialized")
     NSLog("[SalonCloudKit] Container: iCloud.com.sisters.salon")
     NSLog("[SalonCloudKit] ========================================")
-
-    // Also print to stderr for debugging
-    print("[SalonCloudKit] Swift CloudKit init called", to: &standardError)
-
     _ = SalonCloudKit.instance
-}
-
-// Helper for printing to stderr
-var standardError = FileHandle.standardError
-
-extension FileHandle: @retroactive TextOutputStream {
-    public func write(_ string: String) {
-        let data = Data(string.utf8)
-        self.write(data)
-    }
 }

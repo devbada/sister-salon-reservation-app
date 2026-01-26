@@ -3450,6 +3450,7 @@ dependencies = [
  "bcrypt",
  "chrono",
  "keyring",
+ "libc",
  "objc",
  "rusqlite",
  "rust_xlsxwriter",

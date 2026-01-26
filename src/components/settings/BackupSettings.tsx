@@ -305,16 +305,16 @@ export function BackupSettings() {
 
         {/* iCloud 안내 */}
         {selectedService === 'icloud' && currentService?.available && (
-          <div className="flex flex-col gap-2 p-3 rounded-lg bg-blue-50 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300 text-sm">
+          <div className="flex flex-col gap-1.5 p-3 rounded-lg bg-blue-50 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300 text-sm">
             <div className="flex items-start gap-2">
               <Cloud className="w-4 h-4 flex-shrink-0 mt-0.5" />
-              <span>
-                백업 위치: <strong>파일 앱</strong> → <strong>나의 iPhone</strong> → <strong>Sisters Salon</strong> → <strong>Backups</strong>
-              </span>
+              <span className="font-medium">iCloud 백업 정책</span>
             </div>
-            <div className="text-xs text-blue-600 dark:text-blue-400 ml-6">
-              iCloud Drive 동기화를 활성화하면 다른 기기에서도 접근할 수 있습니다.
-            </div>
+            <ul className="text-xs text-blue-700 dark:text-blue-400 ml-6 space-y-0.5 list-disc list-inside">
+              <li>백업은 iCloud(CloudKit)에 저장됩니다</li>
+              <li>같은 Apple ID로 로그인한 모든 기기에서 복원 가능</li>
+              <li>최대 10개의 백업이 유지되며, 초과 시 오래된 백업 자동 삭제</li>
+            </ul>
           </div>
         )}
 
