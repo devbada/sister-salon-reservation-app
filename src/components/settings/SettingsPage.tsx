@@ -84,7 +84,7 @@ export function SettingsPage({ onLockSettingsChange }: SettingsPageProps) {
   if (currentCategory) {
     const info = categoryInfo[currentCategory];
     return (
-      <SwipeableView onBack={handleBack} showHeader={false}>
+      <SwipeableView onBack={handleBack}>
         <div className="space-y-6 p-4 pb-safe">
           {/* Header */}
           <div className="flex items-center gap-3">
