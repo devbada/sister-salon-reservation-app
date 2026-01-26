@@ -271,6 +271,12 @@ public final class SalonCloudKit: @unchecked Sendable {
 
 // MARK: - Global C Functions (FFI exports)
 
+// Global variables to hold string results (to prevent deallocation and dangling pointers)
+// These must be stored globally because the returned pointers are used by Rust after the function returns
+nonisolated(unsafe) var lastListResult: NSString?
+nonisolated(unsafe) var lastErrorResult: NSString?
+nonisolated(unsafe) var lastRecordIdResult: NSString?
+
 @_cdecl("swift_cloudkit_available")
 public func swift_cloudkit_available() -> Bool {
     os_log("[SalonCloudKit FFI] swift_cloudkit_available called", log: cloudKitLog, type: .default)
@@ -292,18 +298,25 @@ public func swift_cloudkit_upload(_ pathPtr: UnsafePointer<CChar>) -> Bool {
 public func swift_cloudkit_last_error() -> UnsafePointer<CChar>? {
     let error = SalonCloudKit.instance.getLastError()
     os_log("[SalonCloudKit FFI] swift_cloudkit_last_error: %{public}@", log: cloudKitLog, type: .default, error.isEmpty ? "(empty)" : error)
-    return error.isEmpty ? nil : (error as NSString).utf8String
+    if error.isEmpty {
+        return nil
+    }
+    // Store in global variable to prevent deallocation
+    lastErrorResult = error as NSString
+    return lastErrorResult?.utf8String
 }
 
 @_cdecl("swift_cloudkit_last_record_id")
 public func swift_cloudkit_last_record_id() -> UnsafePointer<CChar>? {
     let id = SalonCloudKit.instance.getLastRecordId()
     os_log("[SalonCloudKit FFI] swift_cloudkit_last_record_id: %{public}@", log: cloudKitLog, type: .default, id.isEmpty ? "(empty)" : id)
-    return id.isEmpty ? nil : (id as NSString).utf8String
+    if id.isEmpty {
+        return nil
+    }
+    // Store in global variable to prevent deallocation
+    lastRecordIdResult = id as NSString
+    return lastRecordIdResult?.utf8String
 }
-
-// Global variable to hold the list result (to prevent deallocation)
-nonisolated(unsafe) var lastListResult: NSString?
 
 @_cdecl("swift_cloudkit_list")
 public func swift_cloudkit_list() -> UnsafePointer<CChar>? {

@@ -3,6 +3,8 @@ import type {
   Reservation,
   Designer,
   BusinessHours,
+  Holiday,
+  CreateHolidayInput,
   Customer,
   CreateCustomerInput,
   CustomerReservation,
@@ -57,6 +59,10 @@ export const designerApi = {
 export const businessHoursApi = {
   getAll: () => invoke<BusinessHours[]>('get_business_hours'),
   update: (data: BusinessHours[]) => invoke<void>('update_business_hours', { data }),
+  // 휴일 관리
+  getHolidays: () => invoke<Holiday[]>('get_holidays'),
+  addHoliday: (data: CreateHolidayInput) => invoke<Holiday>('add_holiday', { data }),
+  deleteHoliday: (id: string) => invoke<void>('delete_holiday', { id }),
 };
 
 // 고객 관리

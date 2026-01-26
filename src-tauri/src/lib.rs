@@ -30,6 +30,10 @@ pub fn run() {
             // 영업시간
             commands::business_hours::get_business_hours,
             commands::business_hours::update_business_hours,
+            // 휴일
+            commands::business_hours::get_holidays,
+            commands::business_hours::add_holiday,
+            commands::business_hours::delete_holiday,
             // 통계
             commands::statistics::get_statistics_summary,
             commands::statistics::get_daily_statistics,

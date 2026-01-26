@@ -37,6 +37,21 @@ export interface BusinessHours {
   isClosed: boolean;
 }
 
+// 휴일
+export interface Holiday {
+  id: string;
+  date: string;
+  description?: string;
+  isRecurring: boolean;
+}
+
+// 휴일 생성 입력
+export interface CreateHolidayInput {
+  date: string;
+  description?: string;
+  isRecurring: boolean;
+}
+
 // 고객
 export interface Customer {
   id: string;
