@@ -79,3 +79,83 @@ pub fn update_business_hours(
 
     Ok(())
 }
+
+// Holiday types
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Holiday {
+    pub id: String,
+    pub date: String,
+    pub description: Option<String>,
+    pub is_recurring: bool,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct CreateHolidayInput {
+    pub date: String,
+    pub description: Option<String>,
+    pub is_recurring: bool,
+}
+
+#[tauri::command]
+pub fn get_holidays(db: State<DbState>) -> Result<Vec<Holiday>, String> {
+    let db = db.0.lock().map_err(|e| e.to_string())?;
+    let conn = db.conn();
+
+    let mut stmt = conn
+        .prepare("SELECT id, date, description, is_recurring FROM holidays ORDER BY date")
+        .map_err(|e| e.to_string())?;
+
+    let rows = stmt
+        .query_map([], |row| {
+            let is_recurring_int: i32 = row.get(3)?;
+            Ok(Holiday {
+                id: row.get(0)?,
+                date: row.get(1)?,
+                description: row.get(2)?,
+                is_recurring: is_recurring_int == 1,
+            })
+        })
+        .map_err(|e| e.to_string())?;
+
+    let holidays: Vec<Holiday> = rows.filter_map(|r| r.ok()).collect();
+    Ok(holidays)
+}
+
+#[tauri::command]
+pub fn add_holiday(data: CreateHolidayInput, db: State<DbState>) -> Result<Holiday, String> {
+    let db = db.0.lock().map_err(|e| e.to_string())?;
+    let conn = db.conn();
+
+    let id = uuid::Uuid::new_v4().to_string();
+
+    conn.execute(
+        "INSERT INTO holidays (id, date, description, is_recurring) VALUES (?1, ?2, ?3, ?4)",
+        rusqlite::params![
+            id,
+            data.date,
+            data.description,
+            if data.is_recurring { 1 } else { 0 },
+        ],
+    )
+    .map_err(|e| e.to_string())?;
+
+    Ok(Holiday {
+        id,
+        date: data.date,
+        description: data.description,
+        is_recurring: data.is_recurring,
+    })
+}
+
+#[tauri::command]
+pub fn delete_holiday(id: String, db: State<DbState>) -> Result<(), String> {
+    let db = db.0.lock().map_err(|e| e.to_string())?;
+    let conn = db.conn();
+
+    conn.execute("DELETE FROM holidays WHERE id = ?1", rusqlite::params![id])
+        .map_err(|e| e.to_string())?;
+
+    Ok(())
+}

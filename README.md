@@ -83,6 +83,18 @@
 | **Windows Hello** | - | - | ✅ | - |
 | **지문인식** | - | - | - | ✅ |
 
+### iOS 네이티브 UX
+- **스와이프 백 제스처** - 화면 왼쪽 가장자리에서 스와이프하여 뒤로가기
+- **중첩 네비게이션 지원** - 다단계 설정 화면에서도 올바르게 동작
+- **더블 탭 리셋** - 현재 탭을 두 번 탭하면 초기 상태로 리셋
+- **미저장 변경사항 경고** - 저장하지 않은 변경사항이 있을 때 이동 시 경고
+
+### 고객 관리
+- 고객 등록/수정/삭제
+- 고객 검색 및 필터링
+- 예약 연동 (고객 선택 시 자동 정보 입력)
+- 방문 이력 조회
+
 ---
 
 ## 기술 스택
@@ -295,6 +307,8 @@ sisters-salon-reservation-app/
 | 6 | [Export & Backup](docs/specs/06-export-backup.md) | 내보내기, 클라우드 백업 |
 | 7 | [App Lock](docs/specs/07-app-lock.md) | PIN/생체인증 |
 | 8 | [Build & Deploy](docs/specs/08-build-deploy.md) | 빌드 설정, CI/CD |
+| 9 | [Customer Management](docs/specs/09-customer-management.md) | 고객 관리 |
+| 10 | [UX & Navigation](docs/specs/10-ux-navigation.md) | 스와이프 제스처, 네비게이션 개선 |
 
 ### 참고 문서
 - [API Mapping](docs/references/api-mapping.md) - Express → Tauri 변환 가이드
@@ -311,17 +325,19 @@ sisters-salon-reservation-app/
 | 2 | 데이터베이스 (SQLite 스키마, CRUD) | ✅ | 2026-01-21 |
 | 3 | 핵심 기능 (예약, 디자이너, 영업시간) | ✅ | 2026-01-21 |
 | 4 | 반응형 UI (Mobile, Tablet, Desktop) | ✅ | 2026-01-22 |
-| 5 | 통계 대시보드 (Recharts) | ⬜ | - |
-| 6 | 내보내기 & 백업 (Excel, iCloud, GDrive) | ⬜ | - |
-| 7 | 앱 잠금 (PIN, 생체인증) | ⬜ | - |
+| 5 | 통계 대시보드 (Recharts) | ✅ | 2026-01-23 |
+| 6 | 내보내기 & 백업 (Excel, iCloud CloudKit) | ✅ | 2026-01-26 |
+| 7 | 앱 잠금 (PIN 인증) | ✅ | 2026-01-25 |
 | 8 | 빌드 & 배포 (CI/CD, 앱 스토어) | ⬜ | - |
+| 9 | 고객 관리 | ✅ | 2026-01-24 |
+| 10 | UX 개선 (스와이프 제스처, 네비게이션) | ✅ | 2026-01-26 |
 
 **범례**: ⬜ 대기중 · 🔄 진행중 · ✅ 완료
 
-### 테스트 완료 플랫폼 (Phase 4 기준)
+### 테스트 완료 플랫폼
 - ✅ macOS (Desktop)
-- ✅ iOS Simulator (iPhone)
-- ✅ iOS Simulator (iPad)
+- ✅ iOS Simulator (iPhone/iPad)
+- ✅ iOS Device (iPhone 16 Pro)
 - ✅ Android Emulator
 
 ---

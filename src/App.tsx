@@ -1,45 +1,94 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Plus } from 'lucide-react';
 import { reservationApi } from './lib/tauri';
 import { ResponsiveContainer } from './components/layout/ResponsiveContainer';
 import { AppointmentForm } from './components/reservation/AppointmentForm';
 import { ReservationTable } from './components/reservation/ReservationTable';
+import { DateRangeFilter, type DateRange, type DateRangePreset } from './components/reservation/DateRangeFilter';
+import { CustomerManagement } from './components/customer/CustomerManagement';
 import { DesignerManagement } from './components/designer/DesignerManagement';
 import { BusinessHours } from './components/business-hours/BusinessHours';
 import { StatisticsDashboard } from './components/statistics/StatisticsDashboard';
 import { SettingsPage } from './components/settings/SettingsPage';
+import { LockScreen } from './components/lock/LockScreen';
+import { UnsavedChangesProvider, useUnsavedChanges } from './contexts/UnsavedChangesContext';
+import { UnsavedChangesDialog } from './components/common/UnsavedChangesDialog';
+import { useAppLock } from './hooks/useAppLock';
 import type { Reservation } from './types';
 
-type Page = 'reservations' | 'designers' | 'business-hours' | 'statistics' | 'settings';
+type Page = 'reservations' | 'customers' | 'designers' | 'business-hours' | 'statistics' | 'settings';
 
-function App() {
+// Reset state keys for each page
+type ResetKey = number;
+interface PageResetKeys {
+  reservations: ResetKey;
+  customers: ResetKey;
+  designers: ResetKey;
+  settings: ResetKey;
+}
+
+function AppContent() {
   const [currentPage, setCurrentPage] = useState<Page>('reservations');
   const [reservations, setReservations] = useState<Reservation[]>([]);
   const [selectedDate, setSelectedDate] = useState(() => {
     const today = new Date();
     return today.toISOString().split('T')[0];
   });
+  const [dateRange, setDateRange] = useState<DateRange | null>(null);
+  const [datePreset, setDatePreset] = useState<DateRangePreset>('today');
   const [showForm, setShowForm] = useState(false);
   const [editingReservation, setEditingReservation] = useState<Reservation | undefined>();
+
+  // Reset keys to force component remounting
+  const [resetKeys, setResetKeys] = useState<PageResetKeys>({
+    reservations: 0,
+    customers: 0,
+    designers: 0,
+    settings: 0,
+  });
+
+  // App lock
+  const { isLocked, unlock, refreshSettings } = useAppLock();
+
+  // Unsaved changes context
+  const { checkAndNavigate, setHasUnsavedChanges } = useUnsavedChanges();
 
   useEffect(() => {
     if (currentPage === 'reservations') {
       loadReservations();
     }
-  }, [currentPage, selectedDate]);
+  }, [currentPage, selectedDate, dateRange]);
+
+  // Show lock screen if locked
+  if (isLocked) {
+    return <LockScreen onUnlock={unlock} />;
+  }
 
   const loadReservations = async () => {
     try {
-      const data = await reservationApi.getAll(selectedDate);
+      let data: Reservation[];
+      if (dateRange) {
+        // Use date range filter
+        data = await reservationApi.getAll(undefined, dateRange.from, dateRange.to);
+      } else {
+        // Use single date filter
+        data = await reservationApi.getAll(selectedDate);
+      }
       setReservations(data);
     } catch (error) {
       console.error('Failed to load reservations:', error);
     }
   };
 
+  const handleDateRangeChange = (range: DateRange | null, preset: DateRangePreset) => {
+    setDateRange(range);
+    setDatePreset(preset);
+  };
+
   const handleFormSubmit = () => {
     setShowForm(false);
     setEditingReservation(undefined);
+    setHasUnsavedChanges(false);
     loadReservations();
   };
 
@@ -51,42 +100,65 @@ function App() {
   const handleCancel = () => {
     setShowForm(false);
     setEditingReservation(undefined);
+    setHasUnsavedChanges(false);
   };
 
-  const handleNavigate = (page: string) => {
-    setCurrentPage(page as Page);
-  };
-
-  const formatDate = (dateStr: string) => {
-    const date = new Date(dateStr);
-    const options: Intl.DateTimeFormatOptions = {
-      month: 'long',
-      day: 'numeric',
-      weekday: 'short',
+  const handleNavigate = useCallback((page: string) => {
+    const doNavigate = () => {
+      setCurrentPage(page as Page);
+      setHasUnsavedChanges(false);
     };
-    return date.toLocaleDateString('ko-KR', options);
-  };
+
+    checkAndNavigate(doNavigate);
+  }, [checkAndNavigate, setHasUnsavedChanges]);
+
+  const handleResetTab = useCallback((page: string) => {
+    const doReset = () => {
+      // Increment reset key to force component remount
+      setResetKeys(prev => ({
+        ...prev,
+        [page]: prev[page as keyof PageResetKeys] + 1,
+      }));
+      // Clear any unsaved changes
+      setHasUnsavedChanges(false);
+
+      // Page-specific reset logic
+      if (page === 'reservations') {
+        // Reset to today
+        const today = new Date();
+        setSelectedDate(today.toISOString().split('T')[0]);
+        setDateRange(null);
+        setDatePreset('today');
+        setShowForm(false);
+        setEditingReservation(undefined);
+      } else if (page === 'settings') {
+        // Settings will reset to main menu via key change
+      }
+    };
+
+    checkAndNavigate(doReset);
+  }, [checkAndNavigate, setHasUnsavedChanges]);
 
   const renderContent = () => {
     switch (currentPage) {
       case 'reservations':
         return (
-          <div className="space-y-6">
+          <div className="space-y-6" key={`reservations-${resetKeys.reservations}`}>
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div className="flex flex-col sm:flex-row sm:items-center gap-3">
                 <h2 className="heading-2">예약 관리</h2>
-                <div className="flex items-center gap-2">
-                  <input
-                    type="date"
-                    value={selectedDate}
-                    onChange={(e) => setSelectedDate(e.target.value)}
-                    className="input py-2 px-3 w-auto"
-                  />
-                  <span className="text-sm text-gray-500 hidden sm:block">
-                    {formatDate(selectedDate)}
+                <DateRangeFilter
+                  selectedDate={selectedDate}
+                  onDateChange={setSelectedDate}
+                  onDateRangeChange={handleDateRangeChange}
+                  currentPreset={datePreset}
+                />
+                {dateRange && (
+                  <span className="text-xs text-gray-500 dark:text-gray-400">
+                    {reservations.length}건
                   </span>
-                </div>
+                )}
               </div>
               <button
                 onClick={() => {
@@ -122,8 +194,11 @@ function App() {
           </div>
         );
 
+      case 'customers':
+        return <CustomerManagement key={`customers-${resetKeys.customers}`} />;
+
       case 'designers':
-        return <DesignerManagement />;
+        return <DesignerManagement key={`designers-${resetKeys.designers}`} />;
 
       case 'business-hours':
         return <BusinessHours />;
@@ -132,7 +207,7 @@ function App() {
         return <StatisticsDashboard />;
 
       case 'settings':
-        return <SettingsPage />;
+        return <SettingsPage key={`settings-${resetKeys.settings}`} onLockSettingsChange={refreshSettings} />;
 
       default:
         return null;
@@ -140,9 +215,24 @@ function App() {
   };
 
   return (
-    <ResponsiveContainer currentPage={currentPage} onNavigate={handleNavigate}>
-      {renderContent()}
-    </ResponsiveContainer>
+    <>
+      <ResponsiveContainer
+        currentPage={currentPage}
+        onNavigate={handleNavigate}
+        onResetTab={handleResetTab}
+      >
+        {renderContent()}
+      </ResponsiveContainer>
+      <UnsavedChangesDialog />
+    </>
+  );
+}
+
+function App() {
+  return (
+    <UnsavedChangesProvider>
+      <AppContent />
+    </UnsavedChangesProvider>
   );
 }
 

@@ -197,6 +197,20 @@ body {
     transform: translateY(0);
   }
 
+  /* Simple Card (non-glass) */
+  .card {
+    background: white;
+    border-radius: 16px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    overflow: hidden;
+  }
+
+  .dark .card {
+    background: rgba(30, 30, 45, 0.8);
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+
   /* === Buttons === */
   .btn {
     display: inline-flex;
@@ -889,7 +903,8 @@ body {
 }
 
 /* Animation Utilities */
-.animate-fade-in {
+.animate-fade-in,
+.animate-fadeIn {
   animation: fadeIn 0.3s ease;
 }
 

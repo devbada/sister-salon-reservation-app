@@ -439,6 +439,45 @@ src-tauri/target/release/bundle/
 └── android/      # Android APK/AAB
 ```
 
+### iOS Xcode 빌드 설정 (nvm 사용자)
+
+nvm을 사용하는 환경에서 Xcode로 iOS 빌드 시, npm/node 경로를 찾지 못하는 문제가 발생할 수 있습니다.
+
+#### 문제 증상
+```
+error: Build Rust Code: npm: command not found
+```
+
+#### 해결 방법
+
+1. Xcode에서 프로젝트 열기 (`src-tauri/gen/apple/`)
+2. 프로젝트 네비게이터에서 프로젝트 선택
+3. **Build Phases** 탭 선택
+4. **Build Rust Code** 스크립트 찾기
+5. 스크립트 시작 부분에 다음 코드 추가:
+
+```bash
+# nvm 환경 로드
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+# 또는 직접 PATH 설정 (nvm default 버전 사용 시)
+export PATH="$HOME/.nvm/versions/node/$(cat $HOME/.nvm/alias/default)/bin:$PATH"
+```
+
+#### 전체 스크립트 예시
+```bash
+#!/bin/bash
+# nvm PATH 설정
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+# 기존 Tauri 빌드 스크립트
+npm run tauri ios build -- --target aarch64-apple-ios
+```
+
+> **참고**: Homebrew로 설치한 node를 사용하는 경우에는 이 설정이 필요하지 않습니다.
+
 ## 마이그레이션 체크리스트
 
 ### Phase 1: 프로젝트 초기화 ✅ (2026-01-21)

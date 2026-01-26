@@ -30,6 +30,10 @@ pub fn run() {
             // 영업시간
             commands::business_hours::get_business_hours,
             commands::business_hours::update_business_hours,
+            // 휴일
+            commands::business_hours::get_holidays,
+            commands::business_hours::add_holiday,
+            commands::business_hours::delete_holiday,
             // 통계
             commands::statistics::get_statistics_summary,
             commands::statistics::get_daily_statistics,
@@ -45,6 +49,28 @@ pub fn run() {
             commands::backup::restore_backup,
             commands::backup::delete_backup,
             commands::backup::cleanup_old_backups,
+            commands::backup::is_icloud_available,
+            commands::backup::get_backup_debug_info,
+            // 고객
+            commands::customers::get_customers,
+            commands::customers::get_customer,
+            commands::customers::create_customer,
+            commands::customers::update_customer,
+            commands::customers::delete_customer,
+            commands::customers::search_customers,
+            commands::customers::get_customer_by_phone,
+            commands::customers::get_customer_reservations,
+            commands::customers::update_customer_visit_stats,
+            // 보안
+            commands::security::set_lock_pin,
+            commands::security::verify_lock_pin,
+            commands::security::remove_lock_pin,
+            commands::security::change_lock_pin,
+            commands::security::is_lock_enabled,
+            commands::security::get_lock_settings,
+            commands::security::update_lock_settings,
+            commands::security::authenticate_biometric,
+            commands::security::is_biometric_available,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

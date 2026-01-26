@@ -52,13 +52,22 @@ CREATE TABLE IF NOT EXISTS holidays (
 CREATE TABLE IF NOT EXISTS customers (
     id TEXT PRIMARY KEY,
     name TEXT NOT NULL,
-    phone TEXT,
+    phone TEXT UNIQUE,
     email TEXT,
+    birthdate TEXT,
+    gender TEXT CHECK(gender IN ('male', 'female', 'other') OR gender IS NULL),
+    preferred_designer_id TEXT REFERENCES designers(id),
+    preferred_service TEXT,
+    allergies TEXT,
+    total_visits INTEGER DEFAULT 0,
+    last_visit_date TEXT,
     notes TEXT,
-    created_at TEXT DEFAULT (datetime('now'))
+    created_at TEXT DEFAULT (datetime('now')),
+    updated_at TEXT DEFAULT (datetime('now'))
 );
 
 CREATE INDEX IF NOT EXISTS idx_customers_phone ON customers(phone);
+CREATE INDEX IF NOT EXISTS idx_customers_name ON customers(name);
 
 -- 예약 상태 이력 테이블
 CREATE TABLE IF NOT EXISTS reservation_status_history (

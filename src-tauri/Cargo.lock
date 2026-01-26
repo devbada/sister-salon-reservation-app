@@ -3445,11 +3445,12 @@ checksum = "56199f7ddabf13fe5074ce809e7d3f42b42ae711800501b5b16ea82ad029c39d"
 
 [[package]]
 name = "sisters-salon-reservation-app"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "bcrypt",
  "chrono",
  "keyring",
+ "libc",
  "objc",
  "rusqlite",
  "rust_xlsxwriter",
