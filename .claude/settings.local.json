@@ -32,7 +32,8 @@
       "Bash(tee:*)",
       "Bash(nm:*)",
       "Bash(git pull:*)",
-      "Bash(git rm:*)"
+      "Bash(git rm:*)",
+      "Bash(ios-deploy:*)"
     ]
   },
   "enableAllProjectMcpServers": true,
