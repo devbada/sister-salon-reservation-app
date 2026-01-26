@@ -33,7 +33,19 @@
       "Bash(nm:*)",
       "Bash(git pull:*)",
       "Bash(git rm:*)",
-      "Bash(ios-deploy:*)"
+      "Bash(ios-deploy:*)",
+      "Bash(rustup target add:*)",
+      "Bash(./gradlew clean:*)",
+      "Bash(echo:*)",
+      "Bash(java -version:*)",
+      "Bash(JAVA_HOME=/Users/minam.cho/.sdkman/candidates/java/current ./gradlew assembleRelease:*)",
+      "Bash(ANDROID_HOME=/Users/minam.cho/Library/Android/sdk ./gradlew:*)",
+      "Bash(ANDROID_HOME=/Users/minam.cho/Library/Android/sdk npm run tauri:android:build:*)",
+      "Bash(ls:*)",
+      "Bash(chmod:*)",
+      "Bash(xcodegen generate:*)",
+      "Bash(npx tauri:*)",
+      "Bash(ln:*)"
     ]
   },
   "enableAllProjectMcpServers": true,
