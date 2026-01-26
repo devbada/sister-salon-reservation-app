@@ -30,7 +30,10 @@
       "Bash(cargo check:*)",
       "Bash(npx tsc:*)",
       "Bash(tee:*)",
-      "Bash(nm:*)"
+      "Bash(nm:*)",
+      "Bash(git pull:*)",
+      "Bash(git rm:*)",
+      "Bash(ios-deploy:*)"
     ]
   },
   "enableAllProjectMcpServers": true,

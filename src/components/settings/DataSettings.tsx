@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { ChevronRight, Cloud, FileSpreadsheet, Upload, ArrowLeft } from 'lucide-react';
 import { BackupSettings } from './BackupSettings';
 import { ExportSettings } from './ExportSettings';
+import { SwipeableView } from '../common/SwipeableView';
 
 type DataSubPage = 'menu' | 'backup' | 'export' | 'import';
 
@@ -67,38 +68,42 @@ export function DataSettings() {
     }
   };
 
+  const handleBack = () => setSubPage('menu');
+
   if (subPage !== 'menu') {
     const currentItem = menuItems.find((item) => item.id === subPage);
     return (
-      <div className="space-y-4">
-        {/* Sub Header */}
-        <button
-          onClick={() => setSubPage('menu')}
-          className="flex items-center gap-2 text-gray-600 dark:text-gray-400
-                     hover:text-gray-900 dark:hover:text-white transition-colors"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          <span className="text-sm font-medium">데이터 관리</span>
-        </button>
+      <SwipeableView onBack={handleBack}>
+        <div className="space-y-4">
+          {/* Sub Header */}
+          <button
+            onClick={handleBack}
+            className="flex items-center gap-2 text-gray-600 dark:text-gray-400
+                       hover:text-gray-900 dark:hover:text-white transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            <span className="text-sm font-medium">데이터 관리</span>
+          </button>
 
-        {/* Sub Title */}
-        <div className="flex items-center gap-3 mb-2">
-          <div className={`p-2.5 rounded-xl ${currentItem?.iconBg}`}>
-            {currentItem?.icon}
+          {/* Sub Title */}
+          <div className="flex items-center gap-3 mb-2">
+            <div className={`p-2.5 rounded-xl ${currentItem?.iconBg}`}>
+              {currentItem?.icon}
+            </div>
+            <div>
+              <h3 className="font-semibold text-gray-800 dark:text-white">
+                {currentItem?.title}
+              </h3>
+              <p className="text-xs text-gray-500 dark:text-gray-400">
+                {currentItem?.subtitle}
+              </p>
+            </div>
           </div>
-          <div>
-            <h3 className="font-semibold text-gray-800 dark:text-white">
-              {currentItem?.title}
-            </h3>
-            <p className="text-xs text-gray-500 dark:text-gray-400">
-              {currentItem?.subtitle}
-            </p>
-          </div>
+
+          {/* Content */}
+          {renderSubPage()}
         </div>
-
-        {/* Content */}
-        {renderSubPage()}
-      </div>
+      </SwipeableView>
     );
   }
 

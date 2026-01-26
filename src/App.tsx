@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Plus } from 'lucide-react';
 import { reservationApi } from './lib/tauri';
 import { ResponsiveContainer } from './components/layout/ResponsiveContainer';
@@ -11,12 +11,23 @@ import { BusinessHours } from './components/business-hours/BusinessHours';
 import { StatisticsDashboard } from './components/statistics/StatisticsDashboard';
 import { SettingsPage } from './components/settings/SettingsPage';
 import { LockScreen } from './components/lock/LockScreen';
+import { UnsavedChangesProvider, useUnsavedChanges } from './contexts/UnsavedChangesContext';
+import { UnsavedChangesDialog } from './components/common/UnsavedChangesDialog';
 import { useAppLock } from './hooks/useAppLock';
 import type { Reservation } from './types';
 
 type Page = 'reservations' | 'customers' | 'designers' | 'business-hours' | 'statistics' | 'settings';
 
-function App() {
+// Reset state keys for each page
+type ResetKey = number;
+interface PageResetKeys {
+  reservations: ResetKey;
+  customers: ResetKey;
+  designers: ResetKey;
+  settings: ResetKey;
+}
+
+function AppContent() {
   const [currentPage, setCurrentPage] = useState<Page>('reservations');
   const [reservations, setReservations] = useState<Reservation[]>([]);
   const [selectedDate, setSelectedDate] = useState(() => {
@@ -28,8 +39,19 @@ function App() {
   const [showForm, setShowForm] = useState(false);
   const [editingReservation, setEditingReservation] = useState<Reservation | undefined>();
 
+  // Reset keys to force component remounting
+  const [resetKeys, setResetKeys] = useState<PageResetKeys>({
+    reservations: 0,
+    customers: 0,
+    designers: 0,
+    settings: 0,
+  });
+
   // App lock
   const { isLocked, unlock, refreshSettings } = useAppLock();
+
+  // Unsaved changes context
+  const { checkAndNavigate, setHasUnsavedChanges } = useUnsavedChanges();
 
   useEffect(() => {
     if (currentPage === 'reservations') {
@@ -66,6 +88,7 @@ function App() {
   const handleFormSubmit = () => {
     setShowForm(false);
     setEditingReservation(undefined);
+    setHasUnsavedChanges(false);
     loadReservations();
   };
 
@@ -77,17 +100,50 @@ function App() {
   const handleCancel = () => {
     setShowForm(false);
     setEditingReservation(undefined);
+    setHasUnsavedChanges(false);
   };
 
-  const handleNavigate = (page: string) => {
-    setCurrentPage(page as Page);
-  };
+  const handleNavigate = useCallback((page: string) => {
+    const doNavigate = () => {
+      setCurrentPage(page as Page);
+      setHasUnsavedChanges(false);
+    };
+
+    checkAndNavigate(doNavigate);
+  }, [checkAndNavigate, setHasUnsavedChanges]);
+
+  const handleResetTab = useCallback((page: string) => {
+    const doReset = () => {
+      // Increment reset key to force component remount
+      setResetKeys(prev => ({
+        ...prev,
+        [page]: prev[page as keyof PageResetKeys] + 1,
+      }));
+      // Clear any unsaved changes
+      setHasUnsavedChanges(false);
+
+      // Page-specific reset logic
+      if (page === 'reservations') {
+        // Reset to today
+        const today = new Date();
+        setSelectedDate(today.toISOString().split('T')[0]);
+        setDateRange(null);
+        setDatePreset('today');
+        setShowForm(false);
+        setEditingReservation(undefined);
+      } else if (page === 'settings') {
+        // Settings will reset to main menu via key change
+      }
+    };
+
+    checkAndNavigate(doReset);
+  }, [checkAndNavigate, setHasUnsavedChanges]);
 
   const renderContent = () => {
     switch (currentPage) {
       case 'reservations':
         return (
-          <div className="space-y-6">
+          <div className="space-y-6" key={`reservations-${resetKeys.reservations}`}>
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div className="flex flex-col sm:flex-row sm:items-center gap-3">
@@ -139,10 +195,10 @@ function App() {
         );
 
       case 'customers':
-        return <CustomerManagement />;
+        return <CustomerManagement key={`customers-${resetKeys.customers}`} />;
 
       case 'designers':
-        return <DesignerManagement />;
+        return <DesignerManagement key={`designers-${resetKeys.designers}`} />;
 
       case 'business-hours':
         return <BusinessHours />;
@@ -151,7 +207,7 @@ function App() {
         return <StatisticsDashboard />;
 
       case 'settings':
-        return <SettingsPage onLockSettingsChange={refreshSettings} />;
+        return <SettingsPage key={`settings-${resetKeys.settings}`} onLockSettingsChange={refreshSettings} />;
 
       default:
         return null;
@@ -159,9 +215,24 @@ function App() {
   };
 
   return (
-    <ResponsiveContainer currentPage={currentPage} onNavigate={handleNavigate}>
-      {renderContent()}
-    </ResponsiveContainer>
+    <>
+      <ResponsiveContainer
+        currentPage={currentPage}
+        onNavigate={handleNavigate}
+        onResetTab={handleResetTab}
+      >
+        {renderContent()}
+      </ResponsiveContainer>
+      <UnsavedChangesDialog />
+    </>
+  );
+}
+
+function App() {
+  return (
+    <UnsavedChangesProvider>
+      <AppContent />
+    </UnsavedChangesProvider>
   );
 }
 
