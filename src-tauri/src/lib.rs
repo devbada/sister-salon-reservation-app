@@ -45,6 +45,8 @@ pub fn run() {
             commands::backup::restore_backup,
             commands::backup::delete_backup,
             commands::backup::cleanup_old_backups,
+            commands::backup::is_icloud_available,
+            commands::backup::get_backup_debug_info,
             // 고객
             commands::customers::get_customers,
             commands::customers::get_customer,

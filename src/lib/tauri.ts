@@ -30,7 +30,8 @@ interface CreateReservationInput {
 
 // 예약 관리
 export const reservationApi = {
-  getAll: (date?: string) => invoke<Reservation[]>('get_reservations', { date }),
+  getAll: (date?: string, dateFrom?: string, dateTo?: string) =>
+    invoke<Reservation[]>('get_reservations', { date, dateFrom, dateTo }),
   getById: (id: string) => invoke<Reservation>('get_reservation', { id }),
   create: (data: CreateReservationInput) =>
     invoke<Reservation>('create_reservation', { data }),
@@ -101,8 +102,12 @@ export const backupApi = {
   create: (service: CloudService) => invoke<BackupInfo>('create_backup', { service }),
   restore: (backupFilename: string, service: CloudService) =>
     invoke<void>('restore_backup', { backupFilename, service }),
-  delete: (backupFilename: string) => invoke<void>('delete_backup', { backupFilename }),
-  cleanup: (keepCount: number) => invoke<void>('cleanup_old_backups', { keepCount }),
+  delete: (backupFilename: string, service: CloudService) =>
+    invoke<void>('delete_backup', { backupFilename, service }),
+  cleanup: (keepCount: number, service: CloudService) =>
+    invoke<void>('cleanup_old_backups', { keepCount, service }),
+  isIcloudAvailable: () => invoke<boolean>('is_icloud_available'),
+  getDebugInfo: (service: CloudService) => invoke<string>('get_backup_debug_info', { service }),
 };
 
 // 보안

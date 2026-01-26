@@ -4,6 +4,7 @@ import { reservationApi } from './lib/tauri';
 import { ResponsiveContainer } from './components/layout/ResponsiveContainer';
 import { AppointmentForm } from './components/reservation/AppointmentForm';
 import { ReservationTable } from './components/reservation/ReservationTable';
+import { DateRangeFilter, type DateRange, type DateRangePreset } from './components/reservation/DateRangeFilter';
 import { CustomerManagement } from './components/customer/CustomerManagement';
 import { DesignerManagement } from './components/designer/DesignerManagement';
 import { BusinessHours } from './components/business-hours/BusinessHours';
@@ -22,6 +23,8 @@ function App() {
     const today = new Date();
     return today.toISOString().split('T')[0];
   });
+  const [dateRange, setDateRange] = useState<DateRange | null>(null);
+  const [datePreset, setDatePreset] = useState<DateRangePreset>('today');
   const [showForm, setShowForm] = useState(false);
   const [editingReservation, setEditingReservation] = useState<Reservation | undefined>();
 
@@ -32,7 +35,7 @@ function App() {
     if (currentPage === 'reservations') {
       loadReservations();
     }
-  }, [currentPage, selectedDate]);
+  }, [currentPage, selectedDate, dateRange]);
 
   // Show lock screen if locked
   if (isLocked) {
@@ -41,11 +44,23 @@ function App() {
 
   const loadReservations = async () => {
     try {
-      const data = await reservationApi.getAll(selectedDate);
+      let data: Reservation[];
+      if (dateRange) {
+        // Use date range filter
+        data = await reservationApi.getAll(undefined, dateRange.from, dateRange.to);
+      } else {
+        // Use single date filter
+        data = await reservationApi.getAll(selectedDate);
+      }
       setReservations(data);
     } catch (error) {
       console.error('Failed to load reservations:', error);
     }
+  };
+
+  const handleDateRangeChange = (range: DateRange | null, preset: DateRangePreset) => {
+    setDateRange(range);
+    setDatePreset(preset);
   };
 
   const handleFormSubmit = () => {
@@ -68,16 +83,6 @@ function App() {
     setCurrentPage(page as Page);
   };
 
-  const formatDate = (dateStr: string) => {
-    const date = new Date(dateStr);
-    const options: Intl.DateTimeFormatOptions = {
-      month: 'long',
-      day: 'numeric',
-      weekday: 'short',
-    };
-    return date.toLocaleDateString('ko-KR', options);
-  };
-
   const renderContent = () => {
     switch (currentPage) {
       case 'reservations':
@@ -87,17 +92,17 @@ function App() {
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div className="flex flex-col sm:flex-row sm:items-center gap-3">
                 <h2 className="heading-2">예약 관리</h2>
-                <div className="flex items-center gap-2">
-                  <input
-                    type="date"
-                    value={selectedDate}
-                    onChange={(e) => setSelectedDate(e.target.value)}
-                    className="input py-2 px-3 w-auto"
-                  />
-                  <span className="text-sm text-gray-500 hidden sm:block">
-                    {formatDate(selectedDate)}
+                <DateRangeFilter
+                  selectedDate={selectedDate}
+                  onDateChange={setSelectedDate}
+                  onDateRangeChange={handleDateRangeChange}
+                  currentPreset={datePreset}
+                />
+                {dateRange && (
+                  <span className="text-xs text-gray-500 dark:text-gray-400">
+                    {reservations.length}건
                   </span>
-                </div>
+                )}
               </div>
               <button
                 onClick={() => {

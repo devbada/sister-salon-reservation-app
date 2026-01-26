@@ -50,12 +50,15 @@ fn row_to_reservation(row: &rusqlite::Row) -> rusqlite::Result<Reservation> {
 #[tauri::command]
 pub fn get_reservations(
     date: Option<String>,
+    date_from: Option<String>,
+    date_to: Option<String>,
     db: State<DbState>,
 ) -> Result<Vec<Reservation>, String> {
     let db = db.0.lock().map_err(|e| e.to_string())?;
     let conn = db.conn();
 
     let reservations = if let Some(d) = date {
+        // Single date filter (for calendar view)
         let mut stmt = conn
             .prepare("SELECT * FROM reservations WHERE date = ?1 ORDER BY time")
             .map_err(|e| e.to_string())?;
@@ -63,7 +66,40 @@ pub fn get_reservations(
             .query_map([d], |row| row_to_reservation(row))
             .map_err(|e| e.to_string())?;
         rows.filter_map(|r| r.ok()).collect()
+    } else if date_from.is_some() || date_to.is_some() {
+        // Date range filter
+        match (date_from, date_to) {
+            (Some(from), Some(to)) => {
+                let mut stmt = conn
+                    .prepare("SELECT * FROM reservations WHERE date >= ?1 AND date <= ?2 ORDER BY date DESC, time")
+                    .map_err(|e| e.to_string())?;
+                let rows = stmt
+                    .query_map([from, to], |row| row_to_reservation(row))
+                    .map_err(|e| e.to_string())?;
+                rows.filter_map(|r| r.ok()).collect()
+            }
+            (Some(from), None) => {
+                let mut stmt = conn
+                    .prepare("SELECT * FROM reservations WHERE date >= ?1 ORDER BY date DESC, time")
+                    .map_err(|e| e.to_string())?;
+                let rows = stmt
+                    .query_map([from], |row| row_to_reservation(row))
+                    .map_err(|e| e.to_string())?;
+                rows.filter_map(|r| r.ok()).collect()
+            }
+            (None, Some(to)) => {
+                let mut stmt = conn
+                    .prepare("SELECT * FROM reservations WHERE date <= ?1 ORDER BY date DESC, time")
+                    .map_err(|e| e.to_string())?;
+                let rows = stmt
+                    .query_map([to], |row| row_to_reservation(row))
+                    .map_err(|e| e.to_string())?;
+                rows.filter_map(|r| r.ok()).collect()
+            }
+            _ => vec![]
+        }
     } else {
+        // No filter - return all reservations
         let mut stmt = conn
             .prepare("SELECT * FROM reservations ORDER BY date DESC, time")
             .map_err(|e| e.to_string())?;
