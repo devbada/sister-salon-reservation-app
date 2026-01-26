@@ -1,5 +1,10 @@
 import { ReactNode, useEffect, useRef, useState } from 'react';
 
+// Stack to track SwipeableView instances
+// The topmost (last) one handles gestures
+const instanceStack: number[] = [];
+let instanceCounter = 0;
+
 interface SwipeableViewProps {
   children: ReactNode;
   onBack: () => void;
@@ -12,73 +17,95 @@ export function SwipeableView({
   disabled = false,
 }: SwipeableViewProps) {
   const [translateX, setTranslateX] = useState(0);
-  const [isActive, setIsActive] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const instanceIdRef = useRef<number | null>(null);
 
   const startXRef = useRef(0);
   const currentXRef = useRef(0);
   const isTrackingRef = useRef(false);
 
+  // Register this instance on mount, remove on unmount
+  useEffect(() => {
+    instanceCounter++;
+    const myId = instanceCounter;
+    instanceIdRef.current = myId;
+    instanceStack.push(myId);
+
+    return () => {
+      // Remove this instance from the stack
+      const index = instanceStack.indexOf(myId);
+      if (index !== -1) {
+        instanceStack.splice(index, 1);
+      }
+    };
+  }, []);
+
   useEffect(() => {
     if (disabled) return;
 
     const screenWidth = window.innerWidth;
-    const edgeWidth = 40; // 40px from left edge
-    const threshold = 0.25; // 25% of screen width
+    const edgeWidth = 30;
+    const threshold = 0.3;
+
+    const isActiveInstance = () => {
+      // This instance is active if it's the last one in the stack
+      return instanceStack.length > 0 && instanceStack[instanceStack.length - 1] === instanceIdRef.current;
+    };
 
     const handleTouchStart = (e: TouchEvent) => {
+      if (!isActiveInstance()) return;
+      if (isAnimating) return;
+
       const touch = e.touches[0];
       const startX = touch.clientX;
 
-      // Start tracking if touch is near left edge
       if (startX <= edgeWidth) {
         isTrackingRef.current = true;
         startXRef.current = startX;
         currentXRef.current = startX;
-        setIsActive(true);
       }
     };
 
     const handleTouchMove = (e: TouchEvent) => {
-      if (!isTrackingRef.current) return;
+      if (!isActiveInstance()) return;
+      if (!isTrackingRef.current || isAnimating) return;
 
       const touch = e.touches[0];
       const currentX = touch.clientX;
       const deltaX = currentX - startXRef.current;
 
-      // Only allow rightward swipe
       if (deltaX > 0) {
         currentXRef.current = currentX;
         setTranslateX(deltaX);
-
-        // Prevent scrolling while swiping
         e.preventDefault();
       }
     };
 
     const handleTouchEnd = () => {
-      if (!isTrackingRef.current) return;
+      if (!isActiveInstance()) return;
+      if (!isTrackingRef.current || isAnimating) return;
 
       const deltaX = currentXRef.current - startXRef.current;
       const progress = deltaX / screenWidth;
 
+      isTrackingRef.current = false;
+      setIsAnimating(true);
+
       if (progress >= threshold) {
-        // Animate out and go back
         setTranslateX(screenWidth);
         setTimeout(() => {
           onBack();
           setTranslateX(0);
-          setIsActive(false);
-        }, 150);
+          setIsAnimating(false);
+        }, 250);
       } else {
-        // Snap back
         setTranslateX(0);
-        setIsActive(false);
+        setTimeout(() => {
+          setIsAnimating(false);
+        }, 200);
       }
-
-      isTrackingRef.current = false;
     };
 
-    // Add touch listeners to document to capture all touches
     document.addEventListener('touchstart', handleTouchStart, { passive: true });
     document.addEventListener('touchmove', handleTouchMove, { passive: false });
     document.addEventListener('touchend', handleTouchEnd, { passive: true });
@@ -88,41 +115,16 @@ export function SwipeableView({
       document.removeEventListener('touchmove', handleTouchMove);
       document.removeEventListener('touchend', handleTouchEnd);
     };
-  }, [disabled, onBack]);
-
-  const progress = translateX / (typeof window !== 'undefined' ? window.innerWidth : 375);
+  }, [disabled, onBack, isAnimating]);
 
   return (
-    <>
-      {/* Dark overlay */}
-      {isActive && (
-        <div
-          className="fixed inset-0 bg-black z-40 pointer-events-none"
-          style={{ opacity: 0.3 * (1 - progress) }}
-        />
-      )}
-
-      {/* Content wrapper */}
-      <div
-        className="relative"
-        style={{
-          transform: `translateX(${translateX}px)`,
-          transition: isActive ? 'none' : 'transform 0.2s cubic-bezier(0.2, 0, 0, 1)',
-        }}
-      >
-        {/* Left edge visual indicator */}
-        {isActive && (
-          <div
-            className="fixed left-0 top-0 bottom-0 w-1 bg-primary-500 z-50"
-            style={{
-              opacity: Math.min(progress * 3, 1),
-              transform: `translateX(${translateX}px)`,
-            }}
-          />
-        )}
-
-        {children}
-      </div>
-    </>
+    <div
+      style={{
+        transform: translateX > 0 ? `translateX(${translateX}px)` : 'none',
+        transition: isAnimating ? 'transform 0.25s cubic-bezier(0.2, 0, 0, 1)' : 'none',
+      }}
+    >
+      {children}
+    </div>
   );
 }
