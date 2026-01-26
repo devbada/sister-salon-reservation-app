@@ -3,53 +3,65 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 63;
+	objectVersion = 77;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0D84EA814D5495C246821F16 /* libapp.a in Resources */ = {isa = PBXBuildFile; fileRef = 99AC52BBA141F1F1F70AD0D6 /* libapp.a */; };
 		218D029A90BFE2CDCC0C46B0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4B330573E685A1E8525BE10C /* LaunchScreen.storyboard */; };
 		225C7AE14131782683CC257C /* assets in Resources */ = {isa = PBXBuildFile; fileRef = CD9522AFD535D7AAD74C7C68 /* assets */; };
 		34B556CAE0691CD351273108 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E0A46895CFE0B5C4F1D43E0 /* QuartzCore.framework */; };
 		4E7C5E6C3A7B295725ADEAEB /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEC9776B4EA0A5DDD2BF3C4E /* MetalKit.framework */; };
 		5135E94D8DCF22F007D7619C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 755F2F06DFBBBC34EC1449C4 /* Assets.xcassets */; };
-		AABBCC001122334455667788 /* SalonCloudKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABBCC001122334455667789 /* SalonCloudKit.swift */; };
-		AABBCC00112233445566778A /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AABBCC00112233445566778B /* CloudKit.framework */; };
 		C96E2FBB97589A6302B92FEC /* libapp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BB5A994956CCEC34D8A2EF68 /* libapp.a */; };
 		CD52797F9C72F00550E67CDF /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 886528C88ECB06FE26291060 /* main.mm */; };
 		CDA4A90396972E59E8C75C2B /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B72D9C6805CC44EA7A19CEB /* WebKit.framework */; };
 		D1504FB3B0BD9CB8C76A2F07 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1953EA32432285BA4A0022B2 /* CoreGraphics.framework */; };
+		DC5494FD3A82ACB905117FB0 /* SalonCloudKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52DC2E84618D238A61687C7E /* SalonCloudKit.swift */; };
 		EA405BA69AF660AB50599E96 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12A7808775E4A31262908356 /* UIKit.framework */; };
 		EE417F40CA9EC2BD4C302D8E /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ED25F1A4F44E2D3C053E9C7 /* Metal.framework */; };
 		F1865D4C88117B1425090DBC /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A065D506859CEDFBF1DDF211 /* Security.framework */; };
+		F2CBC5B745F57637556B0DED /* libapp.a in Resources */ = {isa = PBXBuildFile; fileRef = C9A4AFCEC8FB2CCF839E6B8D /* libapp.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		12A7808775E4A31262908356 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		1377FB64426BB0133C1938BF /* mod.rs */ = {isa = PBXFileReference; lastKnownFileType = text; path = mod.rs; sourceTree = "<group>"; };
+		1377FB64426BB0133C1938BF /* mod.rs */ = {isa = PBXFileReference; path = mod.rs; sourceTree = "<group>"; };
 		1953EA32432285BA4A0022B2 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		3685959CD318C4039F136F0D /* mod.rs */ = {isa = PBXFileReference; lastKnownFileType = text; path = mod.rs; sourceTree = "<group>"; };
+		1BA7B818E66CD7E515D704EE /* backup.rs */ = {isa = PBXFileReference; path = backup.rs; sourceTree = "<group>"; };
+		3443038E5301CC43CC759529 /* export.rs */ = {isa = PBXFileReference; path = export.rs; sourceTree = "<group>"; };
+		3685959CD318C4039F136F0D /* mod.rs */ = {isa = PBXFileReference; path = mod.rs; sourceTree = "<group>"; };
+		3763CF89A9D8AF4119941064 /* mod.rs */ = {isa = PBXFileReference; path = mod.rs; sourceTree = "<group>"; };
+		41DE0E24C0ED5F98D3F8A3B8 /* statistics.rs */ = {isa = PBXFileReference; path = statistics.rs; sourceTree = "<group>"; };
 		4B330573E685A1E8525BE10C /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
-		4DBB1D18596C8A69FAFF82D3 /* Sisters Salon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Sisters Salon.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4DBB1D18596C8A69FAFF82D3 /* sisters-salon-reservation-app_iOS.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = "sisters-salon-reservation-app_iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		52DC2E84618D238A61687C7E /* SalonCloudKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalonCloudKit.swift; sourceTree = "<group>"; };
 		5E0A46895CFE0B5C4F1D43E0 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		634DD005A0B49E8AB2759381 /* schema.rs */ = {isa = PBXFileReference; lastKnownFileType = text; path = schema.rs; sourceTree = "<group>"; };
-		693855AD2A35ADDFF979C27A /* main.rs */ = {isa = PBXFileReference; lastKnownFileType = text; path = main.rs; sourceTree = "<group>"; };
+		634DD005A0B49E8AB2759381 /* schema.rs */ = {isa = PBXFileReference; path = schema.rs; sourceTree = "<group>"; };
+		693855AD2A35ADDFF979C27A /* main.rs */ = {isa = PBXFileReference; path = main.rs; sourceTree = "<group>"; };
 		6B72D9C6805CC44EA7A19CEB /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		755F2F06DFBBBC34EC1449C4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		786C6491C3D43681392DFB11 /* sisters-salon-reservation-app_iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "sisters-salon-reservation-app_iOS.entitlements"; sourceTree = "<group>"; };
 		886528C88ECB06FE26291060 /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
-		9837143B4FBBB6AF9F4D5B4F /* designers.rs */ = {isa = PBXFileReference; lastKnownFileType = text; path = designers.rs; sourceTree = "<group>"; };
+		8D068F6F8298954BC6578156 /* backup.rs */ = {isa = PBXFileReference; path = backup.rs; sourceTree = "<group>"; };
+		9837143B4FBBB6AF9F4D5B4F /* designers.rs */ = {isa = PBXFileReference; path = designers.rs; sourceTree = "<group>"; };
+		99AC52BBA141F1F1F70AD0D6 /* libapp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libapp.a; sourceTree = "<group>"; };
 		9ED25F1A4F44E2D3C053E9C7 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
 		A065D506859CEDFBF1DDF211 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		A1D3035DA2F2584426A44BCE /* business_hours.rs */ = {isa = PBXFileReference; lastKnownFileType = text; path = business_hours.rs; sourceTree = "<group>"; };
-		AABBCC001122334455667789 /* SalonCloudKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalonCloudKit.swift; sourceTree = "<group>"; };
-		AABBCC00112233445566778B /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		A1D3035DA2F2584426A44BCE /* business_hours.rs */ = {isa = PBXFileReference; path = business_hours.rs; sourceTree = "<group>"; };
+		AF84FAFAC768327BA1E8C285 /* customers.rs */ = {isa = PBXFileReference; path = customers.rs; sourceTree = "<group>"; };
 		BB5A994956CCEC34D8A2EF68 /* libapp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libapp.a; sourceTree = "<group>"; };
-		BC31CAEEA1B8CB3F97720A9E /* reservations.rs */ = {isa = PBXFileReference; lastKnownFileType = text; path = reservations.rs; sourceTree = "<group>"; };
+		BC31CAEEA1B8CB3F97720A9E /* reservations.rs */ = {isa = PBXFileReference; path = reservations.rs; sourceTree = "<group>"; };
+		BD5EF34D25F65612D5901A0D /* cloudkit.rs */ = {isa = PBXFileReference; path = cloudkit.rs; sourceTree = "<group>"; };
+		C78F75CC73812C738EF68589 /* security.rs */ = {isa = PBXFileReference; path = security.rs; sourceTree = "<group>"; };
+		C9A4AFCEC8FB2CCF839E6B8D /* libapp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libapp.a; sourceTree = "<group>"; };
 		CD9522AFD535D7AAD74C7C68 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = SOURCE_ROOT; };
 		CEC9776B4EA0A5DDD2BF3C4E /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
-		D4542DFA7C84616A98022F31 /* lib.rs */ = {isa = PBXFileReference; lastKnownFileType = text; path = lib.rs; sourceTree = "<group>"; };
+		CF459496C5064CEBBBFCF8E5 /* auth.rs */ = {isa = PBXFileReference; path = auth.rs; sourceTree = "<group>"; };
+		D4542DFA7C84616A98022F31 /* lib.rs */ = {isa = PBXFileReference; path = lib.rs; sourceTree = "<group>"; };
 		D69A9D87B0E9221A69183C6D /* bindings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bindings.h; sourceTree = "<group>"; };
 		ECD52C8FE50C9B61609CFF73 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		FDB139B223A00BE16185863D /* excel.rs */ = {isa = PBXFileReference; path = excel.rs; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,7 +69,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AABBCC00112233445566778A /* CloudKit.framework in Frameworks */,
 				C96E2FBB97589A6302B92FEC /* libapp.a in Frameworks */,
 				D1504FB3B0BD9CB8C76A2F07 /* CoreGraphics.framework in Frameworks */,
 				EE417F40CA9EC2BD4C302D8E /* Metal.framework in Frameworks */,
@@ -85,15 +96,24 @@
 			isa = PBXGroup;
 			children = (
 				ECD52C8FE50C9B61609CFF73 /* Info.plist */,
-				AABBCC001122334455667789 /* SalonCloudKit.swift */,
+				52DC2E84618D238A61687C7E /* SalonCloudKit.swift */,
 				786C6491C3D43681392DFB11 /* sisters-salon-reservation-app_iOS.entitlements */,
 			);
 			path = "sisters-salon-reservation-app_iOS";
 			sourceTree = "<group>";
 		};
+		2401E7D761A5802EAF46A0D6 /* debug */ = {
+			isa = PBXGroup;
+			children = (
+				99AC52BBA141F1F1F70AD0D6 /* libapp.a */,
+			);
+			path = debug;
+			sourceTree = "<group>";
+		};
 		629CFA18E6AA6EAA973D4F91 /* Externals */ = {
 			isa = PBXGroup;
 			children = (
+				8A6FB0A66625D78EAF25FB0A /* arm64 */,
 			);
 			path = Externals;
 			sourceTree = "<group>";
@@ -114,15 +134,33 @@
 				693855AD2A35ADDFF979C27A /* main.rs */,
 				D45C34C642B88BA145EEF1BF /* commands */,
 				10FF90207BBCCBABB1EBC710 /* db */,
+				CD7517105EEEC8F29F7B49F6 /* services */,
 			);
 			name = src;
 			path = ../../src;
 			sourceTree = "<group>";
 		};
+		89ECB982CB3C43BA5D544004 /* release */ = {
+			isa = PBXGroup;
+			children = (
+				C9A4AFCEC8FB2CCF839E6B8D /* libapp.a */,
+			);
+			path = release;
+			sourceTree = "<group>";
+		};
+		8A6FB0A66625D78EAF25FB0A /* arm64 */ = {
+			isa = PBXGroup;
+			children = (
+				2401E7D761A5802EAF46A0D6 /* debug */,
+				89ECB982CB3C43BA5D544004 /* release */,
+			);
+			path = arm64;
+			sourceTree = "<group>";
+		};
 		AA8AFA4687124DD727D68BEA /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				4DBB1D18596C8A69FAFF82D3 /* Sisters Salon.app */,
+				4DBB1D18596C8A69FAFF82D3 /* sisters-salon-reservation-app_iOS.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -150,13 +188,30 @@
 			);
 			sourceTree = "<group>";
 		};
+		CD7517105EEEC8F29F7B49F6 /* services */ = {
+			isa = PBXGroup;
+			children = (
+				CF459496C5064CEBBBFCF8E5 /* auth.rs */,
+				8D068F6F8298954BC6578156 /* backup.rs */,
+				BD5EF34D25F65612D5901A0D /* cloudkit.rs */,
+				FDB139B223A00BE16185863D /* excel.rs */,
+				3763CF89A9D8AF4119941064 /* mod.rs */,
+			);
+			path = services;
+			sourceTree = "<group>";
+		};
 		D45C34C642B88BA145EEF1BF /* commands */ = {
 			isa = PBXGroup;
 			children = (
+				1BA7B818E66CD7E515D704EE /* backup.rs */,
 				A1D3035DA2F2584426A44BCE /* business_hours.rs */,
+				AF84FAFAC768327BA1E8C285 /* customers.rs */,
 				9837143B4FBBB6AF9F4D5B4F /* designers.rs */,
+				3443038E5301CC43CC759529 /* export.rs */,
 				3685959CD318C4039F136F0D /* mod.rs */,
 				BC31CAEEA1B8CB3F97720A9E /* reservations.rs */,
+				C78F75CC73812C738EF68589 /* security.rs */,
+				41DE0E24C0ED5F98D3F8A3B8 /* statistics.rs */,
 			);
 			path = commands;
 			sourceTree = "<group>";
@@ -172,7 +227,6 @@
 		E7C3FBF45DB20CB92CFBD047 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				AABBCC00112233445566778B /* CloudKit.framework */,
 				1953EA32432285BA4A0022B2 /* CoreGraphics.framework */,
 				BB5A994956CCEC34D8A2EF68 /* libapp.a */,
 				9ED25F1A4F44E2D3C053E9C7 /* Metal.framework */,
@@ -183,6 +237,20 @@
 				6B72D9C6805CC44EA7A19CEB /* WebKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		"TEMP_2738F1E7-109D-48B0-869A-07D27C8B3AA0" /* components */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = components;
+			sourceTree = "<group>";
+		};
+		"TEMP_A2BC3FF0-B316-4CC5-9596-1223462B6CEE" /* x86_64 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = x86_64;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -205,7 +273,7 @@
 			packageProductDependencies = (
 			);
 			productName = "sisters-salon-reservation-app_iOS";
-			productReference = 4DBB1D18596C8A69FAFF82D3 /* Sisters Salon.app */;
+			productReference = 4DBB1D18596C8A69FAFF82D3 /* sisters-salon-reservation-app_iOS.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -216,11 +284,6 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
-				TargetAttributes = {
-					485CFD866453546C673A67BF = {
-						LastSwiftMigration = 2620;
-					};
-				};
 			};
 			buildConfigurationList = 47F09524BF89B670A7A44189 /* Build configuration list for PBXProject "sisters-salon-reservation-app" */;
 			compatibilityVersion = "Xcode 14.0";
@@ -232,6 +295,7 @@
 			);
 			mainGroup = CD29F1EEA836C45584C5D3DA;
 			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -248,6 +312,8 @@
 				5135E94D8DCF22F007D7619C /* Assets.xcassets in Resources */,
 				218D029A90BFE2CDCC0C46B0 /* LaunchScreen.storyboard in Resources */,
 				225C7AE14131782683CC257C /* assets in Resources */,
+				F2CBC5B745F57637556B0DED /* libapp.a in Resources */,
+				0D84EA814D5495C246821F16 /* libapp.a in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,7 +339,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NVM_DIR=\"$HOME/.nvm\"\n[ -s \"$NVM_DIR/nvm.sh\" ] && \\. \"$NVM_DIR/nvm.sh\"\n\nnpm run -- tauri ios xcode-script -v --platform ${PLATFORM_DISPLAY_NAME:?} --sdk-root ${SDKROOT:?} --framework-search-paths \"${FRAMEWORK_SEARCH_PATHS:?}\" --header-search-paths \"${HEADER_SEARCH_PATHS:?}\" --gcc-preprocessor-definitions \"${GCC_PREPROCESSOR_DEFINITIONS:-}\" --configuration ${CONFIGURATION:?} ${FORCE_COLOR} ${ARCHS:?}\n";
+			shellScript = "npm run -- tauri ios xcode-script -v --platform ${PLATFORM_DISPLAY_NAME:?} --sdk-root ${SDKROOT:?} --framework-search-paths \"${FRAMEWORK_SEARCH_PATHS:?}\" --header-search-paths \"${HEADER_SEARCH_PATHS:?}\" --gcc-preprocessor-definitions \"${GCC_PREPROCESSOR_DEFINITIONS:-}\" --configuration ${CONFIGURATION:?} ${FORCE_COLOR} ${ARCHS:?}";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -282,7 +348,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AABBCC001122334455667788 /* SalonCloudKit.swift in Sources */,
+				DC5494FD3A82ACB905117FB0 /* SalonCloudKit.swift in Sources */,
 				CD52797F9C72F00550E67CDF /* main.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -293,12 +359,13 @@
 		56485BD7CB79A02B718A1B8F /* release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = arm64;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ARCHS = (
+					arm64,
+				);
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "sisters-salon-reservation-app_iOS/sisters-salon-reservation-app_iOS.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = "W96LW7FRSD";
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphoneos*]" = x86_64;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -310,27 +377,11 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				"LIBRARY_SEARCH_PATHS[arch=arm64]" = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Externals/arm64/$(CONFIGURATION)",
-					"$(SDKROOT)/usr/lib/swift",
-					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
-					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
-				);
-				"LIBRARY_SEARCH_PATHS[arch=x86_64]" = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Externals/x86_64/$(CONFIGURATION)",
-					"$(SDKROOT)/usr/lib/swift",
-					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
-					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
-				);
+				"LIBRARY_SEARCH_PATHS[arch=arm64]" = "$(inherited) $(PROJECT_DIR)/Externals/arm64/$(CONFIGURATION) $(SDKROOT)/usr/lib/swift $(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME) $(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)";
+				"LIBRARY_SEARCH_PATHS[arch=x86_64]" = "$(inherited) $(PROJECT_DIR)/Externals/x86_64/$(CONFIGURATION) $(SDKROOT)/usr/lib/swift $(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME) $(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sisters.salon;
 				PRODUCT_NAME = "Sisters Salon";
 				SDKROOT = iphoneos;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = arm64;
 			};
@@ -395,12 +446,13 @@
 		D8FA7EBAF7C1EFBF275642CA /* debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = arm64;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ARCHS = (
+					arm64,
+				);
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "sisters-salon-reservation-app_iOS/sisters-salon-reservation-app_iOS.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = "W96LW7FRSD";
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphoneos*]" = x86_64;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -412,28 +464,11 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				"LIBRARY_SEARCH_PATHS[arch=arm64]" = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Externals/arm64/$(CONFIGURATION)",
-					"$(SDKROOT)/usr/lib/swift",
-					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
-					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
-				);
-				"LIBRARY_SEARCH_PATHS[arch=x86_64]" = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Externals/x86_64/$(CONFIGURATION)",
-					"$(SDKROOT)/usr/lib/swift",
-					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
-					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
-				);
+				"LIBRARY_SEARCH_PATHS[arch=arm64]" = "$(inherited) $(PROJECT_DIR)/Externals/arm64/$(CONFIGURATION) $(SDKROOT)/usr/lib/swift $(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME) $(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)";
+				"LIBRARY_SEARCH_PATHS[arch=x86_64]" = "$(inherited) $(PROJECT_DIR)/Externals/x86_64/$(CONFIGURATION) $(SDKROOT)/usr/lib/swift $(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME) $(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sisters.salon;
 				PRODUCT_NAME = "Sisters Salon";
 				SDKROOT = iphoneos;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = arm64;
 			};

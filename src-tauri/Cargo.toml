@@ -1,6 +1,6 @@
 [package]
 name = "sisters-salon-reservation-app"
-version = "0.1.0"
+version = "1.0.0"
 description = "Sisters Salon Reservation App"
 authors = ["you"]
 edition = "2021"
