@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0D84EA814D5495C246821F16 /* libapp.a in Resources */ = {isa = PBXBuildFile; fileRef = 99AC52BBA141F1F1F70AD0D6 /* libapp.a */; };
 		218D029A90BFE2CDCC0C46B0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4B330573E685A1E8525BE10C /* LaunchScreen.storyboard */; };
 		225C7AE14131782683CC257C /* assets in Resources */ = {isa = PBXBuildFile; fileRef = CD9522AFD535D7AAD74C7C68 /* assets */; };
 		34B556CAE0691CD351273108 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E0A46895CFE0B5C4F1D43E0 /* QuartzCore.framework */; };
@@ -17,11 +16,9 @@
 		CD52797F9C72F00550E67CDF /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 886528C88ECB06FE26291060 /* main.mm */; };
 		CDA4A90396972E59E8C75C2B /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B72D9C6805CC44EA7A19CEB /* WebKit.framework */; };
 		D1504FB3B0BD9CB8C76A2F07 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1953EA32432285BA4A0022B2 /* CoreGraphics.framework */; };
-		DC5494FD3A82ACB905117FB0 /* SalonCloudKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52DC2E84618D238A61687C7E /* SalonCloudKit.swift */; };
 		EA405BA69AF660AB50599E96 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12A7808775E4A31262908356 /* UIKit.framework */; };
 		EE417F40CA9EC2BD4C302D8E /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ED25F1A4F44E2D3C053E9C7 /* Metal.framework */; };
 		F1865D4C88117B1425090DBC /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A065D506859CEDFBF1DDF211 /* Security.framework */; };
-		F2CBC5B745F57637556B0DED /* libapp.a in Resources */ = {isa = PBXBuildFile; fileRef = C9A4AFCEC8FB2CCF839E6B8D /* libapp.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,7 +32,6 @@
 		41DE0E24C0ED5F98D3F8A3B8 /* statistics.rs */ = {isa = PBXFileReference; path = statistics.rs; sourceTree = "<group>"; };
 		4B330573E685A1E8525BE10C /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4DBB1D18596C8A69FAFF82D3 /* sisters-salon-reservation-app_iOS.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = "sisters-salon-reservation-app_iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		52DC2E84618D238A61687C7E /* SalonCloudKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalonCloudKit.swift; sourceTree = "<group>"; };
 		5E0A46895CFE0B5C4F1D43E0 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		634DD005A0B49E8AB2759381 /* schema.rs */ = {isa = PBXFileReference; path = schema.rs; sourceTree = "<group>"; };
 		693855AD2A35ADDFF979C27A /* main.rs */ = {isa = PBXFileReference; path = main.rs; sourceTree = "<group>"; };
@@ -45,7 +41,6 @@
 		886528C88ECB06FE26291060 /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		8D068F6F8298954BC6578156 /* backup.rs */ = {isa = PBXFileReference; path = backup.rs; sourceTree = "<group>"; };
 		9837143B4FBBB6AF9F4D5B4F /* designers.rs */ = {isa = PBXFileReference; path = designers.rs; sourceTree = "<group>"; };
-		99AC52BBA141F1F1F70AD0D6 /* libapp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libapp.a; sourceTree = "<group>"; };
 		9ED25F1A4F44E2D3C053E9C7 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
 		A065D506859CEDFBF1DDF211 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		A1D3035DA2F2584426A44BCE /* business_hours.rs */ = {isa = PBXFileReference; path = business_hours.rs; sourceTree = "<group>"; };
@@ -54,7 +49,6 @@
 		BC31CAEEA1B8CB3F97720A9E /* reservations.rs */ = {isa = PBXFileReference; path = reservations.rs; sourceTree = "<group>"; };
 		BD5EF34D25F65612D5901A0D /* cloudkit.rs */ = {isa = PBXFileReference; path = cloudkit.rs; sourceTree = "<group>"; };
 		C78F75CC73812C738EF68589 /* security.rs */ = {isa = PBXFileReference; path = security.rs; sourceTree = "<group>"; };
-		C9A4AFCEC8FB2CCF839E6B8D /* libapp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libapp.a; sourceTree = "<group>"; };
 		CD9522AFD535D7AAD74C7C68 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = SOURCE_ROOT; };
 		CEC9776B4EA0A5DDD2BF3C4E /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
 		CF459496C5064CEBBBFCF8E5 /* auth.rs */ = {isa = PBXFileReference; path = auth.rs; sourceTree = "<group>"; };
@@ -96,26 +90,9 @@
 			isa = PBXGroup;
 			children = (
 				ECD52C8FE50C9B61609CFF73 /* Info.plist */,
-				52DC2E84618D238A61687C7E /* SalonCloudKit.swift */,
 				786C6491C3D43681392DFB11 /* sisters-salon-reservation-app_iOS.entitlements */,
 			);
 			path = "sisters-salon-reservation-app_iOS";
-			sourceTree = "<group>";
-		};
-		2401E7D761A5802EAF46A0D6 /* debug */ = {
-			isa = PBXGroup;
-			children = (
-				99AC52BBA141F1F1F70AD0D6 /* libapp.a */,
-			);
-			path = debug;
-			sourceTree = "<group>";
-		};
-		629CFA18E6AA6EAA973D4F91 /* Externals */ = {
-			isa = PBXGroup;
-			children = (
-				8A6FB0A66625D78EAF25FB0A /* arm64 */,
-			);
-			path = Externals;
 			sourceTree = "<group>";
 		};
 		666A22F5DE9580DB86E9CAFF /* sisters-salon-reservation-app */ = {
@@ -140,23 +117,6 @@
 			path = ../../src;
 			sourceTree = "<group>";
 		};
-		89ECB982CB3C43BA5D544004 /* release */ = {
-			isa = PBXGroup;
-			children = (
-				C9A4AFCEC8FB2CCF839E6B8D /* libapp.a */,
-			);
-			path = release;
-			sourceTree = "<group>";
-		};
-		8A6FB0A66625D78EAF25FB0A /* arm64 */ = {
-			isa = PBXGroup;
-			children = (
-				2401E7D761A5802EAF46A0D6 /* debug */,
-				89ECB982CB3C43BA5D544004 /* release */,
-			);
-			path = arm64;
-			sourceTree = "<group>";
-		};
 		AA8AFA4687124DD727D68BEA /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -179,7 +139,6 @@
 				CD9522AFD535D7AAD74C7C68 /* assets */,
 				755F2F06DFBBBC34EC1449C4 /* Assets.xcassets */,
 				4B330573E685A1E8525BE10C /* LaunchScreen.storyboard */,
-				629CFA18E6AA6EAA973D4F91 /* Externals */,
 				23D88320E6C2D20863756EBB /* sisters-salon-reservation-app_iOS */,
 				DAF176BB6544C833843BCBD3 /* Sources */,
 				6919E5E039DE1E338EDA5A9B /* src */,
@@ -239,18 +198,11 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		"TEMP_2738F1E7-109D-48B0-869A-07D27C8B3AA0" /* components */ = {
+		"TEMP_A830CDE5-6D0B-4879-9A31-2D14887B9EE9" /* components */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			path = components;
-			sourceTree = "<group>";
-		};
-		"TEMP_A2BC3FF0-B316-4CC5-9596-1223462B6CEE" /* x86_64 */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = x86_64;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -284,6 +236,11 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					485CFD866453546C673A67BF = {
+						DevelopmentTeam = W96LW7FRSD;
+					};
+				};
 			};
 			buildConfigurationList = 47F09524BF89B670A7A44189 /* Build configuration list for PBXProject "sisters-salon-reservation-app" */;
 			compatibilityVersion = "Xcode 14.0";
@@ -312,8 +269,6 @@
 				5135E94D8DCF22F007D7619C /* Assets.xcassets in Resources */,
 				218D029A90BFE2CDCC0C46B0 /* LaunchScreen.storyboard in Resources */,
 				225C7AE14131782683CC257C /* assets in Resources */,
-				F2CBC5B745F57637556B0DED /* libapp.a in Resources */,
-				0D84EA814D5495C246821F16 /* libapp.a in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -334,12 +289,11 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(SRCROOT)/Externals/x86_64/${CONFIGURATION}/libapp.a",
 				"$(SRCROOT)/Externals/arm64/${CONFIGURATION}/libapp.a",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "npm run -- tauri ios xcode-script -v --platform ${PLATFORM_DISPLAY_NAME:?} --sdk-root ${SDKROOT:?} --framework-search-paths \"${FRAMEWORK_SEARCH_PATHS:?}\" --header-search-paths \"${HEADER_SEARCH_PATHS:?}\" --gcc-preprocessor-definitions \"${GCC_PREPROCESSOR_DEFINITIONS:-}\" --configuration ${CONFIGURATION:?} ${FORCE_COLOR} ${ARCHS:?}";
+			shellScript = "set -e\n\n# nvm 환경 로드\nexport NVM_DIR=\"$HOME/.nvm\"\n[ -s \"$NVM_DIR/nvm.sh\" ] && \\. \"$NVM_DIR/nvm.sh\"\n\n# Homebrew 경로 추가\nexport PATH=\"/opt/homebrew/bin:$PATH\"\n\n# Rust/Cargo 경로 추가\nexport PATH=\"$HOME/.cargo/bin:$PATH\"\n\n# 프로젝트 루트로 이동\ncd \"$SRCROOT/../..\"\n\n# Frontend 빌드 (dist 폴더가 없거나 오래된 경우)\nif [ ! -d \"../dist\" ] || [ \"../src\" -nt \"../dist\" ]; then\n  echo \"Building frontend...\"\n  cd ..\n  npm run build\n  cd src-tauri\nfi\n\n# Rust 빌드\necho \"Building Rust code for iOS...\"\nif [ \"$CONFIGURATION\" = \"Release\" ] || [ \"$CONFIGURATION\" = \"release\" ]; then\n  cargo build --release --target aarch64-apple-ios --lib\n  mkdir -p \"$SRCROOT/Externals/arm64/release\"\n  cp \"target/aarch64-apple-ios/release/libsisters_salon_reservation_app_lib.a\" \"$SRCROOT/Externals/arm64/release/libapp.a\"\nelse\n  cargo build --target aarch64-apple-ios --lib\n  mkdir -p \"$SRCROOT/Externals/arm64/debug\"\n  cp \"target/aarch64-apple-ios/debug/libsisters_salon_reservation_app_lib.a\" \"$SRCROOT/Externals/arm64/debug/libapp.a\"\nfi\n\necho \"Rust build complete!\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -348,7 +302,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DC5494FD3A82ACB905117FB0 /* SalonCloudKit.swift in Sources */,
 				CD52797F9C72F00550E67CDF /* main.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -366,6 +319,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "sisters-salon-reservation-app_iOS/sisters-salon-reservation-app_iOS.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = W96LW7FRSD;
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphoneos*]" = x86_64;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -432,7 +386,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -453,6 +407,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "sisters-salon-reservation-app_iOS/sisters-salon-reservation-app_iOS.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = W96LW7FRSD;
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphoneos*]" = x86_64;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -525,7 +480,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;

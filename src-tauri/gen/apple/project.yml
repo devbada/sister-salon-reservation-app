@@ -2,7 +2,7 @@ name: sisters-salon-reservation-app
 options:
   bundleIdPrefix: com.sisters.salon
   deploymentTarget:
-    iOS: 14.0
+    iOS: 13.0
 fileGroups: [../../src]
 configs:
   debug: debug
@@ -12,6 +12,7 @@ settingGroups:
     base:
       PRODUCT_NAME: Sisters Salon
       PRODUCT_BUNDLE_IDENTIFIER: com.sisters.salon
+      DEVELOPMENT_TEAM: W96LW7FRSD
 targetTemplates:
   app:
     type: application
@@ -30,7 +31,6 @@ targets:
     sources:
       - path: Sources
       - path: Assets.xcassets
-      - path: Externals
       - path: sisters-salon-reservation-app_iOS
       - path: assets
         buildPhase: resources
@@ -51,8 +51,8 @@ targets:
           - UIInterfaceOrientationPortraitUpsideDown
           - UIInterfaceOrientationLandscapeLeft
           - UIInterfaceOrientationLandscapeRight
-        CFBundleShortVersionString: 0.1.0
-        CFBundleVersion: "0.1.0"
+        CFBundleShortVersionString: 1.0.0
+        CFBundleVersion: "1.0.0"
     entitlements:
       path: sisters-salon-reservation-app_iOS/sisters-salon-reservation-app_iOS.entitlements
     scheme:
@@ -80,9 +80,44 @@ targets:
       - sdk: UIKit.framework
       - sdk: WebKit.framework
     preBuildScripts:
-      - script: npm run -- tauri ios xcode-script -v --platform ${PLATFORM_DISPLAY_NAME:?} --sdk-root ${SDKROOT:?} --framework-search-paths "${FRAMEWORK_SEARCH_PATHS:?}" --header-search-paths "${HEADER_SEARCH_PATHS:?}" --gcc-preprocessor-definitions "${GCC_PREPROCESSOR_DEFINITIONS:-}" --configuration ${CONFIGURATION:?} ${FORCE_COLOR} ${ARCHS:?}
+      - script: |
+          set -e
+
+          # nvm 환경 로드
+          export NVM_DIR="$HOME/.nvm"
+          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+          # Homebrew 경로 추가
+          export PATH="/opt/homebrew/bin:$PATH"
+
+          # Rust/Cargo 경로 추가
+          export PATH="$HOME/.cargo/bin:$PATH"
+
+          # 프로젝트 루트로 이동
+          cd "$SRCROOT/../.."
+
+          # Frontend 빌드 (dist 폴더가 없거나 오래된 경우)
+          if [ ! -d "../dist" ] || [ "../src" -nt "../dist" ]; then
+            echo "Building frontend..."
+            cd ..
+            npm run build
+            cd src-tauri
+          fi
+
+          # Rust 빌드
+          echo "Building Rust code for iOS..."
+          if [ "$CONFIGURATION" = "Release" ] || [ "$CONFIGURATION" = "release" ]; then
+            cargo build --release --target aarch64-apple-ios --lib
+            mkdir -p "$SRCROOT/Externals/arm64/release"
+            cp "target/aarch64-apple-ios/release/libsisters_salon_reservation_app_lib.a" "$SRCROOT/Externals/arm64/release/libapp.a"
+          else
+            cargo build --target aarch64-apple-ios --lib
+            mkdir -p "$SRCROOT/Externals/arm64/debug"
+            cp "target/aarch64-apple-ios/debug/libsisters_salon_reservation_app_lib.a" "$SRCROOT/Externals/arm64/debug/libapp.a"
+          fi
+
+          echo "Rust build complete!"
         name: Build Rust Code
         basedOnDependencyAnalysis: false
         outputFiles:
-          - $(SRCROOT)/Externals/x86_64/${CONFIGURATION}/libapp.a
           - $(SRCROOT)/Externals/arm64/${CONFIGURATION}/libapp.a
