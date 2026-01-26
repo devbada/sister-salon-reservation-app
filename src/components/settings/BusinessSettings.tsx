@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { ChevronRight, Clock, CalendarOff, ArrowLeft } from 'lucide-react';
+import { ChevronRight, Clock, CalendarOff } from 'lucide-react';
 import { BusinessHours } from '../business-hours/BusinessHours';
 import { HolidayManagement } from './HolidayManagement';
+import { useSwipeBack } from '../../hooks/useSwipeBack';
 
 type BusinessSubPage = 'menu' | 'hours' | 'holidays';
 
@@ -44,17 +45,30 @@ export function BusinessSettings() {
     }
   };
 
+  const handleBack = () => setSubPage('menu');
+
+  const { handlers, style, isActive } = useSwipeBack({
+    onBack: handleBack,
+    disabled: subPage === 'menu',
+  });
+
   if (subPage !== 'menu') {
     const currentItem = menuItems.find((item) => item.id === subPage);
     return (
-      <div className="space-y-4">
+      <div
+        {...handlers}
+        style={style}
+        className={`space-y-4 ${isActive ? '' : 'transition-transform duration-300'}`}
+      >
         {/* Sub Header */}
         <button
-          onClick={() => setSubPage('menu')}
+          onClick={handleBack}
           className="flex items-center gap-2 text-gray-600 dark:text-gray-400
                      hover:text-gray-900 dark:hover:text-white transition-colors"
         >
-          <ArrowLeft className="w-4 h-4" />
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
           <span className="text-sm font-medium">영업 설정</span>
         </button>
 
