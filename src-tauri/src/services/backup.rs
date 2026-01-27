@@ -87,6 +87,7 @@ pub fn get_backup_dir_for_service(app_data_dir: &PathBuf, service: &CloudService
 }
 
 /// Legacy function for backward compatibility (defaults to local)
+#[allow(dead_code)]
 pub fn get_backup_dir(app_data_dir: &PathBuf) -> Result<PathBuf, String> {
     get_backup_dir_for_service(app_data_dir, &CloudService::Local)
 }
