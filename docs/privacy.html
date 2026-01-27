@@ -32,21 +32,11 @@
         }
     </script>
     <style>
-        .glass {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+        .clean-bg {
+            background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
         }
-        .dark .glass {
-            background: rgba(0, 0, 0, 0.25);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-        }
-        .dark .gradient-bg {
-            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4c1d95 100%);
+        .dark .clean-bg {
+            background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
         }
         html {
             scroll-behavior: smooth;
@@ -56,9 +46,9 @@
         }
     </style>
 </head>
-<body class="min-h-screen gradient-bg text-gray-900 dark:text-white transition-colors duration-300">
+<body class="min-h-screen clean-bg text-gray-800 dark:text-gray-100 transition-colors duration-300">
     <!-- Dark Mode Toggle -->
-    <button id="theme-toggle" class="fixed top-4 right-4 z-50 p-3 rounded-full glass hover:scale-110 transition-transform">
+    <button id="theme-toggle" class="fixed top-4 right-4 z-50 p-3 rounded-full bg-white dark:bg-slate-800 shadow-md hover:scale-110 transition-transform border border-gray-200 dark:border-slate-700">
         <svg id="sun-icon" class="w-6 h-6 hidden dark:block" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"/>
         </svg>
@@ -68,16 +58,14 @@
     </button>
 
     <!-- Header -->
-    <header class="glass sticky top-0 z-40">
+    <header class="bg-white dark:bg-slate-800 border-b border-gray-200 dark:border-slate-700 sticky top-0 z-40">
         <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <a href="index.html" class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-purple-600 flex items-center justify-center text-white text-xl">
-                        💇‍♀️
-                    </div>
-                    <span class="text-xl font-bold">Sisters Salon</span>
+                    <img src="assets/images/app-icon.png" alt="Sisters Salon" class="w-10 h-10 rounded-xl shadow-md">
+                    <span class="text-xl font-bold text-gray-900 dark:text-white">Sisters Salon</span>
                 </a>
-                <a href="index.html" class="px-4 py-2 rounded-lg hover:bg-white/10 transition-colors">
+                <a href="index.html" class="px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors">
                     ← 홈으로
                 </a>
             </div>
@@ -85,43 +73,43 @@
     </header>
 
     <main class="max-w-4xl mx-auto px-4 py-12">
-        <div class="glass rounded-3xl p-6 md:p-10">
+        <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-gray-200 dark:border-slate-700 p-6 md:p-10">
             <!-- Title -->
             <div class="text-center mb-10">
-                <h1 class="text-3xl md:text-4xl font-bold mb-4">개인정보보호방침</h1>
-                <p class="text-white/60">시행일자: 2026년 1월 21일</p>
+                <h1 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white">개인정보보호방침</h1>
+                <p class="text-gray-500 dark:text-gray-400">시행일자: 2026년 1월 21일</p>
             </div>
 
             <!-- Table of Contents -->
-            <div class="glass rounded-xl p-6 mb-10">
-                <h2 class="font-semibold mb-4">목차</h2>
+            <div class="bg-gray-50 dark:bg-slate-700/50 rounded-xl p-6 mb-10 border border-gray-100 dark:border-slate-600">
+                <h2 class="font-semibold mb-4 text-gray-900 dark:text-white">목차</h2>
                 <nav class="grid md:grid-cols-2 gap-2 text-sm">
-                    <a href="#section1" class="hover:text-primary-300 transition-colors">1. 개인정보처리방침 개요</a>
-                    <a href="#section2" class="hover:text-primary-300 transition-colors">2. 수집하는 개인정보 항목</a>
-                    <a href="#section3" class="hover:text-primary-300 transition-colors">3. 개인정보 수집 목적</a>
-                    <a href="#section4" class="hover:text-primary-300 transition-colors">4. 개인정보 보유 및 이용 기간</a>
-                    <a href="#section5" class="hover:text-primary-300 transition-colors">5. 개인정보 제3자 제공</a>
-                    <a href="#section6" class="hover:text-primary-300 transition-colors">6. 개인정보 처리 위탁</a>
-                    <a href="#section7" class="hover:text-primary-300 transition-colors">7. 클라우드 백업</a>
-                    <a href="#section8" class="hover:text-primary-300 transition-colors">8. 사용자 권리</a>
-                    <a href="#section9" class="hover:text-primary-300 transition-colors">9. 앱 잠금 및 보안</a>
-                    <a href="#section10" class="hover:text-primary-300 transition-colors">10. 아동 개인정보 보호</a>
-                    <a href="#section11" class="hover:text-primary-300 transition-colors">11. 개인정보보호방침 변경</a>
-                    <a href="#section12" class="hover:text-primary-300 transition-colors">12. 문의처</a>
+                    <a href="#section1" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">1. 개인정보처리방침 개요</a>
+                    <a href="#section2" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">2. 수집하는 개인정보 항목</a>
+                    <a href="#section3" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">3. 개인정보 수집 목적</a>
+                    <a href="#section4" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">4. 개인정보 보유 및 이용 기간</a>
+                    <a href="#section5" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">5. 개인정보 제3자 제공</a>
+                    <a href="#section6" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">6. 개인정보 처리 위탁</a>
+                    <a href="#section7" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">7. 클라우드 백업</a>
+                    <a href="#section8" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">8. 사용자 권리</a>
+                    <a href="#section9" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">9. 앱 잠금 및 보안</a>
+                    <a href="#section10" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">10. 아동 개인정보 보호</a>
+                    <a href="#section11" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">11. 개인정보보호방침 변경</a>
+                    <a href="#section12" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">12. 문의처</a>
                 </nav>
             </div>
 
             <!-- Content -->
-            <div class="prose prose-invert max-w-none space-y-10">
+            <div class="prose max-w-none space-y-10">
                 <!-- Section 1 -->
                 <section id="section1">
-                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b border-white/20">1. 개인정보처리방침 개요</h2>
-                    <p class="text-white/80 leading-relaxed">
+                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b border-gray-200 dark:border-slate-600 text-gray-900 dark:text-white">1. 개인정보처리방침 개요</h2>
+                    <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
                         Sisters Salon(이하 "앱")은 사용자의 개인정보를 소중히 여기며, 「개인정보 보호법」 등 관련 법령을 준수합니다.
                         본 개인정보보호방침은 앱이 어떤 정보를 수집하고 어떻게 사용하는지 설명합니다.
                     </p>
-                    <div class="mt-4 p-4 bg-white/5 rounded-xl">
-                        <p class="text-sm text-white/70">
+                    <div class="mt-4 p-4 bg-gray-50 dark:bg-slate-700/50 rounded-xl border border-gray-100 dark:border-slate-600">
+                        <p class="text-sm text-gray-600 dark:text-gray-300">
                             <strong>앱 이름:</strong> Sisters Salon Reservation App<br>
                             <strong>개발자:</strong> Sisters Salon<br>
                             <strong>시행일자:</strong> 2026년 1월 21일
@@ -131,14 +119,14 @@
 
                 <!-- Section 2 -->
                 <section id="section2">
-                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b border-white/20">2. 수집하는 개인정보 항목</h2>
-                    <p class="text-white/80 leading-relaxed mb-4">
+                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b border-gray-200 dark:border-slate-600 text-gray-900 dark:text-white">2. 수집하는 개인정보 항목</h2>
+                    <p class="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
                         앱은 서비스 제공을 위해 다음과 같은 정보를 수집합니다:
                     </p>
                     <div class="space-y-4">
-                        <div class="p-4 bg-white/5 rounded-xl">
-                            <h4 class="font-medium mb-2">예약 정보</h4>
-                            <ul class="list-disc list-inside text-white/70 text-sm space-y-1">
+                        <div class="p-4 bg-gray-50 dark:bg-slate-700/50 rounded-xl border border-gray-100 dark:border-slate-600">
+                            <h4 class="font-medium mb-2 text-gray-900 dark:text-white">예약 정보</h4>
+                            <ul class="list-disc list-inside text-gray-600 dark:text-gray-400 text-sm space-y-1">
                                 <li>고객명</li>
                                 <li>연락처 (선택)</li>
                                 <li>예약 일시</li>
@@ -146,28 +134,28 @@
                                 <li>메모 (선택)</li>
                             </ul>
                         </div>
-                        <div class="p-4 bg-white/5 rounded-xl">
-                            <h4 class="font-medium mb-2">디자이너 정보</h4>
-                            <ul class="list-disc list-inside text-white/70 text-sm space-y-1">
+                        <div class="p-4 bg-gray-50 dark:bg-slate-700/50 rounded-xl border border-gray-100 dark:border-slate-600">
+                            <h4 class="font-medium mb-2 text-gray-900 dark:text-white">디자이너 정보</h4>
+                            <ul class="list-disc list-inside text-gray-600 dark:text-gray-400 text-sm space-y-1">
                                 <li>디자이너명</li>
                                 <li>전문 분야</li>
                                 <li>활성 상태</li>
                             </ul>
                         </div>
-                        <div class="p-4 bg-white/5 rounded-xl">
-                            <h4 class="font-medium mb-2">앱 설정 정보</h4>
-                            <ul class="list-disc list-inside text-white/70 text-sm space-y-1">
+                        <div class="p-4 bg-gray-50 dark:bg-slate-700/50 rounded-xl border border-gray-100 dark:border-slate-600">
+                            <h4 class="font-medium mb-2 text-gray-900 dark:text-white">앱 설정 정보</h4>
+                            <ul class="list-disc list-inside text-gray-600 dark:text-gray-400 text-sm space-y-1">
                                 <li>영업시간 설정</li>
                                 <li>앱 잠금 설정 (PIN 해시값)</li>
                                 <li>백업 설정</li>
                             </ul>
                         </div>
                     </div>
-                    <div class="mt-6 p-4 bg-green-500/10 border border-green-500/30 rounded-xl">
-                        <p class="text-green-300 font-medium">
+                    <div class="mt-6 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl">
+                        <p class="text-green-700 dark:text-green-400 font-medium">
                             ✅ 중요: 모든 데이터는 사용자의 기기에만 저장됩니다.
                         </p>
-                        <p class="text-green-200/70 text-sm mt-2">
+                        <p class="text-green-600 dark:text-green-500 text-sm mt-2">
                             앱은 별도의 서버를 운영하지 않으며, 수집된 정보는 외부로 전송되지 않습니다.
                         </p>
                     </div>
@@ -175,48 +163,48 @@
 
                 <!-- Section 3 -->
                 <section id="section3">
-                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b border-white/20">3. 개인정보 수집 목적</h2>
-                    <p class="text-white/80 leading-relaxed mb-4">
+                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b border-gray-200 dark:border-slate-600 text-gray-900 dark:text-white">3. 개인정보 수집 목적</h2>
+                    <p class="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
                         수집된 개인정보는 다음 목적으로만 사용됩니다:
                     </p>
                     <ul class="space-y-3">
                         <li class="flex items-start gap-3">
-                            <span class="text-primary-400">📅</span>
-                            <span class="text-white/80"><strong>예약 관리 서비스 제공:</strong> 예약 생성, 수정, 삭제 및 상태 관리</span>
+                            <span class="text-primary-500">📅</span>
+                            <span class="text-gray-600 dark:text-gray-300"><strong>예약 관리 서비스 제공:</strong> 예약 생성, 수정, 삭제 및 상태 관리</span>
                         </li>
                         <li class="flex items-start gap-3">
-                            <span class="text-primary-400">👩‍🎨</span>
-                            <span class="text-white/80"><strong>디자이너 스케줄 관리:</strong> 디자이너별 예약 현황 파악</span>
+                            <span class="text-primary-500">✂️</span>
+                            <span class="text-gray-600 dark:text-gray-300"><strong>디자이너 스케줄 관리:</strong> 디자이너별 예약 현황 파악</span>
                         </li>
                         <li class="flex items-start gap-3">
-                            <span class="text-primary-400">📊</span>
-                            <span class="text-white/80"><strong>통계 및 분석:</strong> 로컬에서의 비즈니스 인사이트 제공</span>
+                            <span class="text-primary-500">📊</span>
+                            <span class="text-gray-600 dark:text-gray-300"><strong>통계 및 분석:</strong> 로컬에서의 비즈니스 인사이트 제공</span>
                         </li>
                         <li class="flex items-start gap-3">
-                            <span class="text-primary-400">📑</span>
-                            <span class="text-white/80"><strong>데이터 내보내기:</strong> Excel/CSV 형식으로 데이터 백업</span>
+                            <span class="text-primary-500">📑</span>
+                            <span class="text-gray-600 dark:text-gray-300"><strong>데이터 내보내기:</strong> Excel/CSV 형식으로 데이터 백업</span>
                         </li>
                     </ul>
                 </section>
 
                 <!-- Section 4 -->
                 <section id="section4">
-                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b border-white/20">4. 개인정보 보유 및 이용 기간</h2>
-                    <div class="space-y-4 text-white/80">
+                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b border-gray-200 dark:border-slate-600 text-gray-900 dark:text-white">4. 개인정보 보유 및 이용 기간</h2>
+                    <div class="space-y-4 text-gray-600 dark:text-gray-300">
                         <p>개인정보는 다음 기준에 따라 보유됩니다:</p>
-                        <div class="p-4 bg-white/5 rounded-xl space-y-3">
+                        <div class="p-4 bg-gray-50 dark:bg-slate-700/50 rounded-xl space-y-3 border border-gray-100 dark:border-slate-600">
                             <div class="flex items-center gap-3">
                                 <span class="text-2xl">⏳</span>
                                 <div>
-                                    <p class="font-medium">보유 기간</p>
-                                    <p class="text-sm text-white/60">사용자가 직접 삭제할 때까지</p>
+                                    <p class="font-medium text-gray-900 dark:text-white">보유 기간</p>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">사용자가 직접 삭제할 때까지</p>
                                 </div>
                             </div>
                             <div class="flex items-center gap-3">
                                 <span class="text-2xl">🗑️</span>
                                 <div>
-                                    <p class="font-medium">앱 삭제 시</p>
-                                    <p class="text-sm text-white/60">기기에 저장된 모든 데이터가 함께 삭제됩니다</p>
+                                    <p class="font-medium text-gray-900 dark:text-white">앱 삭제 시</p>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">기기에 저장된 모든 데이터가 함께 삭제됩니다</p>
                                 </div>
                             </div>
                         </div>
@@ -225,12 +213,12 @@
 
                 <!-- Section 5 -->
                 <section id="section5">
-                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b border-white/20">5. 개인정보 제3자 제공</h2>
-                    <div class="p-6 bg-blue-500/10 border border-blue-500/30 rounded-xl">
-                        <p class="text-blue-300 font-medium text-lg mb-2">
+                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b border-gray-200 dark:border-slate-600 text-gray-900 dark:text-white">5. 개인정보 제3자 제공</h2>
+                    <div class="p-6 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl">
+                        <p class="text-blue-700 dark:text-blue-400 font-medium text-lg mb-2">
                             🔒 제3자 제공 없음
                         </p>
-                        <p class="text-white/70">
+                        <p class="text-gray-600 dark:text-gray-300">
                             앱은 사용자의 개인정보를 제3자에게 제공하지 않습니다.<br>
                             모든 데이터는 사용자의 기기에만 저장되며, 외부 서버로 전송되지 않습니다.
                         </p>
@@ -239,12 +227,12 @@
 
                 <!-- Section 6 -->
                 <section id="section6">
-                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b border-white/20">6. 개인정보 처리 위탁</h2>
-                    <div class="p-6 bg-blue-500/10 border border-blue-500/30 rounded-xl">
-                        <p class="text-blue-300 font-medium text-lg mb-2">
+                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b border-gray-200 dark:border-slate-600 text-gray-900 dark:text-white">6. 개인정보 처리 위탁</h2>
+                    <div class="p-6 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl">
+                        <p class="text-blue-700 dark:text-blue-400 font-medium text-lg mb-2">
                             🔒 처리 위탁 없음
                         </p>
-                        <p class="text-white/70">
+                        <p class="text-gray-600 dark:text-gray-300">
                             앱은 개인정보 처리를 외부 업체에 위탁하지 않습니다.<br>
                             모든 데이터 처리는 사용자의 기기 내에서 이루어집니다.
                         </p>
@@ -253,35 +241,35 @@
 
                 <!-- Section 7 -->
                 <section id="section7">
-                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b border-white/20">7. 클라우드 백업</h2>
-                    <p class="text-white/80 leading-relaxed mb-4">
+                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b border-gray-200 dark:border-slate-600 text-gray-900 dark:text-white">7. 클라우드 백업</h2>
+                    <p class="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
                         앱은 선택적으로 클라우드 백업 기능을 제공합니다:
                     </p>
                     <div class="space-y-4">
-                        <div class="p-4 bg-white/5 rounded-xl">
-                            <h4 class="font-medium mb-2 flex items-center gap-2">
+                        <div class="p-4 bg-gray-50 dark:bg-slate-700/50 rounded-xl border border-gray-100 dark:border-slate-600">
+                            <h4 class="font-medium mb-2 flex items-center gap-2 text-gray-900 dark:text-white">
                                 <span>☁️</span> iCloud (iOS/macOS)
                             </h4>
-                            <p class="text-white/70 text-sm">
+                            <p class="text-gray-600 dark:text-gray-400 text-sm">
                                 iCloud Drive에 백업 시 Apple의 개인정보보호방침이 적용됩니다.<br>
-                                <a href="https://www.apple.com/kr/legal/privacy/" class="text-primary-400 hover:underline" target="_blank">Apple 개인정보 처리방침 →</a>
+                                <a href="https://www.apple.com/kr/legal/privacy/" class="text-primary-600 dark:text-primary-400 hover:underline" target="_blank">Apple 개인정보 처리방침 →</a>
                             </p>
                         </div>
-                        <div class="p-4 bg-white/5 rounded-xl">
-                            <h4 class="font-medium mb-2 flex items-center gap-2">
+                        <div class="p-4 bg-gray-50 dark:bg-slate-700/50 rounded-xl border border-gray-100 dark:border-slate-600">
+                            <h4 class="font-medium mb-2 flex items-center gap-2 text-gray-900 dark:text-white">
                                 <span>📁</span> Google Drive (Android)
                             </h4>
-                            <p class="text-white/70 text-sm">
+                            <p class="text-gray-600 dark:text-gray-400 text-sm">
                                 Google Drive에 백업 시 Google의 개인정보보호방침이 적용됩니다.<br>
-                                <a href="https://policies.google.com/privacy" class="text-primary-400 hover:underline" target="_blank">Google 개인정보처리방침 →</a>
+                                <a href="https://policies.google.com/privacy" class="text-primary-600 dark:text-primary-400 hover:underline" target="_blank">Google 개인정보처리방침 →</a>
                             </p>
                         </div>
                     </div>
-                    <div class="mt-4 p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-xl">
-                        <p class="text-yellow-300 font-medium">
+                    <div class="mt-4 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl">
+                        <p class="text-amber-700 dark:text-amber-400 font-medium">
                             ⚠️ 클라우드 백업은 사용자의 선택에 의해서만 활성화됩니다.
                         </p>
-                        <p class="text-yellow-200/70 text-sm mt-2">
+                        <p class="text-amber-600 dark:text-amber-500 text-sm mt-2">
                             기본적으로 클라우드 동기화는 비활성화되어 있으며, 사용자가 직접 설정에서 활성화해야 합니다.
                         </p>
                     </div>
@@ -289,55 +277,55 @@
 
                 <!-- Section 8 -->
                 <section id="section8">
-                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b border-white/20">8. 사용자 권리</h2>
-                    <p class="text-white/80 leading-relaxed mb-4">
+                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b border-gray-200 dark:border-slate-600 text-gray-900 dark:text-white">8. 사용자 권리</h2>
+                    <p class="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
                         사용자는 자신의 개인정보에 대해 다음과 같은 권리를 가집니다:
                     </p>
                     <div class="grid md:grid-cols-2 gap-4">
-                        <div class="p-4 bg-white/5 rounded-xl">
-                            <h4 class="font-medium mb-2">👁️ 열람권</h4>
-                            <p class="text-white/70 text-sm">앱 내에서 저장된 모든 데이터를 직접 확인할 수 있습니다.</p>
+                        <div class="p-4 bg-gray-50 dark:bg-slate-700/50 rounded-xl border border-gray-100 dark:border-slate-600">
+                            <h4 class="font-medium mb-2 text-gray-900 dark:text-white">👁️ 열람권</h4>
+                            <p class="text-gray-600 dark:text-gray-400 text-sm">앱 내에서 저장된 모든 데이터를 직접 확인할 수 있습니다.</p>
                         </div>
-                        <div class="p-4 bg-white/5 rounded-xl">
-                            <h4 class="font-medium mb-2">✏️ 수정권</h4>
-                            <p class="text-white/70 text-sm">예약, 디자이너, 설정 등 모든 정보를 자유롭게 수정할 수 있습니다.</p>
+                        <div class="p-4 bg-gray-50 dark:bg-slate-700/50 rounded-xl border border-gray-100 dark:border-slate-600">
+                            <h4 class="font-medium mb-2 text-gray-900 dark:text-white">✏️ 수정권</h4>
+                            <p class="text-gray-600 dark:text-gray-400 text-sm">예약, 디자이너, 설정 등 모든 정보를 자유롭게 수정할 수 있습니다.</p>
                         </div>
-                        <div class="p-4 bg-white/5 rounded-xl">
-                            <h4 class="font-medium mb-2">🗑️ 삭제권</h4>
-                            <p class="text-white/70 text-sm">개별 데이터 삭제 또는 앱 삭제를 통해 전체 데이터를 삭제할 수 있습니다.</p>
+                        <div class="p-4 bg-gray-50 dark:bg-slate-700/50 rounded-xl border border-gray-100 dark:border-slate-600">
+                            <h4 class="font-medium mb-2 text-gray-900 dark:text-white">🗑️ 삭제권</h4>
+                            <p class="text-gray-600 dark:text-gray-400 text-sm">개별 데이터 삭제 또는 앱 삭제를 통해 전체 데이터를 삭제할 수 있습니다.</p>
                         </div>
-                        <div class="p-4 bg-white/5 rounded-xl">
-                            <h4 class="font-medium mb-2">📤 이동권</h4>
-                            <p class="text-white/70 text-sm">Excel/CSV 내보내기를 통해 데이터를 다운로드할 수 있습니다.</p>
+                        <div class="p-4 bg-gray-50 dark:bg-slate-700/50 rounded-xl border border-gray-100 dark:border-slate-600">
+                            <h4 class="font-medium mb-2 text-gray-900 dark:text-white">📤 이동권</h4>
+                            <p class="text-gray-600 dark:text-gray-400 text-sm">Excel/CSV 내보내기를 통해 데이터를 다운로드할 수 있습니다.</p>
                         </div>
                     </div>
                 </section>
 
                 <!-- Section 9 -->
                 <section id="section9">
-                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b border-white/20">9. 앱 잠금 및 보안</h2>
-                    <p class="text-white/80 leading-relaxed mb-4">
+                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b border-gray-200 dark:border-slate-600 text-gray-900 dark:text-white">9. 앱 잠금 및 보안</h2>
+                    <p class="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
                         앱은 다음과 같은 보안 기능을 제공합니다:
                     </p>
                     <div class="space-y-4">
-                        <div class="p-4 bg-white/5 rounded-xl">
-                            <h4 class="font-medium mb-2">🔢 PIN 잠금</h4>
-                            <p class="text-white/70 text-sm">
+                        <div class="p-4 bg-gray-50 dark:bg-slate-700/50 rounded-xl border border-gray-100 dark:border-slate-600">
+                            <h4 class="font-medium mb-2 text-gray-900 dark:text-white">🔢 PIN 잠금</h4>
+                            <p class="text-gray-600 dark:text-gray-400 text-sm">
                                 4-6자리 PIN으로 앱을 보호합니다. PIN은 bcrypt로 해시되어 기기의 보안 저장소(iOS: Keychain, Android: Keystore, Windows: Credential Manager)에 암호화되어 저장됩니다.
                             </p>
                         </div>
-                        <div class="p-4 bg-white/5 rounded-xl">
-                            <h4 class="font-medium mb-2">👆 생체인증</h4>
-                            <p class="text-white/70 text-sm">
+                        <div class="p-4 bg-gray-50 dark:bg-slate-700/50 rounded-xl border border-gray-100 dark:border-slate-600">
+                            <h4 class="font-medium mb-2 text-gray-900 dark:text-white">👆 생체인증</h4>
+                            <p class="text-gray-600 dark:text-gray-400 text-sm">
                                 Face ID, Touch ID, 지문인식 등 기기의 생체인증을 사용할 수 있습니다. 생체정보는 앱에서 저장하지 않으며, 기기의 보안 시스템을 통해서만 인증됩니다.
                             </p>
                         </div>
                     </div>
-                    <div class="mt-4 p-4 bg-green-500/10 border border-green-500/30 rounded-xl">
-                        <p class="text-green-300 font-medium">
+                    <div class="mt-4 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl">
+                        <p class="text-green-700 dark:text-green-400 font-medium">
                             ✅ 보안 정보는 외부로 전송되지 않습니다.
                         </p>
-                        <p class="text-green-200/70 text-sm mt-2">
+                        <p class="text-green-600 dark:text-green-500 text-sm mt-2">
                             PIN 해시값과 보안 설정은 기기 내 보안 저장소에만 저장되며, 네트워크를 통해 전송되지 않습니다.
                         </p>
                     </div>
@@ -345,12 +333,12 @@
 
                 <!-- Section 10 -->
                 <section id="section10">
-                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b border-white/20">10. 아동 개인정보 보호</h2>
-                    <div class="p-6 bg-white/5 rounded-xl">
-                        <p class="text-white/80">
+                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b border-gray-200 dark:border-slate-600 text-gray-900 dark:text-white">10. 아동 개인정보 보호</h2>
+                    <div class="p-6 bg-gray-50 dark:bg-slate-700/50 rounded-xl border border-gray-100 dark:border-slate-600">
+                        <p class="text-gray-700 dark:text-gray-300">
                             앱은 만 14세 미만 아동을 대상으로 하는 서비스가 아닙니다.
                         </p>
-                        <p class="text-white/60 text-sm mt-2">
+                        <p class="text-gray-500 dark:text-gray-400 text-sm mt-2">
                             본 앱은 비즈니스 용도의 예약 관리 도구로, 만 14세 미만 아동의 개인정보를 수집하지 않습니다.
                         </p>
                     </div>
@@ -358,21 +346,21 @@
 
                 <!-- Section 11 -->
                 <section id="section11">
-                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b border-white/20">11. 개인정보보호방침 변경</h2>
-                    <p class="text-white/80 leading-relaxed">
+                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b border-gray-200 dark:border-slate-600 text-gray-900 dark:text-white">11. 개인정보보호방침 변경</h2>
+                    <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
                         본 개인정보보호방침이 변경되는 경우, 변경 내용은 다음과 같이 공지됩니다:
                     </p>
-                    <ul class="mt-4 space-y-2 text-white/70">
+                    <ul class="mt-4 space-y-2 text-gray-600 dark:text-gray-400">
                         <li class="flex items-center gap-2">
-                            <span class="text-primary-400">•</span>
+                            <span class="text-primary-500">•</span>
                             앱 내 공지사항을 통한 알림
                         </li>
                         <li class="flex items-center gap-2">
-                            <span class="text-primary-400">•</span>
+                            <span class="text-primary-500">•</span>
                             앱 업데이트 시 변경 내용 안내
                         </li>
                         <li class="flex items-center gap-2">
-                            <span class="text-primary-400">•</span>
+                            <span class="text-primary-500">•</span>
                             본 페이지의 시행일자 업데이트
                         </li>
                     </ul>
@@ -380,24 +368,24 @@
 
                 <!-- Section 12 -->
                 <section id="section12">
-                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b border-white/20">12. 문의처</h2>
-                    <p class="text-white/80 leading-relaxed mb-4">
+                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b border-gray-200 dark:border-slate-600 text-gray-900 dark:text-white">12. 문의처</h2>
+                    <p class="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
                         개인정보보호방침에 대한 문의사항이 있으시면 아래로 연락해 주세요:
                     </p>
-                    <div class="p-6 bg-white/5 rounded-xl">
+                    <div class="p-6 bg-gray-50 dark:bg-slate-700/50 rounded-xl border border-gray-100 dark:border-slate-600">
                         <div class="space-y-3">
                             <div class="flex items-center gap-3">
                                 <span class="text-2xl">📧</span>
                                 <div>
-                                    <p class="font-medium">이메일</p>
-                                    <a href="mailto:privacy@example.com" class="text-primary-400 hover:underline">privacy@example.com</a>
+                                    <p class="font-medium text-gray-900 dark:text-white">이메일</p>
+                                    <a href="mailto:imdevbada@gmail.com" class="text-primary-600 dark:text-primary-400 hover:underline">imdevbada@gmail.com</a>
                                 </div>
                             </div>
                             <div class="flex items-center gap-3">
                                 <span class="text-2xl">🌐</span>
                                 <div>
-                                    <p class="font-medium">웹사이트</p>
-                                    <a href="index.html" class="text-primary-400 hover:underline">Sisters Salon 홈페이지</a>
+                                    <p class="font-medium text-gray-900 dark:text-white">웹사이트</p>
+                                    <a href="index.html" class="text-primary-600 dark:text-primary-400 hover:underline">Sisters Salon 홈페이지</a>
                                 </div>
                             </div>
                         </div>
@@ -408,22 +396,20 @@
     </main>
 
     <!-- Footer -->
-    <footer class="glass mt-16">
+    <footer class="bg-gray-50 dark:bg-slate-900 border-t border-gray-200 dark:border-slate-700 mt-16">
         <div class="max-w-7xl mx-auto px-4 py-8">
             <div class="flex flex-col md:flex-row justify-between items-center gap-4">
                 <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-primary-500 to-purple-600 flex items-center justify-center text-white">
-                        💇‍♀️
-                    </div>
-                    <span class="font-bold">Sisters Salon</span>
+                    <img src="assets/images/app-icon.png" alt="Sisters Salon" class="w-8 h-8 rounded-lg shadow-sm">
+                    <span class="font-bold text-gray-900 dark:text-white">Sisters Salon</span>
                 </div>
-                <div class="flex items-center gap-6 text-sm text-white/60">
-                    <a href="index.html" class="hover:text-white transition-colors">홈</a>
-                    <a href="privacy.html" class="text-white">개인정보보호방침</a>
-                    <a href="terms.html" class="hover:text-white transition-colors">이용약관</a>
+                <div class="flex items-center gap-6 text-sm text-gray-600 dark:text-gray-400">
+                    <a href="index.html" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">홈</a>
+                    <span class="text-primary-600 dark:text-primary-400 font-medium">개인정보보호방침</span>
+                    <a href="terms.html" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">이용약관</a>
                 </div>
-                <p class="text-white/40 text-sm">
-                    © 2026 Sisters Salon
+                <p class="text-gray-500 dark:text-gray-500 text-sm">
+                    © 2024-2026 Sisters Salon
                 </p>
             </div>
         </div>
