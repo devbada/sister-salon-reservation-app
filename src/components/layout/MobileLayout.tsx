@@ -1,5 +1,4 @@
 import { ReactNode } from 'react';
-import { Scissors } from 'lucide-react';
 import { BottomTabs } from '../navigation/BottomTabs';
 import { useModal } from '../../contexts/ModalContext';
 
@@ -22,9 +21,7 @@ export function MobileLayout({ children, currentPage, onNavigate, onResetTab }: 
       >
         <div className="flex items-center justify-between h-14 px-4">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center shadow-sm flex-shrink-0">
-              <Scissors className="w-4 h-4 text-white" />
-            </div>
+            <img src="/icon.png" alt="Sisters Salon" className="w-8 h-8 rounded-lg shadow-sm flex-shrink-0" />
             <div>
               <h1 className="text-base font-bold logo-text leading-tight">
                 Sisters Salon

@@ -42,10 +42,11 @@ export function AppInfoSettings() {
     <div className="space-y-4">
       {/* App Logo & Name */}
       <div className="card p-6 text-center">
-        <div className="w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600
-                        flex items-center justify-center shadow-lg">
-          <span className="text-3xl">💇</span>
-        </div>
+        <img
+          src="/icon.png"
+          alt="Sisters Salon"
+          className="w-20 h-20 mx-auto mb-4 rounded-2xl shadow-lg"
+        />
         <h3 className="text-xl font-bold text-gray-900 dark:text-white">
           Sisters Salon
         </h3>
