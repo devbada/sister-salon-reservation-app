@@ -2,9 +2,10 @@
 //
 // Uses dlsym to find Swift functions at runtime to avoid link-time errors
 
+#[cfg(target_os = "ios")]
 use std::ffi::{CStr, CString};
+#[cfg(target_os = "ios")]
 use std::os::raw::c_char;
-
 #[cfg(target_os = "ios")]
 use std::sync::OnceLock;
 
@@ -151,7 +152,6 @@ fn get_cloudkit_functions() -> Option<&'static CloudKitFunctions> {
 }
 
 /// Initialize CloudKit - call this at app startup
-/// Note: Currently unused, CloudKit is initialized lazily via get_cloudkit_functions()
 #[allow(dead_code)]
 pub fn init_cloudkit() {
     #[cfg(target_os = "ios")]

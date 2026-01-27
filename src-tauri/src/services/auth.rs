@@ -69,7 +69,6 @@ pub fn remove_pin() -> Result<(), String> {
 }
 
 /// Change the PIN (verify old PIN first)
-/// Note: Currently unused as change_lock_pin command implements its own logic
 #[allow(dead_code)]
 pub fn change_pin(old_pin: &str, new_pin: &str) -> Result<(), String> {
     // Verify old PIN first
