@@ -151,6 +151,8 @@ fn get_cloudkit_functions() -> Option<&'static CloudKitFunctions> {
 }
 
 /// Initialize CloudKit - call this at app startup
+/// Note: Currently unused, CloudKit is initialized lazily via get_cloudkit_functions()
+#[allow(dead_code)]
 pub fn init_cloudkit() {
     #[cfg(target_os = "ios")]
     {
