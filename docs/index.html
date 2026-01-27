@@ -40,23 +40,31 @@
     </script>
     <style>
         .glass {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 0, 0, 0.08);
         }
         .dark .glass {
-            background: rgba(0, 0, 0, 0.25);
+            background: rgba(30, 41, 59, 0.9);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+        .clean-bg {
+            background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
         }
-        .dark .gradient-bg {
-            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4c1d95 100%);
+        .dark .clean-bg {
+            background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
         }
         .feature-icon {
             background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        }
+        .feature-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+        }
+        .dark .feature-card {
+            background: #1e293b;
+            border: 1px solid #334155;
         }
         .placeholder-img {
             background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
@@ -69,7 +77,7 @@
         }
     </style>
 </head>
-<body class="min-h-screen gradient-bg text-gray-900 dark:text-white transition-colors duration-300">
+<body class="min-h-screen clean-bg text-gray-800 dark:text-gray-100 transition-colors duration-300">
     <!-- Dark Mode Toggle -->
     <button id="theme-toggle" class="fixed top-4 right-4 z-50 p-3 rounded-full glass hover:scale-110 transition-transform">
         <svg id="sun-icon" class="w-6 h-6 hidden dark:block" fill="currentColor" viewBox="0 0 20 20">
@@ -95,7 +103,7 @@
                     <a href="#download" class="px-4 py-2 rounded-lg bg-primary-600 hover:bg-primary-700 text-white transition-colors">다운로드</a>
                 </div>
                 <!-- Mobile menu button -->
-                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg hover:bg-white/10">
+                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                     </svg>
@@ -104,9 +112,9 @@
             <!-- Mobile menu -->
             <div id="mobile-menu" class="hidden md:hidden pb-4">
                 <div class="flex flex-col gap-2">
-                    <a href="#features" class="px-4 py-2 rounded-lg hover:bg-white/10">기능</a>
-                    <a href="#screenshots" class="px-4 py-2 rounded-lg hover:bg-white/10">스크린샷</a>
-                    <a href="#platforms" class="px-4 py-2 rounded-lg hover:bg-white/10">지원 플랫폼</a>
+                    <a href="#features" class="px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700">기능</a>
+                    <a href="#screenshots" class="px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700">스크린샷</a>
+                    <a href="#platforms" class="px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700">지원 플랫폼</a>
                     <a href="#download" class="px-4 py-2 rounded-lg bg-primary-600 text-white text-center">다운로드</a>
                 </div>
             </div>
@@ -119,21 +127,21 @@
             <div class="max-w-7xl mx-auto">
                 <div class="grid md:grid-cols-2 gap-12 items-center">
                     <div class="text-center md:text-left">
-                        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+                        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-gray-900 dark:text-white">
                             헤어 살롱을 위한<br>
-                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-300 to-purple-300">
+                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-500 to-purple-600">
                                 스마트 예약 관리
                             </span>
                         </h1>
-                        <p class="text-lg md:text-xl text-white/80 dark:text-white/70 mb-8 leading-relaxed">
+                        <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
                             예약부터 통계까지, 모든 것을 한 곳에서.<br>
                             서버 없이 내 기기에서 안전하게 관리하세요.
                         </p>
                         <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                            <a href="#download" class="px-8 py-4 rounded-xl bg-white text-primary-700 font-semibold hover:bg-white/90 transition-all hover:scale-105 shadow-lg text-center">
+                            <a href="#download" class="px-8 py-4 rounded-xl bg-primary-600 text-white font-semibold hover:bg-primary-700 transition-all hover:scale-105 shadow-lg text-center">
                                 무료 다운로드
                             </a>
-                            <a href="#features" class="px-8 py-4 rounded-xl glass font-semibold hover:bg-white/20 transition-all text-center">
+                            <a href="#features" class="px-8 py-4 rounded-xl border-2 border-gray-300 dark:border-gray-600 font-semibold hover:border-primary-500 hover:text-primary-600 transition-all text-center">
                                 더 알아보기
                             </a>
                         </div>
@@ -144,8 +152,8 @@
                             <div class="flex flex-col items-center">
                                 <img src="assets/images/app-icon.png" alt="Sisters Salon App" class="w-48 h-48 md:w-64 md:h-64 rounded-[2.5rem] shadow-2xl">
                                 <div class="mt-6 text-center">
-                                    <p class="text-lg text-white/80">캘린더와 가위가 만나</p>
-                                    <p class="text-lg text-white/80">스마트한 예약 관리가 됩니다</p>
+                                    <p class="text-lg text-gray-600 dark:text-gray-300">캘린더와 가위가 만나</p>
+                                    <p class="text-lg text-gray-600 dark:text-gray-300">스마트한 예약 관리가 됩니다</p>
                                 </div>
                             </div>
                             <!-- Floating elements -->
@@ -165,97 +173,97 @@
         <section id="features" class="py-16 md:py-24 px-4">
             <div class="max-w-7xl mx-auto">
                 <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-4">주요 기능</h2>
-                    <p class="text-white/70 text-lg max-w-2xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white">주요 기능</h2>
+                    <p class="text-gray-600 dark:text-gray-400 text-lg max-w-2xl mx-auto">
                         살롱 운영에 필요한 모든 기능을 하나의 앱에서
                     </p>
                 </div>
 
                 <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                     <!-- Feature 1: 예약 관리 -->
-                    <div class="glass rounded-2xl p-6 hover:scale-105 transition-transform">
+                    <div class="feature-card rounded-2xl p-6 hover:scale-105 transition-transform shadow-sm hover:shadow-md">
                         <div class="feature-icon w-14 h-14 rounded-xl flex items-center justify-center text-white text-2xl mb-4">
                             📅
                         </div>
-                        <h3 class="text-xl font-semibold mb-2">예약 관리</h3>
-                        <p class="text-white/70">
+                        <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">예약 관리</h3>
+                        <p class="text-gray-600 dark:text-gray-400">
                             간편한 예약 생성, 수정, 삭제. 대기 → 확정 → 완료까지 5단계 상태 관리로 예약 현황을 한눈에.
                         </p>
                     </div>
 
                     <!-- Feature 2: 고객 관리 -->
-                    <div class="glass rounded-2xl p-6 hover:scale-105 transition-transform">
+                    <div class="feature-card rounded-2xl p-6 hover:scale-105 transition-transform shadow-sm hover:shadow-md">
                         <div class="feature-icon w-14 h-14 rounded-xl flex items-center justify-center text-white text-2xl mb-4">
                             👥
                         </div>
-                        <h3 class="text-xl font-semibold mb-2">고객 관리</h3>
-                        <p class="text-white/70">
+                        <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">고객 관리</h3>
+                        <p class="text-gray-600 dark:text-gray-400">
                             고객 정보와 방문 이력을 체계적으로 관리. 검색 및 필터링으로 빠르게 고객을 찾으세요.
                         </p>
                     </div>
 
                     <!-- Feature 3: 디자이너 관리 -->
-                    <div class="glass rounded-2xl p-6 hover:scale-105 transition-transform">
+                    <div class="feature-card rounded-2xl p-6 hover:scale-105 transition-transform shadow-sm hover:shadow-md">
                         <div class="feature-icon w-14 h-14 rounded-xl flex items-center justify-center text-white text-2xl mb-4">
                             ✂️
                         </div>
-                        <h3 class="text-xl font-semibold mb-2">디자이너 관리</h3>
-                        <p class="text-white/70">
+                        <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">디자이너 관리</h3>
+                        <p class="text-gray-600 dark:text-gray-400">
                             스타일리스트별 전문 분야를 관리하고 예약 배정. 디자이너별 실적도 한눈에.
                         </p>
                     </div>
 
                     <!-- Feature 4: 영업시간 관리 -->
-                    <div class="glass rounded-2xl p-6 hover:scale-105 transition-transform">
+                    <div class="feature-card rounded-2xl p-6 hover:scale-105 transition-transform shadow-sm hover:shadow-md">
                         <div class="feature-icon w-14 h-14 rounded-xl flex items-center justify-center text-white text-2xl mb-4">
                             🕐
                         </div>
-                        <h3 class="text-xl font-semibold mb-2">영업시간 관리</h3>
-                        <p class="text-white/70">
+                        <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">영업시간 관리</h3>
+                        <p class="text-gray-600 dark:text-gray-400">
                             요일별 영업시간과 휴식시간 설정. 특별 휴무일 및 공휴일 관리도 가능합니다.
                         </p>
                     </div>
 
                     <!-- Feature 5: 통계 대시보드 -->
-                    <div class="glass rounded-2xl p-6 hover:scale-105 transition-transform">
+                    <div class="feature-card rounded-2xl p-6 hover:scale-105 transition-transform shadow-sm hover:shadow-md">
                         <div class="feature-icon w-14 h-14 rounded-xl flex items-center justify-center text-white text-2xl mb-4">
                             📊
                         </div>
-                        <h3 class="text-xl font-semibold mb-2">통계 대시보드</h3>
-                        <p class="text-white/70">
+                        <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">통계 대시보드</h3>
+                        <p class="text-gray-600 dark:text-gray-400">
                             일별, 월별 예약 통계와 차트로 비즈니스 인사이트를 한눈에 파악하세요.
                         </p>
                     </div>
 
                     <!-- Feature 6: 데이터 보안 -->
-                    <div class="glass rounded-2xl p-6 hover:scale-105 transition-transform">
+                    <div class="feature-card rounded-2xl p-6 hover:scale-105 transition-transform shadow-sm hover:shadow-md">
                         <div class="feature-icon w-14 h-14 rounded-xl flex items-center justify-center text-white text-2xl mb-4">
                             🔒
                         </div>
-                        <h3 class="text-xl font-semibold mb-2">앱 잠금 & 백업</h3>
-                        <p class="text-white/70">
+                        <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">앱 잠금 & 백업</h3>
+                        <p class="text-gray-600 dark:text-gray-400">
                             PIN으로 앱을 보호하고, iCloud/Google Drive로 안전하게 백업하세요.
                         </p>
                     </div>
 
                     <!-- Feature 7: 멀티 플랫폼 -->
-                    <div class="glass rounded-2xl p-6 hover:scale-105 transition-transform">
+                    <div class="feature-card rounded-2xl p-6 hover:scale-105 transition-transform shadow-sm hover:shadow-md">
                         <div class="feature-icon w-14 h-14 rounded-xl flex items-center justify-center text-white text-2xl mb-4">
                             💻
                         </div>
-                        <h3 class="text-xl font-semibold mb-2">멀티 플랫폼</h3>
-                        <p class="text-white/70">
+                        <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">멀티 플랫폼</h3>
+                        <p class="text-gray-600 dark:text-gray-400">
                             iPhone, iPad, Mac, Windows, Android 어디서든 최적화된 반응형 UI.
                         </p>
                     </div>
 
                     <!-- Feature 8: 오프라인 우선 -->
-                    <div class="glass rounded-2xl p-6 hover:scale-105 transition-transform">
+                    <div class="feature-card rounded-2xl p-6 hover:scale-105 transition-transform shadow-sm hover:shadow-md">
                         <div class="feature-icon w-14 h-14 rounded-xl flex items-center justify-center text-white text-2xl mb-4">
                             📱
                         </div>
-                        <h3 class="text-xl font-semibold mb-2">오프라인 우선</h3>
-                        <p class="text-white/70">
+                        <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">오프라인 우선</h3>
+                        <p class="text-gray-600 dark:text-gray-400">
                             서버 없이 내 기기에서만 동작. 인터넷 연결 없이도 언제든 사용 가능.
                         </p>
                     </div>
@@ -264,11 +272,11 @@
         </section>
 
         <!-- Screenshots Section -->
-        <section id="screenshots" class="py-16 md:py-24 px-4">
+        <section id="screenshots" class="py-16 md:py-24 px-4 bg-white dark:bg-slate-800/50">
             <div class="max-w-7xl mx-auto">
                 <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-4">스크린샷</h2>
-                    <p class="text-white/70 text-lg max-w-2xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white">스크린샷</h2>
+                    <p class="text-gray-600 dark:text-gray-400 text-lg max-w-2xl mx-auto">
                         모든 기기에서 아름답고 직관적인 인터페이스
                     </p>
                 </div>
@@ -276,7 +284,7 @@
                 <div class="grid md:grid-cols-3 gap-8">
                     <!-- iPhone -->
                     <div class="text-center">
-                        <h3 class="text-lg font-semibold mb-4">iPhone</h3>
+                        <h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">iPhone</h3>
                         <div class="placeholder-img rounded-[2rem] p-3 inline-block shadow-xl">
                             <div class="bg-gray-200 dark:bg-gray-700 rounded-[1.5rem] w-48 aspect-[9/19] flex items-center justify-center">
                                 <div class="text-center p-4">
@@ -289,7 +297,7 @@
 
                     <!-- iPad -->
                     <div class="text-center">
-                        <h3 class="text-lg font-semibold mb-4">iPad</h3>
+                        <h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">iPad</h3>
                         <div class="placeholder-img rounded-[1.5rem] p-3 inline-block shadow-xl">
                             <div class="bg-gray-200 dark:bg-gray-700 rounded-[1rem] w-64 aspect-[4/3] flex items-center justify-center">
                                 <div class="text-center p-4">
@@ -302,7 +310,7 @@
 
                     <!-- Desktop -->
                     <div class="text-center">
-                        <h3 class="text-lg font-semibold mb-4">Desktop</h3>
+                        <h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Desktop</h3>
                         <div class="placeholder-img rounded-xl p-2 inline-block shadow-xl">
                             <div class="bg-gray-200 dark:bg-gray-700 rounded-lg w-72 aspect-[16/10] flex items-center justify-center">
                                 <div class="text-center p-4">
@@ -320,57 +328,57 @@
         <section id="platforms" class="py-16 md:py-24 px-4">
             <div class="max-w-7xl mx-auto">
                 <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-4">지원 플랫폼</h2>
-                    <p class="text-white/70 text-lg max-w-2xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white">지원 플랫폼</h2>
+                    <p class="text-gray-600 dark:text-gray-400 text-lg max-w-2xl mx-auto">
                         어디서든 동일한 경험을 제공합니다
                     </p>
                 </div>
 
                 <div class="flex flex-wrap justify-center gap-6">
                     <!-- macOS -->
-                    <div class="glass rounded-2xl p-6 text-center hover:scale-105 transition-transform w-40">
+                    <div class="feature-card rounded-2xl p-6 text-center hover:scale-105 transition-transform w-40 shadow-sm">
                         <div class="text-5xl mb-3">🍎</div>
-                        <h3 class="font-semibold">macOS</h3>
-                        <p class="text-sm text-white/60">Intel & Apple Silicon</p>
+                        <h3 class="font-semibold text-gray-900 dark:text-white">macOS</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Intel & Apple Silicon</p>
                     </div>
 
                     <!-- Windows -->
-                    <div class="glass rounded-2xl p-6 text-center hover:scale-105 transition-transform w-40">
+                    <div class="feature-card rounded-2xl p-6 text-center hover:scale-105 transition-transform w-40 shadow-sm">
                         <div class="text-5xl mb-3">🪟</div>
-                        <h3 class="font-semibold">Windows</h3>
-                        <p class="text-sm text-white/60">Windows 10+</p>
+                        <h3 class="font-semibold text-gray-900 dark:text-white">Windows</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Windows 10+</p>
                     </div>
 
                     <!-- Linux -->
-                    <div class="glass rounded-2xl p-6 text-center hover:scale-105 transition-transform w-40">
+                    <div class="feature-card rounded-2xl p-6 text-center hover:scale-105 transition-transform w-40 shadow-sm">
                         <div class="text-5xl mb-3">🐧</div>
-                        <h3 class="font-semibold">Linux</h3>
-                        <p class="text-sm text-white/60">Ubuntu, Debian</p>
+                        <h3 class="font-semibold text-gray-900 dark:text-white">Linux</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Ubuntu, Debian</p>
                     </div>
 
                     <!-- iOS -->
-                    <div class="glass rounded-2xl p-6 text-center hover:scale-105 transition-transform w-40">
+                    <div class="feature-card rounded-2xl p-6 text-center hover:scale-105 transition-transform w-40 shadow-sm">
                         <div class="text-5xl mb-3">📱</div>
-                        <h3 class="font-semibold">iOS</h3>
-                        <p class="text-sm text-white/60">iOS 14.0+</p>
+                        <h3 class="font-semibold text-gray-900 dark:text-white">iOS</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">iOS 14.0+</p>
                     </div>
 
                     <!-- Android -->
-                    <div class="glass rounded-2xl p-6 text-center hover:scale-105 transition-transform w-40">
+                    <div class="feature-card rounded-2xl p-6 text-center hover:scale-105 transition-transform w-40 shadow-sm">
                         <div class="text-5xl mb-3">🤖</div>
-                        <h3 class="font-semibold">Android</h3>
-                        <p class="text-sm text-white/60">Android 7.0+</p>
+                        <h3 class="font-semibold text-gray-900 dark:text-white">Android</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Android 7.0+</p>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Download Section -->
-        <section id="download" class="py-16 md:py-24 px-4">
+        <section id="download" class="py-16 md:py-24 px-4 bg-gradient-to-b from-primary-50 to-purple-50 dark:from-slate-800 dark:to-slate-900">
             <div class="max-w-4xl mx-auto">
-                <div class="glass rounded-3xl p-8 md:p-12 text-center">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-4">지금 바로 시작하세요</h2>
-                    <p class="text-white/70 text-lg mb-8 max-w-xl mx-auto">
+                <div class="bg-white dark:bg-slate-800 rounded-3xl p-8 md:p-12 text-center shadow-xl border border-gray-100 dark:border-slate-700">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white">지금 바로 시작하세요</h2>
+                    <p class="text-gray-600 dark:text-gray-400 text-lg mb-8 max-w-xl mx-auto">
                         무료로 다운로드하고 살롱 예약 관리를 더 스마트하게
                     </p>
 
@@ -416,7 +424,7 @@
                         </a>
                     </div>
 
-                    <p class="text-white/50 text-sm">
+                    <p class="text-gray-500 dark:text-gray-400 text-sm">
                         * 현재 개발 중입니다. 출시 시 알림을 받으시려면 이메일을 남겨주세요.
                     </p>
                 </div>
@@ -425,16 +433,16 @@
     </main>
 
     <!-- Footer -->
-    <footer class="glass mt-16">
+    <footer class="bg-gray-50 dark:bg-slate-900 border-t border-gray-200 dark:border-slate-700 mt-16">
         <div class="max-w-7xl mx-auto px-4 py-12">
             <div class="grid md:grid-cols-4 gap-8 mb-8">
                 <!-- Brand -->
                 <div class="md:col-span-2">
                     <div class="flex items-center gap-3 mb-4">
                         <img src="assets/images/app-icon.png" alt="Sisters Salon" class="w-10 h-10 rounded-xl shadow-md">
-                        <span class="text-xl font-bold">Sisters Salon</span>
+                        <span class="text-xl font-bold text-gray-900 dark:text-white">Sisters Salon</span>
                     </div>
-                    <p class="text-white/60 max-w-md">
+                    <p class="text-gray-600 dark:text-gray-400 max-w-md">
                         헤어 살롱을 위한 스마트 예약 관리 앱.<br>
                         서버 없이 로컬에서 안전하게 데이터를 관리하세요.
                     </p>
@@ -442,29 +450,29 @@
 
                 <!-- Links -->
                 <div>
-                    <h4 class="font-semibold mb-4">법적 고지</h4>
-                    <ul class="space-y-2 text-white/60">
-                        <li><a href="privacy.html" class="hover:text-white transition-colors">개인정보보호방침</a></li>
-                        <li><a href="terms.html" class="hover:text-white transition-colors">이용약관</a></li>
+                    <h4 class="font-semibold mb-4 text-gray-900 dark:text-white">법적 고지</h4>
+                    <ul class="space-y-2 text-gray-600 dark:text-gray-400">
+                        <li><a href="privacy.html" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">개인정보보호방침</a></li>
+                        <li><a href="terms.html" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">이용약관</a></li>
                     </ul>
                 </div>
 
                 <!-- Contact -->
                 <div>
-                    <h4 class="font-semibold mb-4">문의</h4>
-                    <ul class="space-y-2 text-white/60">
-                        <li><a href="mailto:support@example.com" class="hover:text-white transition-colors">support@example.com</a></li>
-                        <li><a href="https://github.com/devbada/sisters-salon-reservation-app" class="hover:text-white transition-colors" target="_blank">GitHub</a></li>
+                    <h4 class="font-semibold mb-4 text-gray-900 dark:text-white">문의</h4>
+                    <ul class="space-y-2 text-gray-600 dark:text-gray-400">
+                        <li><a href="mailto:support@example.com" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">support@example.com</a></li>
+                        <li><a href="https://github.com/devbada/sisters-salon-reservation-app" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors" target="_blank">GitHub</a></li>
                     </ul>
                 </div>
             </div>
 
-            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                <p class="text-white/40 text-sm">
+            <div class="border-t border-gray-200 dark:border-slate-700 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-gray-500 dark:text-gray-500 text-sm">
                     © 2024-2026 Sisters Salon. All rights reserved.
                 </p>
-                <p class="text-white/40 text-sm">
-                    Made with ❤️ using <a href="https://tauri.app" class="hover:text-white">Tauri</a> + <a href="https://react.dev" class="hover:text-white">React</a>
+                <p class="text-gray-500 dark:text-gray-500 text-sm">
+                    Made with ❤️ using <a href="https://tauri.app" class="hover:text-primary-600 dark:hover:text-primary-400">Tauri</a> + <a href="https://react.dev" class="hover:text-primary-600 dark:hover:text-primary-400">React</a>
                 </p>
             </div>
         </div>
