@@ -6,6 +6,7 @@ interface BottomTabsProps {
   currentPage: string;
   onNavigate: (page: string) => void;
   onResetTab?: (page: string) => void;
+  hidden?: boolean;
 }
 
 interface TabItem {
@@ -23,7 +24,7 @@ const tabs: TabItem[] = [
 
 const DOUBLE_TAP_DELAY = 300; // ms
 
-export function BottomTabs({ currentPage, onNavigate, onResetTab }: BottomTabsProps) {
+export function BottomTabs({ currentPage, onNavigate, onResetTab, hidden = false }: BottomTabsProps) {
   const lastTapRef = useRef<{ tab: string; time: number } | null>(null);
 
   const handleTabClick = useCallback((tabId: string) => {
@@ -48,7 +49,9 @@ export function BottomTabs({ currentPage, onNavigate, onResetTab }: BottomTabsPr
 
   return (
     <nav
-      className="fixed bottom-0 left-0 right-0 glass border-t border-white/10 z-50"
+      className={`fixed bottom-0 left-0 right-0 glass border-t border-white/10 z-50 transition-transform duration-200 ${
+        hidden ? 'translate-y-full' : 'translate-y-0'
+      }`}
       style={{
         paddingBottom: 'env(safe-area-inset-bottom, 0px)',
         paddingLeft: 'env(safe-area-inset-left, 0px)',

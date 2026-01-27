@@ -104,24 +104,26 @@ export function AppointmentForm({ reservation, onSubmit, onCancel }: Appointment
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
+    <form onSubmit={handleSubmit}>
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-          {reservation ? '예약 수정' : '새 예약'}
-        </h2>
-        <button
-          type="button"
-          onClick={onCancel}
-          className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 text-gray-500 hover:text-gray-700 transition-colors"
-          aria-label="닫기"
-        >
-          <X className="w-4 h-4" />
-        </button>
+      <div className="modal-header">
+        <div className="flex items-center justify-between">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+            {reservation ? '예약 수정' : '새 예약'}
+          </h2>
+          <button
+            type="button"
+            onClick={onCancel}
+            className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 text-gray-500 hover:text-gray-700 transition-colors"
+            aria-label="닫기"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
       </div>
 
-      {/* Form Fields */}
-      <div className="space-y-5">
+      {/* Form Fields - Scrollable */}
+      <div className="modal-body space-y-5">
         {/* Customer Info Section */}
         <div className="space-y-4">
           {!reservation && (
@@ -279,8 +281,8 @@ export function AppointmentForm({ reservation, onSubmit, onCancel }: Appointment
         </div>
       </div>
 
-      {/* Actions */}
-      <div className="flex justify-end gap-3 mt-6 pt-6 border-t border-white/10">
+      {/* Actions - Fixed Footer */}
+      <div className="modal-footer flex justify-end gap-3">
         <button
           type="button"
           onClick={onCancel}

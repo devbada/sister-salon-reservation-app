@@ -16,6 +16,7 @@ import {
   ChevronRight,
 } from 'lucide-react';
 import { customerApi, designerApi } from '../../lib/tauri';
+import { useModal } from '../../contexts/ModalContext';
 import type { Customer, CreateCustomerInput, CustomerReservation, Designer } from '../../types';
 
 interface CustomerFormData {
@@ -54,6 +55,13 @@ export function CustomerManagement() {
   const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
   const [reservationHistory, setReservationHistory] = useState<CustomerReservation[]>([]);
   const [loadingHistory, setLoadingHistory] = useState(false);
+
+  const { setModalOpen } = useModal();
+
+  // Sync modal state with showForm and selectedCustomer
+  useEffect(() => {
+    setModalOpen(showForm || selectedCustomer !== null);
+  }, [showForm, selectedCustomer, setModalOpen]);
 
   useEffect(() => {
     loadCustomers();
@@ -221,7 +229,7 @@ export function CustomerManagement() {
         <h1 className="heading-2">고객 관리</h1>
         <button onClick={() => setShowForm(true)} className="btn btn-primary">
           <Plus className="w-4 h-4" />
-          <span className="hidden sm:inline">새 고객</span>
+          고객 등록
         </button>
       </div>
 
@@ -241,17 +249,30 @@ export function CustomerManagement() {
       {showForm && (
         <div className="modal-overlay" onClick={handleCancel}>
           <div className="modal-content max-w-lg" onClick={(e) => e.stopPropagation()}>
-            <form onSubmit={handleSubmit} className="glass-card animate-scale-in">
-              <h2 className="heading-3 mb-6">{editingId ? '고객 정보 수정' : '새 고객 등록'}</h2>
-
-              {error && (
-                <div className="flex items-center gap-2 p-3 mb-4 rounded-lg bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300">
-                  <AlertCircle className="w-4 h-4 flex-shrink-0" />
-                  <span className="text-sm">{error}</span>
+            <form onSubmit={handleSubmit}>
+              {/* Header */}
+              <div className="modal-header">
+                <div className="flex items-center justify-between">
+                  <h2 className="heading-3">{editingId ? '고객 정보 수정' : '새 고객 등록'}</h2>
+                  <button
+                    type="button"
+                    onClick={handleCancel}
+                    className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 text-gray-500 hover:text-gray-700 transition-colors"
+                    aria-label="닫기"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
                 </div>
-              )}
+              </div>
 
-              <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
+              {/* Body - Scrollable */}
+              <div className="modal-body space-y-4">
+                {error && (
+                  <div className="flex items-center gap-2 p-3 rounded-lg bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300">
+                    <AlertCircle className="w-4 h-4 flex-shrink-0" />
+                    <span className="text-sm">{error}</span>
+                  </div>
+                )}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="label flex items-center gap-1.5">
@@ -380,7 +401,8 @@ export function CustomerManagement() {
                 </div>
               </div>
 
-              <div className="flex justify-end gap-3 mt-6 pt-6 border-t border-white/10">
+              {/* Footer - Fixed */}
+              <div className="modal-footer flex justify-end gap-3">
                 <button type="button" onClick={handleCancel} className="btn btn-secondary">
                   취소
                 </button>
@@ -406,8 +428,9 @@ export function CustomerManagement() {
       {selectedCustomer && (
         <div className="modal-overlay" onClick={() => setSelectedCustomer(null)}>
           <div className="modal-content max-w-lg" onClick={(e) => e.stopPropagation()}>
-            <div className="glass-card animate-scale-in">
-              <div className="flex items-center justify-between mb-6">
+            {/* Header */}
+            <div className="modal-header">
+              <div className="flex items-center justify-between">
                 <h2 className="heading-3">고객 상세 정보</h2>
                 <button
                   onClick={() => setSelectedCustomer(null)}
@@ -416,8 +439,10 @@ export function CustomerManagement() {
                   <X className="w-4 h-4" />
                 </button>
               </div>
+            </div>
 
-              <div className="space-y-6">
+            {/* Body - Scrollable */}
+            <div className="modal-body space-y-6">
                 {/* Basic Info */}
                 <div className="flex items-center gap-4">
                   <div className="w-14 h-14 rounded-full bg-gradient-to-br from-primary-400 to-secondary-400 flex items-center justify-center">
@@ -500,7 +525,7 @@ export function CustomerManagement() {
                       예약 이력이 없습니다
                     </p>
                   ) : (
-                    <div className="space-y-2 max-h-48 overflow-y-auto">
+                    <div className="space-y-2">
                       {reservationHistory.slice(0, 10).map((r) => (
                         <div
                           key={r.id}
@@ -523,7 +548,8 @@ export function CustomerManagement() {
                 </div>
               </div>
 
-              <div className="flex justify-end gap-3 mt-6 pt-6 border-t border-white/10">
+              {/* Footer - Fixed */}
+              <div className="modal-footer flex justify-end gap-3">
                 <button onClick={() => handleEdit(selectedCustomer)} className="btn btn-secondary">
                   <Pencil className="w-4 h-4" />
                   수정
@@ -539,7 +565,6 @@ export function CustomerManagement() {
                   삭제
                 </button>
               </div>
-            </div>
           </div>
         </div>
       )}
