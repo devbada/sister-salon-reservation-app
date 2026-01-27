@@ -1,4 +1,4 @@
-import { Calendar, Users, Clock, BarChart3, Settings, Scissors, UserRoundSearch } from 'lucide-react';
+import { Calendar, Users, Clock, BarChart3, Settings, UserRoundSearch } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
 interface SidebarProps {
@@ -29,9 +29,7 @@ export function Sidebar({ currentPage, onNavigate }: SidebarProps) {
     >
       {/* Logo */}
       <div className="flex items-center gap-3 mb-8 px-2">
-        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center shadow-lg">
-          <Scissors className="w-5 h-5 text-white" />
-        </div>
+        <img src="/icon.png" alt="Sisters Salon" className="w-10 h-10 rounded-xl shadow-lg" />
         <h1 className="text-xl font-bold logo-text">
           Sisters Salon
         </h1>

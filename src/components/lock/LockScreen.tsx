@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
-import { Scissors, Delete, AlertCircle } from 'lucide-react';
+import { Delete, AlertCircle } from 'lucide-react';
 
 interface LockScreenProps {
   onUnlock: (pin: string) => Promise<boolean>;
@@ -86,9 +86,7 @@ export function LockScreen({ onUnlock }: LockScreenProps) {
       <div className="lock-container">
         {/* Logo */}
         <div className="lock-logo">
-          <div className="lock-logo-icon">
-            <Scissors strokeWidth={1.5} />
-          </div>
+          <img src="/icon.png" alt="Sisters Salon" className="lock-logo-icon" />
           <h1>Sisters Salon</h1>
           <p>PIN을 입력해 주세요</p>
         </div>

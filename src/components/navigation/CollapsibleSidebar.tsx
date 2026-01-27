@@ -1,4 +1,4 @@
-import { Calendar, Users, Clock, BarChart3, Settings, Scissors, ChevronLeft, ChevronRight, UserRoundSearch } from 'lucide-react';
+import { Calendar, Users, Clock, BarChart3, Settings, ChevronLeft, ChevronRight, UserRoundSearch } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
 interface CollapsibleSidebarProps {
@@ -35,9 +35,7 @@ export function CollapsibleSidebar({ currentPage, onNavigate, isOpen, onToggle }
       <div className={`flex items-center mb-6 ${isOpen ? 'justify-between px-1' : 'justify-center'}`}>
         {isOpen ? (
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center shadow-md flex-shrink-0">
-              <Scissors className="w-4.5 h-4.5 text-white" />
-            </div>
+            <img src="/icon.png" alt="Sisters Salon" className="w-9 h-9 rounded-xl shadow-md flex-shrink-0" />
             <div className="min-w-0">
               <h1 className="text-base font-bold logo-text leading-tight">
                 Sisters Salon
@@ -48,9 +46,7 @@ export function CollapsibleSidebar({ currentPage, onNavigate, isOpen, onToggle }
             </div>
           </div>
         ) : (
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center shadow-md">
-            <Scissors className="w-5 h-5 text-white" />
-          </div>
+          <img src="/icon.png" alt="Sisters Salon" className="w-10 h-10 rounded-xl shadow-md" />
         )}
       </div>
 
