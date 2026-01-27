@@ -69,6 +69,7 @@ pub fn remove_pin() -> Result<(), String> {
 }
 
 /// Change the PIN (verify old PIN first)
+#[allow(dead_code)]
 pub fn change_pin(old_pin: &str, new_pin: &str) -> Result<(), String> {
     // Verify old PIN first
     if !verify_pin(old_pin)? {

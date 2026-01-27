@@ -12,6 +12,7 @@ import { StatisticsDashboard } from './components/statistics/StatisticsDashboard
 import { SettingsPage } from './components/settings/SettingsPage';
 import { LockScreen } from './components/lock/LockScreen';
 import { UnsavedChangesProvider, useUnsavedChanges } from './contexts/UnsavedChangesContext';
+import { ModalProvider, useModal } from './contexts/ModalContext';
 import { UnsavedChangesDialog } from './components/common/UnsavedChangesDialog';
 import { useAppLock } from './hooks/useAppLock';
 import type { Reservation } from './types';
@@ -52,6 +53,14 @@ function AppContent() {
 
   // Unsaved changes context
   const { checkAndNavigate, setHasUnsavedChanges } = useUnsavedChanges();
+
+  // Modal context for hiding bottom tabs
+  const { setModalOpen } = useModal();
+
+  // Sync showForm state with modal context
+  useEffect(() => {
+    setModalOpen(showForm);
+  }, [showForm, setModalOpen]);
 
   useEffect(() => {
     if (currentPage === 'reservations') {
@@ -230,9 +239,11 @@ function AppContent() {
 
 function App() {
   return (
-    <UnsavedChangesProvider>
-      <AppContent />
-    </UnsavedChangesProvider>
+    <ModalProvider>
+      <UnsavedChangesProvider>
+        <AppContent />
+      </UnsavedChangesProvider>
+    </ModalProvider>
   );
 }
 

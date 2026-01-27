@@ -80,6 +80,15 @@ export function BusinessHours() {
         </button>
       </div>
 
+      {/* Info Card - 상단에 배치 */}
+      <div className="flex items-start gap-3 p-3 rounded-lg bg-primary-50 dark:bg-primary-900/20 border border-primary-200 dark:border-primary-800">
+        <Info className="w-5 h-5 text-primary-500 flex-shrink-0 mt-0.5" />
+        <div className="text-sm text-primary-700 dark:text-primary-300">
+          <span className="font-medium">영업시간 변경 후 저장 버튼을 클릭해야 반영됩니다.</span>
+          <span className="text-primary-600 dark:text-primary-400 ml-1">휴식시간은 선택사항입니다.</span>
+        </div>
+      </div>
+
       {/* Business Hours List */}
       <div className="glass-card p-0 overflow-hidden">
         <div className="divide-y divide-black/5 dark:divide-white/5">
@@ -120,37 +129,38 @@ export function BusinessHours() {
 
                 {/* Time Inputs */}
                 {!h.isClosed && (
-                  <div className="flex-1 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-6">
+                  <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-3">
                     {/* Operating Hours */}
-                    <div className="flex items-center gap-2">
-                      <Clock className="w-4 h-4 text-gray-400 hidden sm:block" />
-                      <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 p-3 rounded-lg bg-white/50 dark:bg-white/5">
+                      <Clock className="w-4 h-4 text-primary-500 flex-shrink-0" />
+                      <span className="text-sm text-gray-600 dark:text-gray-400 w-10">영업</span>
+                      <div className="flex items-center gap-2 flex-1">
                         <input
                           type="time"
                           value={h.openTime || ''}
                           onChange={(e) => handleChange(h.dayOfWeek, 'openTime', e.target.value)}
-                          className="input py-2 px-3 w-[120px]"
+                          className="input py-2 px-3 flex-1 min-w-0"
                         />
                         <span className="text-gray-400">~</span>
                         <input
                           type="time"
                           value={h.closeTime || ''}
                           onChange={(e) => handleChange(h.dayOfWeek, 'closeTime', e.target.value)}
-                          className="input py-2 px-3 w-[120px]"
+                          className="input py-2 px-3 flex-1 min-w-0"
                         />
                       </div>
                     </div>
 
                     {/* Break Time */}
-                    <div className="flex items-center gap-2">
-                      <Coffee className="w-4 h-4 text-gray-400 hidden sm:block" />
-                      <span className="text-sm text-gray-500 hidden sm:block">휴식</span>
-                      <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 p-3 rounded-lg bg-white/50 dark:bg-white/5">
+                      <Coffee className="w-4 h-4 text-amber-500 flex-shrink-0" />
+                      <span className="text-sm text-gray-600 dark:text-gray-400 w-10">휴식</span>
+                      <div className="flex items-center gap-2 flex-1">
                         <input
                           type="time"
                           value={h.breakStart || ''}
                           onChange={(e) => handleChange(h.dayOfWeek, 'breakStart', e.target.value)}
-                          className="input py-2 px-3 w-[120px] text-sm"
+                          className="input py-2 px-3 flex-1 min-w-0 text-sm"
                           placeholder="시작"
                         />
                         <span className="text-gray-400">~</span>
@@ -158,7 +168,7 @@ export function BusinessHours() {
                           type="time"
                           value={h.breakEnd || ''}
                           onChange={(e) => handleChange(h.dayOfWeek, 'breakEnd', e.target.value)}
-                          className="input py-2 px-3 w-[120px] text-sm"
+                          className="input py-2 px-3 flex-1 min-w-0 text-sm"
                           placeholder="종료"
                         />
                       </div>
@@ -177,14 +187,6 @@ export function BusinessHours() {
         </div>
       </div>
 
-      {/* Info Card */}
-      <div className="glass-card flex items-start gap-3">
-        <Info className="w-5 h-5 text-primary-500 flex-shrink-0 mt-0.5" />
-        <div className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
-          <p>영업시간 변경은 저장 버튼을 클릭해야 반영됩니다.</p>
-          <p>휴식시간은 선택사항입니다.</p>
-        </div>
-      </div>
     </div>
   );
 }

@@ -104,16 +104,26 @@ targets:
             cd src-tauri
           fi
 
-          # Rust 빌드
+          # Rust 빌드 - 시뮬레이터/기기 타겟 분기
           echo "Building Rust code for iOS..."
-          if [ "$CONFIGURATION" = "Release" ] || [ "$CONFIGURATION" = "release" ]; then
-            cargo build --release --target aarch64-apple-ios --lib
-            mkdir -p "$SRCROOT/Externals/arm64/release"
-            cp "target/aarch64-apple-ios/release/libsisters_salon_reservation_app_lib.a" "$SRCROOT/Externals/arm64/release/libapp.a"
+          echo "PLATFORM_NAME: $PLATFORM_NAME"
+
+          if [[ "$PLATFORM_NAME" == *"simulator"* ]]; then
+            RUST_TARGET="aarch64-apple-ios-sim"
+            echo "Building for iOS Simulator..."
           else
-            cargo build --target aarch64-apple-ios --lib
+            RUST_TARGET="aarch64-apple-ios"
+            echo "Building for iOS Device..."
+          fi
+
+          if [ "$CONFIGURATION" = "Release" ] || [ "$CONFIGURATION" = "release" ]; then
+            cargo build --release --target $RUST_TARGET --lib
+            mkdir -p "$SRCROOT/Externals/arm64/release"
+            cp "target/$RUST_TARGET/release/libsisters_salon_reservation_app_lib.a" "$SRCROOT/Externals/arm64/release/libapp.a"
+          else
+            cargo build --target $RUST_TARGET --lib
             mkdir -p "$SRCROOT/Externals/arm64/debug"
-            cp "target/aarch64-apple-ios/debug/libsisters_salon_reservation_app_lib.a" "$SRCROOT/Externals/arm64/debug/libapp.a"
+            cp "target/$RUST_TARGET/debug/libsisters_salon_reservation_app_lib.a" "$SRCROOT/Externals/arm64/debug/libapp.a"
           fi
 
           echo "Rust build complete!"
