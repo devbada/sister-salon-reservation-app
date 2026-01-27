@@ -198,7 +198,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		"TEMP_A830CDE5-6D0B-4879-9A31-2D14887B9EE9" /* components */ = {
+		"TEMP_99B588E0-C7FA-48C5-A85A-92DEFCAF6987" /* components */ = {
 			isa = PBXGroup;
 			children = (
 			);
@@ -293,7 +293,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -e\n\n# nvm 환경 로드\nexport NVM_DIR=\"$HOME/.nvm\"\n[ -s \"$NVM_DIR/nvm.sh\" ] && \\. \"$NVM_DIR/nvm.sh\"\n\n# Homebrew 경로 추가\nexport PATH=\"/opt/homebrew/bin:$PATH\"\n\n# Rust/Cargo 경로 추가\nexport PATH=\"$HOME/.cargo/bin:$PATH\"\n\n# 프로젝트 루트로 이동\ncd \"$SRCROOT/../..\"\n\n# Frontend 빌드 (dist 폴더가 없거나 오래된 경우)\nif [ ! -d \"../dist\" ] || [ \"../src\" -nt \"../dist\" ]; then\n  echo \"Building frontend...\"\n  cd ..\n  npm run build\n  cd src-tauri\nfi\n\n# Rust 빌드\necho \"Building Rust code for iOS...\"\nif [ \"$CONFIGURATION\" = \"Release\" ] || [ \"$CONFIGURATION\" = \"release\" ]; then\n  cargo build --release --target aarch64-apple-ios --lib\n  mkdir -p \"$SRCROOT/Externals/arm64/release\"\n  cp \"target/aarch64-apple-ios/release/libsisters_salon_reservation_app_lib.a\" \"$SRCROOT/Externals/arm64/release/libapp.a\"\nelse\n  cargo build --target aarch64-apple-ios --lib\n  mkdir -p \"$SRCROOT/Externals/arm64/debug\"\n  cp \"target/aarch64-apple-ios/debug/libsisters_salon_reservation_app_lib.a\" \"$SRCROOT/Externals/arm64/debug/libapp.a\"\nfi\n\necho \"Rust build complete!\"\n";
+			shellScript = "set -e\n\n# nvm 환경 로드\nexport NVM_DIR=\"$HOME/.nvm\"\n[ -s \"$NVM_DIR/nvm.sh\" ] && \\. \"$NVM_DIR/nvm.sh\"\n\n# Homebrew 경로 추가\nexport PATH=\"/opt/homebrew/bin:$PATH\"\n\n# Rust/Cargo 경로 추가\nexport PATH=\"$HOME/.cargo/bin:$PATH\"\n\n# 프로젝트 루트로 이동\ncd \"$SRCROOT/../..\"\n\n# Frontend 빌드 (dist 폴더가 없거나 오래된 경우)\nif [ ! -d \"../dist\" ] || [ \"../src\" -nt \"../dist\" ]; then\n  echo \"Building frontend...\"\n  cd ..\n  npm run build\n  cd src-tauri\nfi\n\n# Rust 빌드 - 시뮬레이터/기기 타겟 분기\necho \"Building Rust code for iOS...\"\necho \"PLATFORM_NAME: $PLATFORM_NAME\"\n\nif [[ \"$PLATFORM_NAME\" == *\"simulator\"* ]]; then\n  RUST_TARGET=\"aarch64-apple-ios-sim\"\n  echo \"Building for iOS Simulator...\"\nelse\n  RUST_TARGET=\"aarch64-apple-ios\"\n  echo \"Building for iOS Device...\"\nfi\n\nif [ \"$CONFIGURATION\" = \"Release\" ] || [ \"$CONFIGURATION\" = \"release\" ]; then\n  cargo build --release --target $RUST_TARGET --lib\n  mkdir -p \"$SRCROOT/Externals/arm64/release\"\n  cp \"target/$RUST_TARGET/release/libsisters_salon_reservation_app_lib.a\" \"$SRCROOT/Externals/arm64/release/libapp.a\"\nelse\n  cargo build --target $RUST_TARGET --lib\n  mkdir -p \"$SRCROOT/Externals/arm64/debug\"\n  cp \"target/$RUST_TARGET/debug/libsisters_salon_reservation_app_lib.a\" \"$SRCROOT/Externals/arm64/debug/libapp.a\"\nfi\n\necho \"Rust build complete!\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -319,7 +319,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "sisters-salon-reservation-app_iOS/sisters-salon-reservation-app_iOS.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = W96LW7FRSD;
+				DEVELOPMENT_TEAM = "W96LW7FRSD";
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphoneos*]" = x86_64;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -407,7 +407,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "sisters-salon-reservation-app_iOS/sisters-salon-reservation-app_iOS.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = W96LW7FRSD;
+				DEVELOPMENT_TEAM = "W96LW7FRSD";
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphoneos*]" = x86_64;
 				FRAMEWORK_SEARCH_PATHS = (

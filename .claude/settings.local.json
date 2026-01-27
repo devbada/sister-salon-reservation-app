@@ -45,7 +45,8 @@
       "Bash(chmod:*)",
       "Bash(xcodegen generate:*)",
       "Bash(npx tauri:*)",
-      "Bash(ln:*)"
+      "Bash(ln:*)",
+      "Bash(APP_PATH=\"/Users/minam.cho/Library/Developer/Xcode/DerivedData/sisters-salon-reservation-app-geqbibuufluhzqezrxgvrakqkcjh/Build/Products/debug-iphonesimulator/Sisters Salon.app\":*)"
     ]
   },
   "enableAllProjectMcpServers": true,

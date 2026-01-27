@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { Scissors } from 'lucide-react';
 import { BottomTabs } from '../navigation/BottomTabs';
+import { useModal } from '../../contexts/ModalContext';
 
 interface MobileLayoutProps {
   children: ReactNode;
@@ -10,6 +11,8 @@ interface MobileLayoutProps {
 }
 
 export function MobileLayout({ children, currentPage, onNavigate, onResetTab }: MobileLayoutProps) {
+  const { isModalOpen } = useModal();
+
   return (
     <div className="fixed inset-0 flex flex-col bg-gradient-to-br from-pink-50 via-purple-50 to-indigo-50 dark:from-gray-900 dark:via-purple-950 dark:to-indigo-950">
       {/* Header */}
@@ -34,18 +37,19 @@ export function MobileLayout({ children, currentPage, onNavigate, onResetTab }: 
         </div>
       </header>
 
-      {/* Main Content - add bottom padding for nav */}
+      {/* Main Content - adjust bottom padding based on modal state */}
       <main className="flex-1 overflow-y-auto overflow-x-hidden px-5 py-4 pb-24">
         <div className="animate-fade-in max-w-lg mx-auto">
           {children}
         </div>
       </main>
 
-      {/* Bottom Navigation */}
+      {/* Bottom Navigation - hide when modal is open */}
       <BottomTabs
         currentPage={currentPage}
         onNavigate={onNavigate}
         onResetTab={onResetTab}
+        hidden={isModalOpen}
       />
     </div>
   );

@@ -89,6 +89,12 @@
 - **더블 탭 리셋** - 현재 탭을 두 번 탭하면 초기 상태로 리셋
 - **미저장 변경사항 경고** - 저장하지 않은 변경사항이 있을 때 이동 시 경고
 
+### 모달 UX
+- **버튼 하단 고정** - 취소/저장 버튼이 항상 화면 하단에 표시
+- **하단 탭 자동 숨김** - 모달 열림 시 하단 네비게이션 자동 숨김
+- **Safe Area 지원** - iOS notch/홈 인디케이터 영역 완벽 대응
+- **반응형 레이아웃** - 태블릿에서 2열 그리드 배치
+
 ### 고객 관리
 - 고객 등록/수정/삭제
 - 고객 검색 및 필터링
@@ -309,6 +315,7 @@ sisters-salon-reservation-app/
 | 8 | [Build & Deploy](docs/specs/08-build-deploy.md) | 빌드 설정, CI/CD |
 | 9 | [Customer Management](docs/specs/09-customer-management.md) | 고객 관리 |
 | 10 | [UX & Navigation](docs/specs/10-ux-navigation.md) | 스와이프 제스처, 네비게이션 개선 |
+| 11 | [iOS Modal UX](docs/specs/11-ios-modal-ux.md) | 모달 UX 개선, 반응형 레이아웃 |
 
 ### 참고 문서
 - [API Mapping](docs/references/api-mapping.md) - Express → Tauri 변환 가이드
@@ -328,9 +335,10 @@ sisters-salon-reservation-app/
 | 5 | 통계 대시보드 (Recharts) | ✅ | 2026-01-23 |
 | 6 | 내보내기 & 백업 (Excel, iCloud CloudKit) | ✅ | 2026-01-26 |
 | 7 | 앱 잠금 (PIN 인증) | ✅ | 2026-01-25 |
-| 8 | 빌드 & 배포 (CI/CD, 앱 스토어) | ⬜ | - |
+| 8 | 빌드 & 배포 (CI/CD, 앱 스토어) | 🔄 | - |
 | 9 | 고객 관리 | ✅ | 2026-01-24 |
 | 10 | UX 개선 (스와이프 제스처, 네비게이션) | ✅ | 2026-01-26 |
+| 11 | iOS 모달 UX (버튼 고정, 반응형 개선) | ✅ | 2026-01-27 |
 
 **범례**: ⬜ 대기중 · 🔄 진행중 · ✅ 완료
 
