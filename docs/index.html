@@ -75,6 +75,13 @@
         html {
             scroll-behavior: smooth;
         }
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
     </style>
 </head>
 <body class="min-h-screen clean-bg text-gray-800 dark:text-gray-100 transition-colors duration-300">
@@ -281,43 +288,60 @@
                     </p>
                 </div>
 
-                <div class="grid md:grid-cols-3 gap-8">
-                    <!-- iPhone -->
-                    <div class="text-center">
-                        <h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">iPhone</h3>
-                        <div class="placeholder-img rounded-[2rem] p-3 inline-block shadow-xl">
-                            <div class="bg-gray-200 dark:bg-gray-700 rounded-[1.5rem] w-48 aspect-[9/19] flex items-center justify-center">
-                                <div class="text-center p-4">
-                                    <div class="text-4xl mb-2">📱</div>
-                                    <p class="text-gray-500 dark:text-gray-400 text-xs">iPhone 스크린샷<br>Coming Soon</p>
-                                </div>
-                            </div>
+                <!-- iPhone Screenshots -->
+                <div class="mb-16">
+                    <h3 class="text-xl font-semibold mb-6 text-center text-gray-900 dark:text-white">iPhone</h3>
+                    <div class="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide">
+                        <div class="flex-shrink-0 snap-center">
+                            <img src="screenshots/ios/6.7-inch/01-reservations.png" alt="예약 관리" class="h-[500px] rounded-[2rem] shadow-xl">
+                            <p class="text-center mt-2 text-sm text-gray-600 dark:text-gray-400">예약 관리</p>
+                        </div>
+                        <div class="flex-shrink-0 snap-center">
+                            <img src="screenshots/ios/6.7-inch/02-new-reservation.png" alt="새 예약" class="h-[500px] rounded-[2rem] shadow-xl">
+                            <p class="text-center mt-2 text-sm text-gray-600 dark:text-gray-400">새 예약</p>
+                        </div>
+                        <div class="flex-shrink-0 snap-center">
+                            <img src="screenshots/ios/6.7-inch/03-customers.png" alt="고객 관리" class="h-[500px] rounded-[2rem] shadow-xl">
+                            <p class="text-center mt-2 text-sm text-gray-600 dark:text-gray-400">고객 관리</p>
+                        </div>
+                        <div class="flex-shrink-0 snap-center">
+                            <img src="screenshots/ios/6.7-inch/05-designers.png" alt="디자이너 관리" class="h-[500px] rounded-[2rem] shadow-xl">
+                            <p class="text-center mt-2 text-sm text-gray-600 dark:text-gray-400">디자이너 관리</p>
+                        </div>
+                        <div class="flex-shrink-0 snap-center">
+                            <img src="screenshots/ios/6.7-inch/07-settings.png" alt="설정" class="h-[500px] rounded-[2rem] shadow-xl">
+                            <p class="text-center mt-2 text-sm text-gray-600 dark:text-gray-400">설정</p>
+                        </div>
+                        <div class="flex-shrink-0 snap-center">
+                            <img src="screenshots/ios/6.7-inch/11-statistics.png" alt="통계" class="h-[500px] rounded-[2rem] shadow-xl">
+                            <p class="text-center mt-2 text-sm text-gray-600 dark:text-gray-400">통계</p>
                         </div>
                     </div>
+                </div>
 
-                    <!-- iPad -->
-                    <div class="text-center">
-                        <h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">iPad</h3>
-                        <div class="placeholder-img rounded-[1.5rem] p-3 inline-block shadow-xl">
-                            <div class="bg-gray-200 dark:bg-gray-700 rounded-[1rem] w-64 aspect-[4/3] flex items-center justify-center">
-                                <div class="text-center p-4">
-                                    <div class="text-4xl mb-2">📱</div>
-                                    <p class="text-gray-500 dark:text-gray-400 text-xs">iPad 스크린샷<br>Coming Soon</p>
-                                </div>
-                            </div>
+                <!-- iPad Screenshots -->
+                <div>
+                    <h3 class="text-xl font-semibold mb-6 text-center text-gray-900 dark:text-white">iPad</h3>
+                    <div class="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide">
+                        <div class="flex-shrink-0 snap-center">
+                            <img src="screenshots/ios/ipad-12.9/01-reservations.png" alt="예약 관리" class="h-[400px] rounded-xl shadow-xl">
+                            <p class="text-center mt-2 text-sm text-gray-600 dark:text-gray-400">예약 관리</p>
                         </div>
-                    </div>
-
-                    <!-- Desktop -->
-                    <div class="text-center">
-                        <h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Desktop</h3>
-                        <div class="placeholder-img rounded-xl p-2 inline-block shadow-xl">
-                            <div class="bg-gray-200 dark:bg-gray-700 rounded-lg w-72 aspect-[16/10] flex items-center justify-center">
-                                <div class="text-center p-4">
-                                    <div class="text-4xl mb-2">🖥️</div>
-                                    <p class="text-gray-500 dark:text-gray-400 text-xs">Desktop 스크린샷<br>Coming Soon</p>
-                                </div>
-                            </div>
+                        <div class="flex-shrink-0 snap-center">
+                            <img src="screenshots/ios/ipad-12.9/03-customers.png" alt="고객 관리" class="h-[400px] rounded-xl shadow-xl">
+                            <p class="text-center mt-2 text-sm text-gray-600 dark:text-gray-400">고객 관리</p>
+                        </div>
+                        <div class="flex-shrink-0 snap-center">
+                            <img src="screenshots/ios/ipad-12.9/05-designers.png" alt="디자이너 관리" class="h-[400px] rounded-xl shadow-xl">
+                            <p class="text-center mt-2 text-sm text-gray-600 dark:text-gray-400">디자이너 관리</p>
+                        </div>
+                        <div class="flex-shrink-0 snap-center">
+                            <img src="screenshots/ios/ipad-12.9/07-settings.png" alt="설정" class="h-[400px] rounded-xl shadow-xl">
+                            <p class="text-center mt-2 text-sm text-gray-600 dark:text-gray-400">설정</p>
+                        </div>
+                        <div class="flex-shrink-0 snap-center">
+                            <img src="screenshots/ios/ipad-12.9/09-statistics.png" alt="통계" class="h-[400px] rounded-xl shadow-xl">
+                            <p class="text-center mt-2 text-sm text-gray-600 dark:text-gray-400">통계</p>
                         </div>
                     </div>
                 </div>
