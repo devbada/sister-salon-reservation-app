@@ -65,7 +65,18 @@
       "Bash(APK_DIR=\"/Users/minam.cho/workspaces/study/_side-projects/sisters-salon-reservation-app/src-tauri/gen/android/app/build/outputs/apk/universal/release\":*)",
       "Bash(~/Library/Android/sdk/build-tools/35.0.0/zipalign:*)",
       "Bash(~/Library/Android/sdk/build-tools/35.0.0/apksigner sign:*)",
-      "Bash(APK=\"/Users/minam.cho/workspaces/study/_side-projects/sisters-salon-reservation-app/src-tauri/gen/android/app/build/outputs/apk/universal/release/app-signed.apk\")"
+      "Bash(APK=\"/Users/minam.cho/workspaces/study/_side-projects/sisters-salon-reservation-app/src-tauri/gen/android/app/build/outputs/apk/universal/release/app-signed.apk\")",
+      "Bash(pip3 install:*)",
+      "Bash(brew list:*)",
+      "Bash(ICON_DIR=\"/Users/minam.cho/workspaces/study/_side-projects/sisters-salon-reservation-app/src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset\")",
+      "Bash(for f in /Users/minam.cho/workspaces/study/_side-projects/sisters-salon-reservation-app/src-tauri/gen/android/app/src/main/res/mipmap-*/ic_launcher*.png)",
+      "Bash(done)",
+      "Bash(convert:*)",
+      "Bash(for f in src-tauri/gen/android/app/src/main/res/mipmap-*/ic_launcher*.png)",
+      "Bash(do echo \"Processing: $f\")",
+      "Bash(magick:*)",
+      "Bash(for f in src-tauri/icons/*.png)",
+      "Bash(for f in src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/*.png)"
     ]
   },
   "enableAllProjectMcpServers": true,
