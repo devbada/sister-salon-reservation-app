@@ -74,6 +74,9 @@ jobs:
         with:
           xcode-version: latest-stable
 
+      - name: Remove pre-existing asset symlink
+        run: rm -rf src-tauri/gen/apple/assets
+
       - name: Build iOS
         run: npm run tauri:ios:build
         env:
