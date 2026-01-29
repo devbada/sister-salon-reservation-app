@@ -56,7 +56,16 @@
       "mcp__my-mcp-server__browser_close",
       "mcp__my-mcp-server__browser_click",
       "mcp__my-mcp-server__browser_take_screenshot",
-      "Bash(python3:*)"
+      "Bash(python3:*)",
+      "Bash(adb devices:*)",
+      "Bash(~/Library/Android/sdk/platform-tools/adb devices)",
+      "Bash(./gradlew assembleDebug:*)",
+      "Bash(ANDROID_HOME=~/Library/Android/sdk npm run tauri:*)",
+      "Bash(~/Library/Android/sdk/platform-tools/adb:*)",
+      "Bash(APK_DIR=\"/Users/minam.cho/workspaces/study/_side-projects/sisters-salon-reservation-app/src-tauri/gen/android/app/build/outputs/apk/universal/release\":*)",
+      "Bash(~/Library/Android/sdk/build-tools/35.0.0/zipalign:*)",
+      "Bash(~/Library/Android/sdk/build-tools/35.0.0/apksigner sign:*)",
+      "Bash(APK=\"/Users/minam.cho/workspaces/study/_side-projects/sisters-salon-reservation-app/src-tauri/gen/android/app/build/outputs/apk/universal/release/app-signed.apk\")"
     ]
   },
   "enableAllProjectMcpServers": true,
