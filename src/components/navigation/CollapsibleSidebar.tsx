@@ -38,7 +38,7 @@ export function CollapsibleSidebar({ currentPage, onNavigate, isOpen, onToggle }
             <img src="/icon.png" alt="Sisters Salon" className="w-9 h-9 rounded-xl shadow-md flex-shrink-0" />
             <div className="min-w-0">
               <h1 className="text-base font-bold logo-text leading-tight">
-                Sisters Salon
+                언니들의 미용실
               </h1>
               <p className="text-[10px] text-gray-500 dark:text-gray-400">
                 Reservation

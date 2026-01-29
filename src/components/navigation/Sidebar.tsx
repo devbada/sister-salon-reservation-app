@@ -31,7 +31,7 @@ export function Sidebar({ currentPage, onNavigate }: SidebarProps) {
       <div className="flex items-center gap-3 mb-8 px-2">
         <img src="/icon.png" alt="Sisters Salon" className="w-10 h-10 rounded-xl shadow-lg" />
         <h1 className="text-xl font-bold logo-text">
-          Sisters Salon
+          언니들의 미용실
         </h1>
       </div>
 

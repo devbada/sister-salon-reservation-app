@@ -12,7 +12,7 @@
   "app": {
     "windows": [
       {
-        "title": "Sisters Salon",
+        "title": "언니들의 미용실",
         "width": 1200,
         "height": 800,
         "minWidth": 375,

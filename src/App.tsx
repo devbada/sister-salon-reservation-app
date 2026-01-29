@@ -49,7 +49,7 @@ function AppContent() {
   });
 
   // App lock
-  const { isLocked, unlock, refreshSettings } = useAppLock();
+  const { isLocked, isInitializing, unlock, refreshSettings } = useAppLock();
 
   // Unsaved changes context
   const { checkAndNavigate, setHasUnsavedChanges } = useUnsavedChanges();
@@ -57,60 +57,44 @@ function AppContent() {
   // Modal context for hiding bottom tabs
   const { setModalOpen } = useModal();
 
-  // Sync showForm state with modal context
-  useEffect(() => {
-    setModalOpen(showForm);
-  }, [showForm, setModalOpen]);
+  // --- All function definitions BEFORE any early returns ---
 
-  useEffect(() => {
-    if (currentPage === 'reservations') {
-      loadReservations();
-    }
-  }, [currentPage, selectedDate, dateRange]);
-
-  // Show lock screen if locked
-  if (isLocked) {
-    return <LockScreen onUnlock={unlock} />;
-  }
-
-  const loadReservations = async () => {
+  const loadReservations = useCallback(async () => {
     try {
       let data: Reservation[];
       if (dateRange) {
-        // Use date range filter
         data = await reservationApi.getAll(undefined, dateRange.from, dateRange.to);
       } else {
-        // Use single date filter
         data = await reservationApi.getAll(selectedDate);
       }
       setReservations(data);
     } catch (error) {
       console.error('Failed to load reservations:', error);
     }
-  };
+  }, [selectedDate, dateRange]);
 
-  const handleDateRangeChange = (range: DateRange | null, preset: DateRangePreset) => {
+  const handleDateRangeChange = useCallback((range: DateRange | null, preset: DateRangePreset) => {
     setDateRange(range);
     setDatePreset(preset);
-  };
+  }, []);
 
-  const handleFormSubmit = () => {
+  const handleFormSubmit = useCallback(() => {
     setShowForm(false);
     setEditingReservation(undefined);
     setHasUnsavedChanges(false);
     loadReservations();
-  };
+  }, [loadReservations, setHasUnsavedChanges]);
 
-  const handleEdit = (reservation: Reservation) => {
+  const handleEdit = useCallback((reservation: Reservation) => {
     setEditingReservation(reservation);
     setShowForm(true);
-  };
+  }, []);
 
-  const handleCancel = () => {
+  const handleCancel = useCallback(() => {
     setShowForm(false);
     setEditingReservation(undefined);
     setHasUnsavedChanges(false);
-  };
+  }, [setHasUnsavedChanges]);
 
   const handleNavigate = useCallback((page: string) => {
     const doNavigate = () => {
@@ -140,13 +124,44 @@ function AppContent() {
         setDatePreset('today');
         setShowForm(false);
         setEditingReservation(undefined);
-      } else if (page === 'settings') {
-        // Settings will reset to main menu via key change
       }
     };
 
     checkAndNavigate(doReset);
   }, [checkAndNavigate, setHasUnsavedChanges]);
+
+  // --- Effects ---
+
+  // Sync showForm state with modal context
+  useEffect(() => {
+    setModalOpen(showForm);
+  }, [showForm, setModalOpen]);
+
+  useEffect(() => {
+    if (currentPage === 'reservations') {
+      loadReservations();
+    }
+  }, [currentPage, loadReservations]);
+
+  // --- Early returns (after all hooks and function definitions) ---
+
+  // Show nothing while checking lock status to prevent content flash
+  if (isInitializing) {
+    return (
+      <div
+        style={{
+          position: 'fixed',
+          inset: 0,
+          background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
+        }}
+      />
+    );
+  }
+
+  // Show lock screen if locked
+  if (isLocked) {
+    return <LockScreen onUnlock={unlock} />;
+  }
 
   const renderContent = () => {
     switch (currentPage) {
