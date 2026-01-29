@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { Search, User, Phone, Loader2, X } from 'lucide-react';
+import { Search, User, Loader2, X } from 'lucide-react';
 import { customerApi } from '../../lib/tauri';
 import type { Customer } from '../../types';
 
@@ -15,7 +15,7 @@ export function CustomerSearch({
   onSelect,
   onClear,
   selectedCustomer,
-  placeholder = '고객 이름 또는 전화번호로 검색...',
+  placeholder = '전화번호 또는 고객 이름으로 검색...',
   className = '',
 }: CustomerSearchProps) {
   const [query, setQuery] = useState('');
@@ -126,10 +126,10 @@ export function CustomerSearch({
           <User className="w-4 h-4 text-white" />
         </div>
         <div className="flex-1 min-w-0">
-          <p className="font-medium text-sm truncate">{selectedCustomer.name}</p>
-          <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
-            {selectedCustomer.phone || '전화번호 없음'}
-          </p>
+          <p className="font-medium text-sm truncate">{selectedCustomer.phone || '전화번호 없음'}</p>
+          {selectedCustomer.name && (
+            <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{selectedCustomer.name}</p>
+          )}
         </div>
         <button
           type="button"
@@ -165,14 +165,14 @@ export function CustomerSearch({
       </div>
 
       {/* Results Dropdown */}
-      {isOpen && query.trim() && (
+      {isOpen && query.trim() && (isLoading || results.length > 0) && (
         <ul
           ref={listRef}
           className="absolute z-50 w-full mt-1 py-1 rounded-xl bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700 max-h-60 overflow-y-auto"
         >
-          {results.length === 0 ? (
+          {isLoading ? (
             <li className="px-4 py-3 text-sm text-gray-500 dark:text-gray-400 text-center">
-              {isLoading ? '검색 중...' : '검색 결과가 없습니다'}
+              검색 중...
             </li>
           ) : (
             results.map((customer, index) => (
@@ -189,12 +189,14 @@ export function CustomerSearch({
                   <User className="w-4 h-4 text-white" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="font-medium text-sm truncate">{customer.name}</p>
+                  <p className="font-medium text-sm truncate">
+                    {customer.phone || '전화번호 없음'}
+                  </p>
                   <div className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
-                    {customer.phone && (
+                    {customer.name && (
                       <>
-                        <Phone className="w-3 h-3" />
-                        <span className="truncate">{customer.phone}</span>
+                        <User className="w-3 h-3" />
+                        <span className="truncate">{customer.name}</span>
                       </>
                     )}
                     {customer.totalVisits > 0 && (
@@ -206,6 +208,13 @@ export function CustomerSearch({
             ))
           )}
         </ul>
+      )}
+
+      {/* Inline no-results message */}
+      {isOpen && query.trim() && !isLoading && results.length === 0 && (
+        <p className="mt-1.5 text-xs text-gray-400 dark:text-gray-500">
+          검색 결과가 없습니다
+        </p>
       )}
     </div>
   );

@@ -7,7 +7,7 @@ use crate::db::DbState;
 #[serde(rename_all = "camelCase")]
 pub struct Reservation {
     pub id: String,
-    pub customer_name: String,
+    pub customer_name: Option<String>,
     pub customer_phone: Option<String>,
     pub date: String,
     pub time: String,
@@ -22,7 +22,7 @@ pub struct Reservation {
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct CreateReservationInput {
-    pub customer_name: String,
+    pub customer_name: Option<String>,
     pub customer_phone: Option<String>,
     pub date: String,
     pub time: String,

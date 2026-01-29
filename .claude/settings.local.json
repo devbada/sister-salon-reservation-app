@@ -47,7 +47,16 @@
       "Bash(npx tauri:*)",
       "Bash(ln:*)",
       "Bash(APP_PATH=\"/Users/minam.cho/Library/Developer/Xcode/DerivedData/sisters-salon-reservation-app-geqbibuufluhzqezrxgvrakqkcjh/Build/Products/debug-iphonesimulator/Sisters Salon.app\":*)",
-      "Bash(sips:*)"
+      "Bash(sips:*)",
+      "Bash(__NEW_LINE_24f0b0f901d5b140__ git commit -m \"$\\(cat <<''EOF''\ndocs: 스크린샷 추가 및 문서 업데이트\n\n- iPhone 스크린샷 11장 추가 \\(6.7-inch\\)\n  - 예약 관리, 새 예약, 고객 관리, 디자이너 관리\n  - 설정, 보안, 데이터 관리, 영업시간, 통계\n- iPad 스크린샷 9장 추가 \\(12.9-inch\\)\n- 스크린샷 파일명 정리 \\(01-reservations.png 형식\\)\n- docs/index.html: 스크린샷 갤러리 섹션 업데이트\n- README.md: 스크린샷 테이블 추가\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(md5:*)",
+      "Bash(npx vite build:*)",
+      "Bash(git status:*)",
+      "mcp__my-mcp-server__browser_navigate",
+      "mcp__my-mcp-server__browser_close",
+      "mcp__my-mcp-server__browser_click",
+      "mcp__my-mcp-server__browser_take_screenshot",
+      "Bash(python3:*)"
     ]
   },
   "enableAllProjectMcpServers": true,

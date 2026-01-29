@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { X, User, Phone, Calendar, Clock, Scissors, FileText, Loader2, UserPlus } from 'lucide-react';
-import { reservationApi, designerApi } from '../../lib/tauri';
+import { reservationApi, designerApi, customerApi } from '../../lib/tauri';
 import { CustomerSearch } from '../customer/CustomerSearch';
 import type { Reservation, Designer, Customer } from '../../types';
 
 interface CreateReservationInput {
-  customerName: string;
+  customerName?: string;
   customerPhone?: string;
   date: string;
   time: string;
@@ -42,13 +42,45 @@ export function AppointmentForm({ reservation, onSubmit, onCancel }: Appointment
   const [loading, setLoading] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
   const [isNewCustomer, setIsNewCustomer] = useState(!reservation);
+  const [existingCustomer, setExistingCustomer] = useState<Customer | null>(null);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const phoneRef = useRef<HTMLInputElement>(null);
+  const dateRef = useRef<HTMLInputElement>(null);
+  const timeRef = useRef<HTMLInputElement>(null);
+  const designerRef = useRef<HTMLSelectElement>(null);
 
   useEffect(() => {
     loadDesigners();
   }, []);
 
+  // 신규 고객 모드에서 전화번호 입력 시 기존 고객 조회
+  const checkExistingCustomer = useCallback(async (phone: string) => {
+    if (!phone || phone.length < 4) {
+      setExistingCustomer(null);
+      return;
+    }
+    try {
+      const found = await customerApi.getByPhone(phone);
+      setExistingCustomer(found || null);
+    } catch {
+      setExistingCustomer(null);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!isNewCustomer || reservation) {
+      setExistingCustomer(null);
+      return;
+    }
+    const debounce = setTimeout(() => {
+      checkExistingCustomer(formData.customerPhone || '');
+    }, 500);
+    return () => clearTimeout(debounce);
+  }, [formData.customerPhone, isNewCustomer, reservation, checkExistingCustomer]);
+
   const handleSelectCustomer = (customer: Customer) => {
     setSelectedCustomer(customer);
+    setExistingCustomer(null);
     setFormData({
       ...formData,
       customerName: customer.name,
@@ -72,6 +104,7 @@ export function AppointmentForm({ reservation, onSubmit, onCancel }: Appointment
     setIsNewCustomer(!isNewCustomer);
     if (!isNewCustomer) {
       setSelectedCustomer(null);
+      setExistingCustomer(null);
     }
   };
 
@@ -84,11 +117,45 @@ export function AppointmentForm({ reservation, onSubmit, onCancel }: Appointment
     }
   };
 
+  const validate = (): boolean => {
+    const newErrors: Record<string, string> = {};
+    if (!formData.customerPhone?.trim()) newErrors.phone = '전화번호를 입력해주세요';
+    if (!formData.date) newErrors.date = '날짜를 선택해주세요';
+    if (!formData.time) newErrors.time = '시간을 선택해주세요';
+    if (!formData.designerId) newErrors.designer = '디자이너를 선택해주세요';
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length > 0) {
+      if (newErrors.phone) phoneRef.current?.focus();
+      else if (newErrors.date) dateRef.current?.focus();
+      else if (newErrors.time) timeRef.current?.focus();
+      else if (newErrors.designer) designerRef.current?.focus();
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!validate()) return;
     setLoading(true);
 
     try {
+      // 신규 고객인 경우 고객 데이터도 등록 (기존 고객이 없을 때만)
+      if (!reservation && isNewCustomer && formData.customerPhone && !existingCustomer) {
+        try {
+          await customerApi.create({
+            name: formData.customerName || '',
+            phone: formData.customerPhone,
+            preferredDesignerId: formData.designerId,
+            preferredService: formData.serviceType,
+          });
+        } catch {
+          // 고객 등록 실패해도 예약은 계속 진행
+          console.error('Failed to create customer, continuing with reservation');
+        }
+      }
+
       let result: Reservation;
       if (reservation) {
         result = await reservationApi.update(reservation.id, formData);
@@ -130,7 +197,7 @@ export function AppointmentForm({ reservation, onSubmit, onCancel }: Appointment
             <div className="flex items-center justify-between">
               <label className="label flex items-center gap-1.5 mb-0">
                 <User className="w-3.5 h-3.5" />
-                고객 정보 <span className="text-red-500">*</span>
+                고객 정보
               </label>
               <button
                 type="button"
@@ -148,27 +215,10 @@ export function AppointmentForm({ reservation, onSubmit, onCancel }: Appointment
               selectedCustomer={selectedCustomer}
               onSelect={handleSelectCustomer}
               onClear={handleClearCustomer}
-              placeholder="고객 이름 또는 전화번호로 검색..."
+              placeholder="전화번호 또는 고객 이름으로 검색..."
             />
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                {reservation && (
-                  <label className="label flex items-center gap-1.5">
-                    <User className="w-3.5 h-3.5" />
-                    고객명 <span className="text-red-500">*</span>
-                  </label>
-                )}
-                <input
-                  type="text"
-                  value={formData.customerName}
-                  onChange={(e) => setFormData({ ...formData, customerName: e.target.value })}
-                  className="input"
-                  placeholder="고객 이름을 입력하세요"
-                  required
-                />
-              </div>
-
               <div>
                 {reservation && (
                   <label className="label flex items-center gap-1.5">
@@ -177,11 +227,34 @@ export function AppointmentForm({ reservation, onSubmit, onCancel }: Appointment
                   </label>
                 )}
                 <input
+                  ref={phoneRef}
                   type="tel"
                   value={formData.customerPhone || ''}
-                  onChange={(e) => setFormData({ ...formData, customerPhone: e.target.value })}
-                  className="input"
+                  onChange={(e) => {
+                    setFormData({ ...formData, customerPhone: e.target.value });
+                    if (errors.phone) setErrors((prev) => { const { phone: _, ...rest } = prev; return rest; });
+                  }}
+                  className={`input ${errors.phone ? 'ring-2 ring-red-500 border-red-500' : ''}`}
                   placeholder="010-0000-0000"
+                />
+                {errors.phone && (
+                  <p className="mt-1 text-xs text-red-500">{errors.phone}</p>
+                )}
+              </div>
+
+              <div>
+                {reservation && (
+                  <label className="label flex items-center gap-1.5">
+                    <User className="w-3.5 h-3.5" />
+                    고객명
+                  </label>
+                )}
+                <input
+                  type="text"
+                  value={formData.customerName}
+                  onChange={(e) => setFormData({ ...formData, customerName: e.target.value })}
+                  className="input"
+                  placeholder="고객 이름을 입력하세요"
                 />
               </div>
             </div>
@@ -205,12 +278,18 @@ export function AppointmentForm({ reservation, onSubmit, onCancel }: Appointment
               날짜 <span className="text-red-500">*</span>
             </label>
             <input
+              ref={dateRef}
               type="date"
               value={formData.date}
-              onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-              className="input"
-              required
+              onChange={(e) => {
+                setFormData({ ...formData, date: e.target.value });
+                if (errors.date) setErrors((prev) => { const { date: _, ...rest } = prev; return rest; });
+              }}
+              className={`input ${errors.date ? 'ring-2 ring-red-500 border-red-500' : ''}`}
             />
+            {errors.date && (
+              <p className="mt-1 text-xs text-red-500">{errors.date}</p>
+            )}
           </div>
 
           <div>
@@ -219,12 +298,18 @@ export function AppointmentForm({ reservation, onSubmit, onCancel }: Appointment
               시간 <span className="text-red-500">*</span>
             </label>
             <input
+              ref={timeRef}
               type="time"
               value={formData.time}
-              onChange={(e) => setFormData({ ...formData, time: e.target.value })}
-              className="input"
-              required
+              onChange={(e) => {
+                setFormData({ ...formData, time: e.target.value });
+                if (errors.time) setErrors((prev) => { const { time: _, ...rest } = prev; return rest; });
+              }}
+              className={`input ${errors.time ? 'ring-2 ring-red-500 border-red-500' : ''}`}
             />
+            {errors.time && (
+              <p className="mt-1 text-xs text-red-500">{errors.time}</p>
+            )}
           </div>
         </div>
 
@@ -233,18 +318,25 @@ export function AppointmentForm({ reservation, onSubmit, onCancel }: Appointment
           <div>
             <label className="label flex items-center gap-1.5">
               <User className="w-3.5 h-3.5" />
-              디자이너
+              디자이너 <span className="text-red-500">*</span>
             </label>
             <select
+              ref={designerRef}
               value={formData.designerId || ''}
-              onChange={(e) => setFormData({ ...formData, designerId: e.target.value })}
-              className="input select"
+              onChange={(e) => {
+                setFormData({ ...formData, designerId: e.target.value });
+                if (errors.designer) setErrors((prev) => { const { designer: _, ...rest } = prev; return rest; });
+              }}
+              className={`input select ${errors.designer ? 'ring-2 ring-red-500 border-red-500' : ''}`}
             >
               <option value="">디자이너 선택</option>
               {designers.map((d) => (
                 <option key={d.id} value={d.id}>{d.name}</option>
               ))}
             </select>
+            {errors.designer && (
+              <p className="mt-1 text-xs text-red-500">{errors.designer}</p>
+            )}
           </div>
 
           <div>

@@ -4,6 +4,7 @@ import type { LockSettings } from '../types';
 
 interface UseAppLockReturn {
   isLocked: boolean;
+  isInitializing: boolean;
   isLockEnabled: boolean;
   settings: LockSettings | null;
   unlock: (pin: string) => Promise<boolean>;
@@ -20,13 +21,14 @@ const DEFAULT_SETTINGS: LockSettings = {
 
 export function useAppLock(): UseAppLockReturn {
   const [isLocked, setIsLocked] = useState(false);
+  const [isInitializing, setIsInitializing] = useState(true);
   const [isLockEnabled, setIsLockEnabled] = useState(false);
   const [settings, setSettings] = useState<LockSettings | null>(null);
   const lastActivityRef = useRef<number>(Date.now());
 
-  // Load initial state
+  // Load initial state — lock the app on startup if enabled
   useEffect(() => {
-    checkLockStatus();
+    loadLockStatus(true);
   }, []);
 
   // Setup auto-lock timer
@@ -97,7 +99,12 @@ export function useAppLock(): UseAppLockReturn {
     };
   }, [settings, isLockEnabled]);
 
-  const checkLockStatus = async () => {
+  /**
+   * Load lock status from backend.
+   * @param shouldLock If true, lock the app when lock is enabled (used on startup).
+   *                   If false, only refresh settings/enabled state without locking (used after settings change).
+   */
+  const loadLockStatus = async (shouldLock: boolean) => {
     try {
       const enabled = await securityApi.isLockEnabled();
       setIsLockEnabled(enabled);
@@ -105,17 +112,22 @@ export function useAppLock(): UseAppLockReturn {
       if (enabled) {
         const loadedSettings = await securityApi.getSettings();
         setSettings(loadedSettings);
-        // Lock immediately on app start if lock is enabled
-        setIsLocked(true);
+        if (shouldLock) {
+          setIsLocked(true);
+        }
       } else {
         setSettings(DEFAULT_SETTINGS);
-        setIsLocked(false);
+        if (shouldLock) {
+          setIsLocked(false);
+        }
       }
     } catch (error) {
       console.error('Failed to check lock status:', error);
       setIsLockEnabled(false);
       setSettings(DEFAULT_SETTINGS);
       setIsLocked(false);
+    } finally {
+      setIsInitializing(false);
     }
   };
 
@@ -139,12 +151,14 @@ export function useAppLock(): UseAppLockReturn {
     }
   }, [isLockEnabled]);
 
+  // Refresh settings WITHOUT locking the app (called from Settings page)
   const refreshSettings = useCallback(async () => {
-    await checkLockStatus();
+    await loadLockStatus(false);
   }, []);
 
   return {
     isLocked,
+    isInitializing,
     isLockEnabled,
     settings,
     unlock,

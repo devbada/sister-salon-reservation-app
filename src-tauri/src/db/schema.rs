@@ -2,7 +2,7 @@ pub const SCHEMA: &str = r#"
 -- 예약 테이블
 CREATE TABLE IF NOT EXISTS reservations (
     id TEXT PRIMARY KEY,
-    customer_name TEXT NOT NULL,
+    customer_name TEXT DEFAULT '',
     customer_phone TEXT,
     date TEXT NOT NULL,
     time TEXT NOT NULL,

@@ -4,7 +4,7 @@ export type ReservationStatus = 'pending' | 'confirmed' | 'completed' | 'cancell
 // 예약
 export interface Reservation {
   id: string;
-  customerName: string;
+  customerName?: string;
   customerPhone?: string;
   date: string;
   time: string;

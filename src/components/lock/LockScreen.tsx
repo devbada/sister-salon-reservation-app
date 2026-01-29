@@ -1,36 +1,76 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { Delete, AlertCircle } from 'lucide-react';
 
 interface LockScreenProps {
   onUnlock: (pin: string) => Promise<boolean>;
 }
 
+// Brute force protection: 5 fails = 30s, 6+ fails = 5min
+const LOCKOUT_THRESHOLD = 5;
+const SHORT_LOCKOUT_MS = 30_000;
+const LONG_LOCKOUT_MS = 5 * 60_000;
+
 export function LockScreen({ onUnlock }: LockScreenProps) {
   const [pin, setPin] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [isVerifying, setIsVerifying] = useState(false);
   const [shake, setShake] = useState(false);
+  const [failedAttempts, setFailedAttempts] = useState(0);
+  const [lockoutUntil, setLockoutUntil] = useState<number | null>(null);
+  const [lockoutRemaining, setLockoutRemaining] = useState(0);
+  const lockoutTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  // Lockout countdown timer
+  useEffect(() => {
+    if (lockoutUntil === null) {
+      setLockoutRemaining(0);
+      return;
+    }
+
+    const tick = () => {
+      const remaining = Math.max(0, lockoutUntil - Date.now());
+      setLockoutRemaining(remaining);
+      if (remaining <= 0) {
+        setLockoutUntil(null);
+        setError(null);
+        if (lockoutTimerRef.current) {
+          clearInterval(lockoutTimerRef.current);
+          lockoutTimerRef.current = null;
+        }
+      }
+    };
+
+    tick();
+    lockoutTimerRef.current = setInterval(tick, 1000);
+    return () => {
+      if (lockoutTimerRef.current) {
+        clearInterval(lockoutTimerRef.current);
+        lockoutTimerRef.current = null;
+      }
+    };
+  }, [lockoutUntil]);
+
+  const isLockedOut = lockoutUntil !== null && Date.now() < lockoutUntil;
 
   const handleKeyPress = useCallback(
-    async (digit: string) => {
-      if (isVerifying) return;
+    (digit: string) => {
+      if (isVerifying || isLockedOut) return;
       if (pin.length >= 6) return;
 
-      const newPin = pin + digit;
-      setPin(newPin);
+      setPin((prev) => prev + digit);
       setError(null);
     },
-    [pin, isVerifying]
+    [pin, isVerifying, isLockedOut]
   );
 
   const handleDelete = useCallback(() => {
-    if (isVerifying) return;
+    if (isVerifying || isLockedOut) return;
     setPin((prev) => prev.slice(0, -1));
     setError(null);
-  }, [isVerifying]);
+  }, [isVerifying, isLockedOut]);
 
   const handleSubmit = useCallback(async () => {
-    if (pin.length < 4 || isVerifying) return;
+    if (pin.length < 4 || isVerifying || isLockedOut) return;
 
     setIsVerifying(true);
     setError(null);
@@ -38,12 +78,28 @@ export function LockScreen({ onUnlock }: LockScreenProps) {
     try {
       const success = await onUnlock(pin);
       if (!success) {
-        setError('잘못된 PIN입니다');
+        const newFailCount = failedAttempts + 1;
+        setFailedAttempts(newFailCount);
+
+        if (newFailCount >= LOCKOUT_THRESHOLD) {
+          const lockoutMs = newFailCount === LOCKOUT_THRESHOLD
+            ? SHORT_LOCKOUT_MS
+            : LONG_LOCKOUT_MS;
+          setLockoutUntil(Date.now() + lockoutMs);
+          const seconds = Math.ceil(lockoutMs / 1000);
+          setError(`입력 횟수를 초과했습니다. ${seconds}초 후 다시 시도해주세요`);
+        } else {
+          setError('잘못된 PIN입니다');
+        }
+
         setShake(true);
         setTimeout(() => setShake(false), 500);
         setPin('');
+      } else {
+        setFailedAttempts(0);
+        setLockoutUntil(null);
       }
-    } catch (error) {
+    } catch {
       setError('인증에 실패했습니다');
       setShake(true);
       setTimeout(() => setShake(false), 500);
@@ -51,12 +107,12 @@ export function LockScreen({ onUnlock }: LockScreenProps) {
     } finally {
       setIsVerifying(false);
     }
-  }, [pin, onUnlock, isVerifying]);
+  }, [pin, onUnlock, isVerifying, isLockedOut, failedAttempts]);
 
   // Handle keyboard input
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (isVerifying) return;
+      if (isVerifying || isLockedOut) return;
 
       if (e.key >= '0' && e.key <= '9') {
         handleKeyPress(e.key);
@@ -69,7 +125,7 @@ export function LockScreen({ onUnlock }: LockScreenProps) {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [handleKeyPress, handleDelete, handleSubmit, isVerifying]);
+  }, [handleKeyPress, handleDelete, handleSubmit, isVerifying, isLockedOut]);
 
   const keypadNumbers = [
     ['1', '2', '3'],
@@ -78,53 +134,194 @@ export function LockScreen({ onUnlock }: LockScreenProps) {
     ['', '0', 'del'],
   ];
 
-  return (
-    <div className="lock-screen">
-      {/* Background decoration */}
-      <div className="lock-bg-decoration" />
+  const formatRemainingTime = (ms: number) => {
+    const secs = Math.ceil(ms / 1000);
+    if (secs >= 60) {
+      const mins = Math.floor(secs / 60);
+      const remainSecs = secs % 60;
+      return `${mins}:${remainSecs.toString().padStart(2, '0')}`;
+    }
+    return `${secs}초`;
+  };
 
-      <div className="lock-container">
+  return (
+    <div
+      style={{
+        position: 'fixed',
+        inset: 0,
+        zIndex: 9999,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
+        padding: '20px',
+        paddingTop: 'max(env(safe-area-inset-top, 20px), 20px)',
+        paddingBottom: 'max(env(safe-area-inset-bottom, 20px), 20px)',
+        overflow: 'hidden',
+      }}
+    >
+      {/* Background decoration */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background:
+            'radial-gradient(ellipse at 20% 20%, rgba(233,69,96,0.15) 0%, transparent 50%), ' +
+            'radial-gradient(ellipse at 80% 80%, rgba(72,52,212,0.15) 0%, transparent 50%), ' +
+            'radial-gradient(ellipse at 50% 50%, rgba(255,255,255,0.02) 0%, transparent 70%)',
+          pointerEvents: 'none',
+        }}
+      />
+
+      <div
+        style={{
+          position: 'relative',
+          width: '100%',
+          maxWidth: 320,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: 28,
+        }}
+      >
         {/* Logo */}
-        <div className="lock-logo">
-          <img src="/icon.png" alt="Sisters Salon" className="lock-logo-icon" />
-          <h1>Sisters Salon</h1>
-          <p>PIN을 입력해 주세요</p>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
+          <img
+            src="/icon.png"
+            alt="Sisters Salon"
+            style={{
+              width: 72,
+              height: 72,
+              borderRadius: 20,
+              boxShadow: '0 8px 32px rgba(233, 69, 96, 0.3)',
+            }}
+            onError={(e) => {
+              // Fallback if icon is missing — show gradient box
+              const el = e.currentTarget;
+              el.style.display = 'none';
+              const fallback = el.nextElementSibling as HTMLElement;
+              if (fallback) fallback.style.display = 'flex';
+            }}
+          />
+          <div
+            style={{
+              display: 'none',
+              width: 72,
+              height: 72,
+              borderRadius: 20,
+              background: 'linear-gradient(135deg, #e94560 0%, #8b5cf6 100%)',
+              alignItems: 'center',
+              justifyContent: 'center',
+              boxShadow: '0 8px 32px rgba(233, 69, 96, 0.3)',
+              color: 'white',
+              fontSize: 28,
+              fontWeight: 700,
+            }}
+          >
+            S
+          </div>
+          <h1
+            style={{
+              fontSize: 24,
+              fontWeight: 600,
+              color: 'white',
+              margin: 0,
+              letterSpacing: -0.5,
+            }}
+          >
+            언니들의 미용실
+          </h1>
+          <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)', margin: 0 }}>
+            PIN을 입력해 주세요
+          </p>
         </div>
 
         {/* PIN Dots */}
-        <div className={`lock-dots ${shake ? 'shake' : ''}`}>
+        <div
+          style={{
+            display: 'flex',
+            gap: 16,
+            padding: '16px 0',
+            animation: shake ? 'lockShake 0.5s ease-in-out' : undefined,
+          }}
+        >
           {[0, 1, 2, 3, 4, 5].map((i) => (
             <div
               key={i}
-              className={`lock-dot ${i < pin.length ? 'filled' : ''}`}
+              style={{
+                width: 14,
+                height: 14,
+                borderRadius: '50%',
+                background: i < pin.length ? '#e94560' : 'rgba(255,255,255,0.15)',
+                border: `2px solid ${i < pin.length ? '#e94560' : 'rgba(255,255,255,0.3)'}`,
+                transition: 'all 0.2s ease',
+                transform: i < pin.length ? 'scale(1.1)' : 'scale(1)',
+                boxShadow: i < pin.length ? '0 0 12px rgba(233,69,96,0.5)' : 'none',
+              }}
             />
           ))}
         </div>
 
-        {/* Error */}
+        {/* Error / Lockout */}
         {error && (
-          <div className="lock-error">
-            <AlertCircle />
-            <span>{error}</span>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 8,
+              padding: '10px 16px',
+              background: 'rgba(239,68,68,0.15)',
+              border: '1px solid rgba(239,68,68,0.3)',
+              borderRadius: 12,
+              color: '#fca5a5',
+              fontSize: 13,
+            }}
+          >
+            <AlertCircle style={{ width: 16, height: 16, flexShrink: 0 }} />
+            <span>
+              {isLockedOut
+                ? `${formatRemainingTime(lockoutRemaining)} 후 다시 시도해주세요`
+                : error}
+            </span>
           </div>
         )}
 
         {/* Keypad */}
-        <div className="lock-keypad">
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gap: 12,
+            width: '100%',
+            maxWidth: 280,
+          }}
+        >
           {keypadNumbers.map((row, rowIndex) =>
             row.map((key, colIndex) => {
               if (key === '') {
-                return <div key={`${rowIndex}-${colIndex}`} className="lock-key-empty" />;
+                return <div key={`${rowIndex}-${colIndex}`} style={{ height: 64 }} />;
               }
               if (key === 'del') {
                 return (
                   <button
                     key={`${rowIndex}-${colIndex}`}
                     onClick={handleDelete}
-                    disabled={isVerifying || pin.length === 0}
-                    className="lock-key lock-key-action"
+                    disabled={isVerifying || isLockedOut || pin.length === 0}
+                    style={{
+                      height: 64,
+                      borderRadius: 16,
+                      border: 'none',
+                      background: 'rgba(255,255,255,0.05)',
+                      color: 'rgba(255,255,255,0.7)',
+                      cursor: isVerifying || isLockedOut || pin.length === 0 ? 'not-allowed' : 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      opacity: isVerifying || isLockedOut || pin.length === 0 ? 0.4 : 1,
+                      WebkitTapHighlightColor: 'transparent',
+                    }}
                   >
-                    <Delete />
+                    <Delete style={{ width: 22, height: 22 }} />
                   </button>
                 );
               }
@@ -132,8 +329,22 @@ export function LockScreen({ onUnlock }: LockScreenProps) {
                 <button
                   key={`${rowIndex}-${colIndex}`}
                   onClick={() => handleKeyPress(key)}
-                  disabled={isVerifying || pin.length >= 6}
-                  className="lock-key"
+                  disabled={isVerifying || isLockedOut || pin.length >= 6}
+                  style={{
+                    height: 64,
+                    borderRadius: 16,
+                    border: 'none',
+                    background: 'rgba(255,255,255,0.08)',
+                    color: 'white',
+                    fontSize: 24,
+                    fontWeight: 500,
+                    cursor: isVerifying || isLockedOut || pin.length >= 6 ? 'not-allowed' : 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    opacity: isVerifying || isLockedOut || pin.length >= 6 ? 0.4 : 1,
+                    WebkitTapHighlightColor: 'transparent',
+                  }}
                 >
                   {key}
                 </button>
@@ -145,240 +356,41 @@ export function LockScreen({ onUnlock }: LockScreenProps) {
         {/* Submit */}
         <button
           onClick={handleSubmit}
-          disabled={pin.length < 4 || isVerifying}
-          className="lock-submit"
+          disabled={pin.length < 4 || isVerifying || isLockedOut}
+          style={{
+            width: '100%',
+            maxWidth: 280,
+            padding: '16px 24px',
+            borderRadius: 16,
+            border: 'none',
+            background:
+              pin.length < 4 || isVerifying || isLockedOut
+                ? 'rgba(255,255,255,0.1)'
+                : 'linear-gradient(135deg, #e94560 0%, #8b5cf6 100%)',
+            color:
+              pin.length < 4 || isVerifying || isLockedOut
+                ? 'rgba(255,255,255,0.4)'
+                : 'white',
+            fontSize: 16,
+            fontWeight: 600,
+            cursor: pin.length < 4 || isVerifying || isLockedOut ? 'not-allowed' : 'pointer',
+            boxShadow:
+              pin.length < 4 || isVerifying || isLockedOut
+                ? 'none'
+                : '0 4px 24px rgba(233,69,96,0.3)',
+            WebkitTapHighlightColor: 'transparent',
+          }}
         >
           {isVerifying ? '확인 중...' : '잠금 해제'}
         </button>
       </div>
 
+      {/* Minimal keyframe for shake animation */}
       <style>{`
-        .lock-screen {
-          position: fixed;
-          inset: 0;
-          z-index: 9999;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-          padding: 20px;
-          padding-top: max(env(safe-area-inset-top, 20px), 20px);
-          padding-bottom: max(env(safe-area-inset-bottom, 20px), 20px);
-        }
-
-        .lock-bg-decoration {
-          position: absolute;
-          inset: 0;
-          background:
-            radial-gradient(ellipse at 20% 20%, rgba(233, 69, 96, 0.15) 0%, transparent 50%),
-            radial-gradient(ellipse at 80% 80%, rgba(72, 52, 212, 0.15) 0%, transparent 50%),
-            radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.02) 0%, transparent 70%);
-          pointer-events: none;
-        }
-
-        .lock-container {
-          position: relative;
-          width: 100%;
-          max-width: 320px;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 32px;
-        }
-
-        .lock-logo {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 12px;
-        }
-
-        .lock-logo-icon {
-          width: 72px;
-          height: 72px;
-          border-radius: 20px;
-          background: linear-gradient(135deg, #e94560 0%, #8b5cf6 100%);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          box-shadow: 0 8px 32px rgba(233, 69, 96, 0.3);
-        }
-
-        .lock-logo-icon svg {
-          width: 36px;
-          height: 36px;
-          color: white;
-        }
-
-        .lock-logo h1 {
-          font-size: 24px;
-          font-weight: 600;
-          color: white;
-          margin: 0;
-          letter-spacing: -0.5px;
-        }
-
-        .lock-logo p {
-          font-size: 14px;
-          color: rgba(255, 255, 255, 0.6);
-          margin: 0;
-        }
-
-        .lock-dots {
-          display: flex;
-          gap: 16px;
-          padding: 16px 0;
-        }
-
-        .lock-dots.shake {
-          animation: shake 0.5s ease-in-out;
-        }
-
-        .lock-dot {
-          width: 14px;
-          height: 14px;
-          border-radius: 50%;
-          background: rgba(255, 255, 255, 0.15);
-          border: 2px solid rgba(255, 255, 255, 0.3);
-          transition: all 0.2s ease;
-        }
-
-        .lock-dot.filled {
-          background: #e94560;
-          border-color: #e94560;
-          box-shadow: 0 0 12px rgba(233, 69, 96, 0.5);
-          transform: scale(1.1);
-        }
-
-        .lock-error {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          padding: 10px 16px;
-          background: rgba(239, 68, 68, 0.15);
-          border: 1px solid rgba(239, 68, 68, 0.3);
-          border-radius: 12px;
-          color: #fca5a5;
-          font-size: 13px;
-        }
-
-        .lock-error svg {
-          width: 16px;
-          height: 16px;
-          flex-shrink: 0;
-        }
-
-        .lock-keypad {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 12px;
-          width: 100%;
-          max-width: 280px;
-        }
-
-        .lock-key {
-          height: 64px;
-          border-radius: 16px;
-          border: none;
-          background: rgba(255, 255, 255, 0.08);
-          color: white;
-          font-size: 24px;
-          font-weight: 500;
-          cursor: pointer;
-          transition: all 0.15s ease;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          -webkit-tap-highlight-color: transparent;
-        }
-
-        .lock-key:hover:not(:disabled) {
-          background: rgba(255, 255, 255, 0.12);
-        }
-
-        .lock-key:active:not(:disabled) {
-          background: rgba(255, 255, 255, 0.2);
-          transform: scale(0.95);
-        }
-
-        .lock-key:disabled {
-          opacity: 0.4;
-          cursor: not-allowed;
-        }
-
-        .lock-key-action {
-          background: rgba(255, 255, 255, 0.05);
-        }
-
-        .lock-key-action svg {
-          width: 22px;
-          height: 22px;
-          color: rgba(255, 255, 255, 0.7);
-        }
-
-        .lock-key-empty {
-          height: 64px;
-        }
-
-        .lock-submit {
-          width: 100%;
-          max-width: 280px;
-          padding: 16px 24px;
-          border-radius: 16px;
-          border: none;
-          background: linear-gradient(135deg, #e94560 0%, #8b5cf6 100%);
-          color: white;
-          font-size: 16px;
-          font-weight: 600;
-          cursor: pointer;
-          transition: all 0.2s ease;
-          box-shadow: 0 4px 24px rgba(233, 69, 96, 0.3);
-        }
-
-        .lock-submit:hover:not(:disabled) {
-          transform: translateY(-2px);
-          box-shadow: 0 6px 32px rgba(233, 69, 96, 0.4);
-        }
-
-        .lock-submit:active:not(:disabled) {
-          transform: translateY(0);
-        }
-
-        .lock-submit:disabled {
-          background: rgba(255, 255, 255, 0.1);
-          color: rgba(255, 255, 255, 0.4);
-          box-shadow: none;
-          cursor: not-allowed;
-        }
-
-        @keyframes shake {
+        @keyframes lockShake {
           0%, 100% { transform: translateX(0); }
           10%, 30%, 50%, 70%, 90% { transform: translateX(-8px); }
           20%, 40%, 60%, 80% { transform: translateX(8px); }
-        }
-
-        @media (max-height: 600px) {
-          .lock-container {
-            gap: 20px;
-          }
-          .lock-logo-icon {
-            width: 56px;
-            height: 56px;
-            border-radius: 16px;
-          }
-          .lock-logo-icon svg {
-            width: 28px;
-            height: 28px;
-          }
-          .lock-logo h1 {
-            font-size: 20px;
-          }
-          .lock-key {
-            height: 52px;
-          }
-          .lock-submit {
-            padding: 14px 20px;
-          }
         }
       `}</style>
     </div>
