@@ -98,11 +98,13 @@ sisters-salon-reservation-app/
 │   │   ├── commands/       # Tauri 커맨드 (API 대체)
 │   │   │   ├── reservations.rs
 │   │   │   ├── designers.rs
+│   │   │   ├── customers.rs
 │   │   │   ├── business_hours.rs
 │   │   │   ├── statistics.rs
 │   │   │   ├── export.rs       # Excel 내보내기
 │   │   │   ├── backup.rs       # 클라우드 백업
-│   │   │   └── security.rs     # 앱 잠금/인증
+│   │   │   ├── security.rs     # 앱 잠금/인증
+│   │   │   └── utils.rs        # 외부 URL 열기 등 유틸
 │   │   ├── db/             # 데이터베이스 모듈
 │   │   └── services/       # 비즈니스 로직
 │   │       ├── excel.rs        # Excel 생성 로직
@@ -114,7 +116,8 @@ sisters-salon-reservation-app/
 │   ├── Cargo.toml
 │   └── tauri.conf.json     # 멀티 플랫폼 설정
 ├── docs/
-│   └── analysis-report.md  # 기존 프로젝트 분석 보고서
+│   ├── analysis-report.md  # 기존 프로젝트 분석 보고서
+│   └── spec-new-customer-on-reservation.md  # 신규 고객 자동등록 SPEC
 ├── package.json
 ├── vite.config.ts
 ├── tailwind.config.js
@@ -515,6 +518,28 @@ npm run tauri ios build -- --target aarch64-apple-ios
 - [x] iOS 수평 스크롤/바운스 방지
 - [x] Android 프로젝트 설정 및 테스트
 
+### Phase 4.5: UX 개선 ✅ (2026-01-29)
+- [x] **예약 관리 개선**
+  - [x] 예약 삭제/상태 변경 버그 수정
+  - [x] 예약 목록에서 연락처 우선 표시 (전화번호 > 이름)
+  - [x] 예약 목록에서 디자이너 이름 표시 (UUID → 이름 변환)
+  - [x] 필수 입력 필드 검증 (전화번호, 날짜, 시간, 디자이너) + 시각적 피드백
+  - [x] `customerName` 필드 Optional 처리
+- [x] **고객 관리 개선**
+  - [x] 예약 생성 시 신규 고객 자동 등록
+  - [x] 전화번호 기반 중복 고객 debounce 검색 (500ms)
+  - [x] 고객 검색 UI: 전화번호 우선 표시
+  - [x] 검색 결과 없을 때 드롭다운 오버랩 버그 수정
+- [x] **앱 브랜딩**
+  - [x] 앱 표시 이름 변경: "Sisters Salon" → "언니들의 미용실"
+  - [x] Copyright: "Since 2026 언니들의 미용실"
+- [x] **앱 정보 페이지**
+  - [x] 개인정보처리방침 링크 연동
+  - [x] 이용약관 링크 연동
+  - [x] 문의하기 이메일 연동
+  - [x] Tauri opener 플러그인으로 외부 URL 열기 (iOS/Desktop/Web 대응)
+- [x] **iOS PIN 잠금 화면 흰색 화면 버그 수정**
+
 ### Phase 5: 통계 대시보드 (예정)
 - [ ] 통계 계산 로직
 - [ ] 차트 컴포넌트 (Recharts)
@@ -605,7 +630,7 @@ npm run tauri ios build -- --target aarch64-apple-ios
 ---
 
 **프로젝트 시작일**: 2026-01-21
-**최종 업데이트**: 2026-01-22
-**현재 진행 상황**: Phase 1-4 완료, Phase 5 대기중
+**최종 업데이트**: 2026-01-29
+**현재 진행 상황**: Phase 1-4.5 완료, Phase 5 대기중
 **지원 플랫폼**: macOS, Windows, Linux, iOS, Android
 **테스트 완료 플랫폼**: macOS, iOS (iPhone/iPad), Android

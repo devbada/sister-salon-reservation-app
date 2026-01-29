@@ -21,7 +21,7 @@ import type {
 
 // 예약 생성 입력 타입
 interface CreateReservationInput {
-  customerName: string;
+  customerName?: string;
   customerPhone?: string;
   date: string;
   time: string;

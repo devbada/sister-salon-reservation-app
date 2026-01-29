@@ -1,4 +1,5 @@
 import { Info, Mail, FileText, Shield, ExternalLink } from 'lucide-react';
+import { invoke } from '@tauri-apps/api/core';
 
 const APP_VERSION = '1.0.0';
 const BUILD_NUMBER = '1';
@@ -8,7 +9,6 @@ interface InfoItem {
   label: string;
   value?: string;
   link?: string;
-  isExternal?: boolean;
 }
 
 const infoItems: InfoItem[] = [
@@ -20,24 +20,33 @@ const infoItems: InfoItem[] = [
   {
     icon: <Shield className="w-4 h-4" />,
     label: '개인정보처리방침',
-    link: 'https://example.com/privacy',
-    isExternal: true,
+    link: 'https://devbada.github.io/sister-salon-reservation-app/privacy.html',
   },
   {
     icon: <FileText className="w-4 h-4" />,
     label: '이용약관',
-    link: 'https://example.com/terms',
-    isExternal: true,
+    link: 'https://devbada.github.io/sister-salon-reservation-app/terms.html',
   },
   {
     icon: <Mail className="w-4 h-4" />,
     label: '문의하기',
-    link: 'mailto:support@example.com',
-    isExternal: true,
+    link: 'mailto:imdevbada@gmail.com',
   },
 ];
 
 export function AppInfoSettings() {
+  const handleOpenLink = async (url: string) => {
+    try {
+      if ('__TAURI_INTERNALS__' in window) {
+        await invoke('open_external_url', { url });
+      } else {
+        window.open(url, '_blank');
+      }
+    } catch {
+      window.open(url, '_blank');
+    }
+  };
+
   return (
     <div className="space-y-4">
       {/* App Logo & Name */}
@@ -48,7 +57,7 @@ export function AppInfoSettings() {
           className="w-20 h-20 mx-auto mb-4 rounded-2xl shadow-lg"
         />
         <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-          Sisters Salon
+          언니들의 미용실
         </h3>
         <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
           헤어 살롱 예약 관리 앱
@@ -59,12 +68,11 @@ export function AppInfoSettings() {
       <div className="card divide-y divide-gray-200 dark:divide-gray-700">
         {infoItems.map((item, index) => (
           item.link ? (
-            <a
+            <button
               key={index}
-              href={item.link}
-              target={item.isExternal ? '_blank' : undefined}
-              rel={item.isExternal ? 'noopener noreferrer' : undefined}
-              className="flex items-center justify-between p-4
+              type="button"
+              onClick={() => handleOpenLink(item.link!)}
+              className="flex items-center justify-between p-4 w-full text-left
                          hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
             >
               <div className="flex items-center gap-3">
@@ -76,7 +84,7 @@ export function AppInfoSettings() {
                 </span>
               </div>
               <ExternalLink className="w-4 h-4 text-gray-400" />
-            </a>
+            </button>
           ) : (
             <div
               key={index}
@@ -100,7 +108,7 @@ export function AppInfoSettings() {
 
       {/* Copyright */}
       <div className="text-center text-xs text-gray-400 dark:text-gray-500 py-4">
-        <p>&copy; 2024-2026 Sisters Salon. All rights reserved.</p>
+        <p>&copy; Since 2026 언니들의 미용실. All rights reserved.</p>
       </div>
     </div>
   );

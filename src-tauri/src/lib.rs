@@ -71,6 +71,8 @@ pub fn run() {
             commands::security::update_lock_settings,
             commands::security::authenticate_biometric,
             commands::security::is_biometric_available,
+            // 유틸
+            commands::utils::open_external_url,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
