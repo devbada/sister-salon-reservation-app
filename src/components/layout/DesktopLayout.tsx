@@ -15,7 +15,7 @@ export function DesktopLayout({ children, currentPage, onNavigate }: DesktopLayo
 
       {/* Main Content */}
       <main
-        className="flex-1 ml-56 px-8 pb-8 overflow-y-auto"
+        className="flex-1 ml-64 px-8 pb-8 overflow-y-auto"
         style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 20px)' }}
       >
         <div className="max-w-6xl mx-auto animate-fade-in">
