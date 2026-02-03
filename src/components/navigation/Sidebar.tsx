@@ -24,13 +24,13 @@ const navItems: NavItem[] = [
 export function Sidebar({ currentPage, onNavigate }: SidebarProps) {
   return (
     <aside
-      className="fixed left-0 top-0 h-full w-56 glass px-5 pb-5 z-40 flex flex-col"
+      className="fixed left-0 top-0 h-full w-64 glass px-5 pb-5 z-40 flex flex-col"
       style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 20px)' }}
     >
       {/* Logo */}
       <div className="flex items-center gap-3 mb-8 px-2">
         <img src="/icon.png" alt="Sisters Salon" className="w-10 h-10 rounded-xl shadow-lg" />
-        <h1 className="text-xl font-bold logo-text">
+        <h1 className="text-xl font-bold logo-text whitespace-nowrap">
           언니들의 미용실
         </h1>
       </div>
