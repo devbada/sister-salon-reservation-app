@@ -1,6 +1,6 @@
 [package]
 name = "sisters-salon-reservation-app"
-version = "1.0.0"
+version = "1.0.1"
 description = "Sisters Salon Reservation App"
 authors = ["you"]
 edition = "2021"
@@ -32,6 +32,9 @@ rust_xlsxwriter = "0.79"
 # Security
 keyring = "3"
 bcrypt = "0.15"
+
+[target.'cfg(any(target_os = "android", target_os = "ios"))'.dependencies]
+tauri-plugin-biometric = "2"
 
 [target.'cfg(target_os = "macos")'.dependencies]
 objc = "0.2"

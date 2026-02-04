@@ -49,7 +49,7 @@ function AppContent() {
   });
 
   // App lock
-  const { isLocked, isInitializing, unlock, refreshSettings } = useAppLock();
+  const { isLocked, isInitializing, unlock, unlockBiometric, settings, isBiometricAvailable, biometricType, refreshSettings } = useAppLock();
 
   // Unsaved changes context
   const { checkAndNavigate, setHasUnsavedChanges } = useUnsavedChanges();
@@ -160,7 +160,13 @@ function AppContent() {
 
   // Show lock screen if locked
   if (isLocked) {
-    return <LockScreen onUnlock={unlock} />;
+    return (
+      <LockScreen
+        onUnlock={unlock}
+        onBiometricUnlock={isBiometricAvailable && settings?.useBiometric ? unlockBiometric : undefined}
+        biometricType={biometricType}
+      />
+    );
   }
 
   const renderContent = () => {

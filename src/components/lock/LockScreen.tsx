@@ -1,8 +1,11 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
-import { Delete, AlertCircle } from 'lucide-react';
+import { Delete, AlertCircle, Fingerprint, ScanFace } from 'lucide-react';
+import type { BiometricType } from '../../hooks/useAppLock';
 
 interface LockScreenProps {
   onUnlock: (pin: string) => Promise<boolean>;
+  onBiometricUnlock?: () => Promise<boolean>;
+  biometricType?: BiometricType;
 }
 
 // Brute force protection: 5 fails = 30s, 6+ fails = 5min
@@ -10,7 +13,9 @@ const LOCKOUT_THRESHOLD = 5;
 const SHORT_LOCKOUT_MS = 30_000;
 const LONG_LOCKOUT_MS = 5 * 60_000;
 
-export function LockScreen({ onUnlock }: LockScreenProps) {
+export function LockScreen({ onUnlock, onBiometricUnlock, biometricType = 'none' }: LockScreenProps) {
+  const isFaceId = biometricType === 'face_id';
+  const biometricLabel = isFaceId ? 'Face ID' : '지문 인식';
   const [pin, setPin] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [isVerifying, setIsVerifying] = useState(false);
@@ -19,6 +24,66 @@ export function LockScreen({ onUnlock }: LockScreenProps) {
   const [lockoutUntil, setLockoutUntil] = useState<number | null>(null);
   const [lockoutRemaining, setLockoutRemaining] = useState(0);
   const lockoutTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const biometricBusyRef = useRef(false);
+
+  // silent=true: auto-trigger (no error on failure), silent=false: manual tap (show error)
+  const handleBiometricUnlock = useCallback(async (silent = false) => {
+    if (!onBiometricUnlock || biometricBusyRef.current) return;
+    biometricBusyRef.current = true;
+    setIsVerifying(true);
+    setError(null);
+    try {
+      const success = await onBiometricUnlock();
+      if (!success && !silent) {
+        setError(`${biometricLabel} 인증에 실패했습니다. PIN을 입력해주세요.`);
+      }
+    } catch {
+      if (!silent) {
+        setError(`${biometricLabel} 인증에 실패했습니다. PIN을 입력해주세요.`);
+      }
+    } finally {
+      biometricBusyRef.current = false;
+      setIsVerifying(false);
+    }
+  }, [onBiometricUnlock, biometricLabel]);
+
+  // Auto-trigger biometric: on mount + foreground return (always silent)
+  // When the app goes to background, useAppLock locks it and LockScreen mounts
+  // while document.hidden is still true. iOS suspends JS timers in background,
+  // so setTimeout naturally fires when the app returns to foreground.
+  useEffect(() => {
+    if (!onBiometricUnlock) return;
+
+    const tryBiometricSilently = () => {
+      if (biometricBusyRef.current) return;
+      biometricBusyRef.current = true;
+      onBiometricUnlock()
+        .then(() => {})
+        .catch(() => {})
+        .finally(() => { biometricBusyRef.current = false; });
+    };
+
+    // On mount: delay ensures the app is in foreground before prompting.
+    // On iOS, this timer is suspended while in background and fires on return.
+    const mountTimer = setTimeout(tryBiometricSilently, 500);
+
+    // Fallback listeners for foreground return
+    const handleForeground = () => {
+      setTimeout(tryBiometricSilently, 300);
+    };
+    const handleVisibility = () => {
+      if (!document.hidden) handleForeground();
+    };
+
+    document.addEventListener('visibilitychange', handleVisibility);
+    window.addEventListener('focus', handleForeground);
+
+    return () => {
+      clearTimeout(mountTimer);
+      document.removeEventListener('visibilitychange', handleVisibility);
+      window.removeEventListener('focus', handleForeground);
+    };
+  }, [onBiometricUnlock]);
 
   // Lockout countdown timer
   useEffect(() => {
@@ -383,6 +448,36 @@ export function LockScreen({ onUnlock }: LockScreenProps) {
         >
           {isVerifying ? '확인 중...' : '잠금 해제'}
         </button>
+
+        {/* Biometric unlock button (Android: fingerprint, iOS: Face ID) */}
+        {onBiometricUnlock && (
+          <button
+            onClick={() => handleBiometricUnlock(false)}
+            disabled={isVerifying}
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: 8,
+              background: 'none',
+              border: 'none',
+              color: 'rgba(255,255,255,0.7)',
+              cursor: isVerifying ? 'not-allowed' : 'pointer',
+              opacity: isVerifying ? 0.4 : 1,
+              padding: '12px 24px',
+              WebkitTapHighlightColor: 'transparent',
+            }}
+          >
+            {isFaceId ? (
+              <ScanFace style={{ width: 32, height: 32 }} />
+            ) : (
+              <Fingerprint style={{ width: 32, height: 32 }} />
+            )}
+            <span style={{ fontSize: 13 }}>
+              {isFaceId ? 'Face ID로 잠금 해제' : '지문으로 잠금 해제'}
+            </span>
+          </button>
+        )}
       </div>
 
       {/* Minimal keyframe for shake animation */}
