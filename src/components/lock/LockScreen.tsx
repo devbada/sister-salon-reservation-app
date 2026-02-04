@@ -51,6 +51,12 @@ export function LockScreen({ onUnlock, onBiometricUnlock, biometricType = 'none'
   // When the app goes to background, useAppLock locks it and LockScreen mounts
   // while document.hidden is still true. iOS suspends JS timers in background,
   // so setTimeout naturally fires when the app returns to foreground.
+  //
+  // TODO: 다른 앱 갔다가 돌아올 때 생체인증 자동 실행이 안 됨
+  // - visibilitychange / focus 이벤트가 iOS Tauri WebView에서 안정적으로 발생하지 않는 것으로 추정
+  // - Tauri 네이티브 앱 라이프사이클 이벤트 사용 검토 필요
+  //   (예: Swift applicationWillEnterForeground → WebView JS 호출, 또는 tauri-plugin-process)
+  // - 또는 Rust 쪽에서 앱 포그라운드 복귀 시 프론트엔드로 이벤트 emit 하는 방식
   useEffect(() => {
     if (!onBiometricUnlock) return;
 
