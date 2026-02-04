@@ -280,7 +280,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -e\n\n# nvm 환경 로드\nexport NVM_DIR=\"$HOME/.nvm\"\n[ -s \"$NVM_DIR/nvm.sh\" ] && \\. \"$NVM_DIR/nvm.sh\"\n\n# Homebrew 경로 추가\nexport PATH=\"/opt/homebrew/bin:$PATH\"\n\n# Rust/Cargo 경로 추가\nexport PATH=\"$HOME/.cargo/bin:$PATH\"\n\n# 프로젝트 루트로 이동\ncd \"$SRCROOT/../..\"\n\n# Frontend 빌드 (dist 폴더가 없거나 오래된 경우)\nif [ ! -d \"../dist\" ] || [ \"../src\" -nt \"../dist\" ]; then\n  echo \"Building frontend...\"\n  cd ..\n  npm run build\n  cd src-tauri\nfi\n\n# Rust 빌드 - 시뮬레이터/기기 타겟 분기\necho \"Building Rust code for iOS...\"\necho \"PLATFORM_NAME: $PLATFORM_NAME\"\n\nif [[ \"$PLATFORM_NAME\" == *\"simulator\"* ]]; then\n  RUST_TARGET=\"aarch64-apple-ios-sim\"\n  echo \"Building for iOS Simulator...\"\nelse\n  RUST_TARGET=\"aarch64-apple-ios\"\n  echo \"Building for iOS Device...\"\nfi\n\nif [ \"$CONFIGURATION\" = \"Release\" ] || [ \"$CONFIGURATION\" = \"release\" ]; then\n  cargo build --release --target $RUST_TARGET --lib\n  mkdir -p \"$SRCROOT/Externals/arm64/release\"\n  cp \"target/$RUST_TARGET/release/libsisters_salon_reservation_app_lib.a\" \"$SRCROOT/Externals/arm64/release/libapp.a\"\nelse\n  cargo build --target $RUST_TARGET --lib\n  mkdir -p \"$SRCROOT/Externals/arm64/debug\"\n  cp \"target/$RUST_TARGET/debug/libsisters_salon_reservation_app_lib.a\" \"$SRCROOT/Externals/arm64/debug/libapp.a\"\nfi\n\necho \"Rust build complete!\"\n";
+			shellScript = "set -e\n\n# Node.js 경로 직접 지정 (nvm default와 무관하게 v22 사용)\nexport PATH=\"$HOME/.nvm/versions/node/v22.17.0/bin:$PATH\"\n\n# Homebrew 경로 추가\nexport PATH=\"/opt/homebrew/bin:$PATH\"\n\n# Rust/Cargo 경로 추가\nexport PATH=\"$HOME/.cargo/bin:$PATH\"\n\n# 프로젝트 루트로 이동\ncd \"$SRCROOT/../..\"\n\n# Frontend 빌드 (dist 폴더가 없거나 오래된 경우)\nif [ ! -d \"../dist\" ] || [ \"../src\" -nt \"../dist\" ]; then\n  echo \"Building frontend...\"\n  cd ..\n  npm run build\n  cd src-tauri\nfi\n\n# Rust 빌드 - 시뮬레이터/기기 타겟 분기\necho \"Building Rust code for iOS...\"\necho \"PLATFORM_NAME: $PLATFORM_NAME\"\n\nif [[ \"$PLATFORM_NAME\" == *\"simulator\"* ]]; then\n  RUST_TARGET=\"aarch64-apple-ios-sim\"\n  echo \"Building for iOS Simulator...\"\nelse\n  RUST_TARGET=\"aarch64-apple-ios\"\n  echo \"Building for iOS Device...\"\nfi\n\nif [ \"$CONFIGURATION\" = \"Release\" ] || [ \"$CONFIGURATION\" = \"release\" ]; then\n  cargo build --release --target $RUST_TARGET --lib\n  mkdir -p \"$SRCROOT/Externals/arm64/release\"\n  cp \"target/$RUST_TARGET/release/libsisters_salon_reservation_app_lib.a\" \"$SRCROOT/Externals/arm64/release/libapp.a\"\nelse\n  cargo build --target $RUST_TARGET --lib\n  mkdir -p \"$SRCROOT/Externals/arm64/debug\"\n  cp \"target/$RUST_TARGET/debug/libsisters_salon_reservation_app_lib.a\" \"$SRCROOT/Externals/arm64/debug/libapp.a\"\nfi\n\necho \"Rust build complete!\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -304,7 +304,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "sisters-salon-reservation-app_iOS/sisters-salon-reservation-app_iOS.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = W96LW7FRSD;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_BITCODE = NO;
@@ -336,7 +336,7 @@
 					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
 					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sisters.salon;
 				PRODUCT_NAME = "Sisters Salon";
 				REGISTER_APP_GROUPS = YES;
@@ -415,7 +415,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "sisters-salon-reservation-app_iOS/sisters-salon-reservation-app_iOS.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = W96LW7FRSD;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_BITCODE = NO;
@@ -447,7 +447,7 @@
 					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
 					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sisters.salon;
 				PRODUCT_NAME = "Sisters Salon";
 				REGISTER_APP_GROUPS = YES;
