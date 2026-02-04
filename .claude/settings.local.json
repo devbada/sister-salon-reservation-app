@@ -76,7 +76,11 @@
       "Bash(do echo \"Processing: $f\")",
       "Bash(magick:*)",
       "Bash(for f in src-tauri/icons/*.png)",
-      "Bash(for f in src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/*.png)"
+      "Bash(for f in src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/*.png)",
+      "Bash(tree:*)",
+      "WebSearch",
+      "WebFetch(domain:docs.rs)",
+      "WebFetch(domain:devbada.github.io)"
     ]
   },
   "enableAllProjectMcpServers": true,
