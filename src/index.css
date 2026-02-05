@@ -74,6 +74,75 @@
 }
 
 /* ============================================
+   Display Settings - CSS Custom Properties
+   ============================================ */
+
+:root {
+  --text-body: 15px;
+  --text-header: 22px;
+  --text-header-sm: 18px;
+  --text-label: 13px;
+  --text-btn: 14px;
+  --text-btn-sm: 13px;
+  --text-btn-lg: 16px;
+  --text-nav: 14px;
+  --text-tab: 11px;
+  --text-caption: 13px;
+  --text-badge: 12px;
+  --btn-height: 44px;
+  --btn-padding: 10px 20px;
+  --btn-sm-padding: 6px 12px;
+  --btn-lg-padding: 14px 28px;
+  --input-padding: 12px 16px;
+  --nav-padding: 12px 16px;
+  --tab-min-height: 52px;
+}
+
+:root[data-text-size="large"] {
+  --text-body: 18px;
+  --text-header: 26px;
+  --text-header-sm: 20px;
+  --text-label: 16px;
+  --text-btn: 16px;
+  --text-btn-sm: 15px;
+  --text-btn-lg: 18px;
+  --text-nav: 16px;
+  --text-tab: 13px;
+  --text-caption: 15px;
+  --text-badge: 14px;
+}
+
+:root[data-text-size="extraLarge"] {
+  --text-body: 20px;
+  --text-header: 30px;
+  --text-header-sm: 22px;
+  --text-label: 18px;
+  --text-btn: 18px;
+  --text-btn-sm: 16px;
+  --text-btn-lg: 20px;
+  --text-nav: 18px;
+  --text-tab: 15px;
+  --text-caption: 16px;
+  --text-badge: 16px;
+}
+
+:root[data-button-size="large"] {
+  --btn-height: 56px;
+  --btn-padding: 14px 24px;
+  --btn-sm-padding: 10px 16px;
+  --btn-lg-padding: 18px 32px;
+  --input-padding: 16px 20px;
+  --nav-padding: 16px 20px;
+  --tab-min-height: 60px;
+}
+
+:root[data-high-contrast="true"] {
+  --color-gray-400: oklch(0.55 0 0);
+  --color-gray-500: oklch(0.40 0 0);
+  --color-glass-border-light: rgba(0, 0, 0, 0.15);
+}
+
+/* ============================================
    Base Styles
    ============================================ */
 
@@ -231,8 +300,9 @@ body {
     gap: 8px;
     font-weight: 500;
     border-radius: 12px;
-    padding: 10px 20px;
-    font-size: 14px;
+    padding: var(--btn-padding);
+    font-size: var(--text-btn);
+    min-height: var(--btn-height);
     line-height: 1.25;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
@@ -323,15 +393,16 @@ body {
   }
 
   .btn-sm {
-    padding: 6px 12px;
-    font-size: 13px;
+    padding: var(--btn-sm-padding);
+    font-size: var(--text-btn-sm);
     border-radius: 8px;
     gap: 6px;
+    min-height: auto;
   }
 
   .btn-lg {
-    padding: 14px 28px;
-    font-size: 16px;
+    padding: var(--btn-lg-padding);
+    font-size: var(--text-btn-lg);
     border-radius: 14px;
     gap: 10px;
   }
@@ -349,9 +420,10 @@ body {
   /* === Form Inputs === */
   .input {
     width: 100%;
-    padding: 12px 16px;
-    font-size: 15px;
+    padding: var(--input-padding);
+    font-size: var(--text-body);
     line-height: 1.5;
+    min-height: var(--btn-height);
     border-radius: 12px;
     background: #f5f5f7;
     border: 1.5px solid transparent;
@@ -483,7 +555,7 @@ body {
   /* Label */
   .label {
     display: block;
-    font-size: 13px;
+    font-size: var(--text-label);
     font-weight: 500;
     color: var(--color-gray-700);
     margin-bottom: 6px;
@@ -499,7 +571,7 @@ body {
     align-items: center;
     gap: 4px;
     padding: 4px 10px;
-    font-size: 12px;
+    font-size: var(--text-badge);
     font-weight: 500;
     border-radius: 20px;
     line-height: 1.4;
@@ -545,9 +617,9 @@ body {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 12px 16px;
+    padding: var(--nav-padding);
     border-radius: 12px;
-    font-size: 14px;
+    font-size: var(--text-nav);
     font-weight: 500;
     color: var(--color-gray-600);
     transition: all 0.2s ease;
@@ -598,8 +670,8 @@ body {
     gap: 4px;
     padding: 8px 0;
     min-width: 64px;
-    min-height: 52px;
-    font-size: 11px;
+    min-height: var(--tab-min-height);
+    font-size: var(--text-tab);
     font-weight: 500;
     color: var(--color-gray-500);
     transition: all 0.2s ease;
@@ -848,31 +920,25 @@ body {
   }
 
   .heading-2 {
-    font-size: 22px;
+    font-size: var(--text-header);
     font-weight: 600;
     line-height: 1.3;
     letter-spacing: -0.01em;
   }
 
-  @media (min-width: 640px) {
-    .heading-2 {
-      font-size: 24px;
-    }
-  }
-
   .heading-3 {
-    font-size: 18px;
+    font-size: var(--text-header-sm);
     font-weight: 600;
     line-height: 1.4;
   }
 
   .text-body {
-    font-size: 15px;
+    font-size: var(--text-body);
     line-height: 1.6;
   }
 
   .text-caption {
-    font-size: 13px;
+    font-size: var(--text-caption);
     line-height: 1.5;
     color: var(--color-gray-500);
   }

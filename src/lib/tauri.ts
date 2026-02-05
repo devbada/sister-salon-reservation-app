@@ -130,3 +130,8 @@ export const securityApi = {
   isBiometricAvailable: () => invoke<boolean>('is_biometric_available'),
   getBiometricType: () => invoke<string>('get_biometric_type'),
 };
+
+// 유틸
+export const utilApi = {
+  resetAllData: () => invoke<void>('reset_all_data'),
+};
