@@ -76,6 +76,7 @@ pub fn run() {
             commands::security::get_biometric_type,
             // 유틸
             commands::utils::open_external_url,
+            commands::utils::reset_all_data,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

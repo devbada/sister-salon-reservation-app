@@ -11,10 +11,13 @@ import { BusinessHours } from './components/business-hours/BusinessHours';
 import { StatisticsDashboard } from './components/statistics/StatisticsDashboard';
 import { SettingsPage } from './components/settings/SettingsPage';
 import { LockScreen } from './components/lock/LockScreen';
+import { OnboardingFlow } from './components/onboarding/OnboardingFlow';
+import { DisplaySettingsProvider } from './contexts/DisplaySettingsContext';
 import { UnsavedChangesProvider, useUnsavedChanges } from './contexts/UnsavedChangesContext';
 import { ModalProvider, useModal } from './contexts/ModalContext';
 import { UnsavedChangesDialog } from './components/common/UnsavedChangesDialog';
 import { useAppLock } from './hooks/useAppLock';
+import { useOnboarding } from './hooks/useOnboarding';
 import type { Reservation } from './types';
 
 type Page = 'reservations' | 'customers' | 'designers' | 'business-hours' | 'statistics' | 'settings';
@@ -50,6 +53,9 @@ function AppContent() {
 
   // App lock
   const { isLocked, isInitializing, unlock, unlockBiometric, settings, isBiometricAvailable, biometricType, refreshSettings } = useAppLock();
+
+  // Onboarding
+  const { completed: onboardingCompleted, isChecking: onboardingChecking, currentStep, nextStep, goToStep, completeOnboarding } = useOnboarding();
 
   // Unsaved changes context
   const { checkAndNavigate, setHasUnsavedChanges } = useUnsavedChanges();
@@ -145,8 +151,8 @@ function AppContent() {
 
   // --- Early returns (after all hooks and function definitions) ---
 
-  // Show nothing while checking lock status to prevent content flash
-  if (isInitializing) {
+  // Show nothing while checking lock status or onboarding to prevent content flash
+  if (isInitializing || onboardingChecking) {
     return (
       <div
         style={{
@@ -165,6 +171,22 @@ function AppContent() {
         onUnlock={unlock}
         onBiometricUnlock={isBiometricAvailable && settings?.useBiometric ? unlockBiometric : undefined}
         biometricType={biometricType}
+      />
+    );
+  }
+
+  // Show onboarding if not completed
+  if (!onboardingCompleted) {
+    return (
+      <OnboardingFlow
+        currentStep={currentStep}
+        onNextStep={nextStep}
+        onGoToStep={goToStep}
+        onComplete={completeOnboarding}
+        onNavigateToBusinessHours={() => {
+          completeOnboarding();
+          setCurrentPage('business-hours');
+        }}
       />
     );
   }
@@ -260,11 +282,13 @@ function AppContent() {
 
 function App() {
   return (
-    <ModalProvider>
-      <UnsavedChangesProvider>
-        <AppContent />
-      </UnsavedChangesProvider>
-    </ModalProvider>
+    <DisplaySettingsProvider>
+      <ModalProvider>
+        <UnsavedChangesProvider>
+          <AppContent />
+        </UnsavedChangesProvider>
+      </ModalProvider>
+    </DisplaySettingsProvider>
   );
 }
 

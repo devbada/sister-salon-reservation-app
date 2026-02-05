@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { X, User, Phone, Calendar, Clock, Scissors, FileText, Loader2, UserPlus } from 'lucide-react';
+import { X, User, Phone, Calendar, Clock, Scissors, FileText, Loader2, UserPlus, AlertCircle } from 'lucide-react';
 import { reservationApi, designerApi, customerApi } from '../../lib/tauri';
 import { CustomerSearch } from '../customer/CustomerSearch';
 import type { Reservation, Designer, Customer } from '../../types';
@@ -320,22 +320,36 @@ export function AppointmentForm({ reservation, onSubmit, onCancel }: Appointment
               <User className="w-3.5 h-3.5" />
               디자이너 <span className="text-red-500">*</span>
             </label>
-            <select
-              ref={designerRef}
-              value={formData.designerId || ''}
-              onChange={(e) => {
-                setFormData({ ...formData, designerId: e.target.value });
-                if (errors.designer) setErrors((prev) => { const { designer: _, ...rest } = prev; return rest; });
-              }}
-              className={`input select ${errors.designer ? 'ring-2 ring-red-500 border-red-500' : ''}`}
-            >
-              <option value="">디자이너 선택</option>
-              {designers.map((d) => (
-                <option key={d.id} value={d.id}>{d.name}</option>
-              ))}
-            </select>
-            {errors.designer && (
-              <p className="mt-1 text-xs text-red-500">{errors.designer}</p>
+            {designers.length === 0 ? (
+              <div className="p-3 rounded-lg bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800">
+                <div className="flex items-center gap-2 text-amber-600 dark:text-amber-400">
+                  <AlertCircle className="w-4 h-4 flex-shrink-0" />
+                  <p className="text-sm font-medium">디자이너를 먼저 등록해 주세요</p>
+                </div>
+                <p className="text-xs text-amber-500 dark:text-amber-500 mt-1 ml-6">
+                  설정 &gt; 디자이너 관리에서 등록할 수 있어요
+                </p>
+              </div>
+            ) : (
+              <>
+                <select
+                  ref={designerRef}
+                  value={formData.designerId || ''}
+                  onChange={(e) => {
+                    setFormData({ ...formData, designerId: e.target.value });
+                    if (errors.designer) setErrors((prev) => { const { designer: _, ...rest } = prev; return rest; });
+                  }}
+                  className={`input select ${errors.designer ? 'ring-2 ring-red-500 border-red-500' : ''}`}
+                >
+                  <option value="">디자이너 선택</option>
+                  {designers.map((d) => (
+                    <option key={d.id} value={d.id}>{d.name}</option>
+                  ))}
+                </select>
+                {errors.designer && (
+                  <p className="mt-1 text-xs text-red-500">{errors.designer}</p>
+                )}
+              </>
             )}
           </div>
 

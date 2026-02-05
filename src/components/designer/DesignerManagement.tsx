@@ -161,14 +161,14 @@ export function DesignerManagement() {
       {designers.length === 0 ? (
         <div className="glass-card empty-state">
           <Users className="empty-state-icon" />
-          <h3 className="heading-3 mb-2">등록된 디자이너가 없습니다</h3>
-          <p className="text-caption mb-4">새 디자이너를 등록해 주세요.</p>
+          <h3 className="heading-3 mb-2">등록된 디자이너가 없어요</h3>
+          <p className="text-caption mb-4">디자이너를 등록하면 예약을 효율적으로 관리할 수 있어요</p>
           <button
             onClick={() => setShowForm(true)}
             className="btn btn-primary"
           >
             <Plus className="w-4 h-4" />
-            디자이너 등록
+            첫 번째 디자이너 등록
           </button>
         </div>
       ) : (
