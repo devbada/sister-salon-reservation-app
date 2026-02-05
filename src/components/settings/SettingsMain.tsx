@@ -1,6 +1,8 @@
-import { ChevronRight, Lock, Database, Clock, BarChart3, Info } from 'lucide-react';
+import { useState } from 'react';
+import { ChevronRight, Lock, Database, Clock, BarChart3, Monitor, Info, AlertTriangle, Loader2 } from 'lucide-react';
+import { utilApi } from '../../lib/tauri';
 
-export type SettingsCategory = 'security' | 'data' | 'business' | 'statistics' | 'appInfo';
+export type SettingsCategory = 'security' | 'data' | 'business' | 'statistics' | 'display' | 'appInfo';
 
 interface CategoryItem {
   id: SettingsCategory;
@@ -40,6 +42,13 @@ const categories: CategoryItem[] = [
     subtitle: '예약 통계 및 분석',
   },
   {
+    id: 'display',
+    icon: <Monitor className="w-5 h-5" />,
+    iconBg: 'bg-teal-100 text-teal-600 dark:bg-teal-900/50 dark:text-teal-400',
+    title: '디스플레이',
+    subtitle: '글씨 크기, 버튼 크기, 고대비',
+  },
+  {
     id: 'appInfo',
     icon: <Info className="w-5 h-5" />,
     iconBg: 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400',
@@ -53,6 +62,23 @@ interface SettingsMainProps {
 }
 
 export function SettingsMain({ onSelectCategory }: SettingsMainProps) {
+  const [showResetConfirm, setShowResetConfirm] = useState(false);
+  const [resetting, setResetting] = useState(false);
+
+  const handleResetAll = async () => {
+    setResetting(true);
+    try {
+      await utilApi.resetAllData();
+      localStorage.clear();
+      window.location.reload();
+    } catch (err) {
+      console.error('Failed to reset:', err);
+      alert('초기화에 실패했습니다.');
+      setResetting(false);
+      setShowResetConfirm(false);
+    }
+  };
+
   return (
     <div className="space-y-3">
       {categories.map((category) => (
@@ -79,6 +105,65 @@ export function SettingsMain({ onSelectCategory }: SettingsMainProps) {
           <ChevronRight className="w-5 h-5 text-gray-400" />
         </button>
       ))}
+
+      {/* 모두 초기화 */}
+      <div className="pt-4 mt-4">
+        <button
+          onClick={() => setShowResetConfirm(true)}
+          className="w-full py-3 text-sm text-red-500 dark:text-red-400
+                     hover:text-red-600 dark:hover:text-red-300 transition-colors"
+        >
+          모두 초기화
+        </button>
+      </div>
+
+      {/* 초기화 확인 모달 */}
+      {showResetConfirm && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/50"
+          onClick={() => !resetting && setShowResetConfirm(false)}
+        >
+          <div
+            className="w-full max-w-sm rounded-2xl bg-white dark:bg-gray-800 p-6 space-y-4 shadow-xl animate-scale-in"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center gap-3">
+              <div className="p-2.5 rounded-xl bg-red-100 text-red-600 dark:bg-red-900/50 dark:text-red-400">
+                <AlertTriangle className="w-5 h-5" />
+              </div>
+              <h3 className="text-lg font-bold text-gray-900 dark:text-white">
+                모두 초기화
+              </h3>
+            </div>
+            <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+              예약, 디자이너, 고객, 설정 등 <strong>모든 데이터가 삭제</strong>됩니다.
+              이 작업은 되돌릴 수 없습니다.
+            </p>
+            <div className="flex gap-3 pt-2">
+              <button
+                onClick={() => setShowResetConfirm(false)}
+                disabled={resetting}
+                className="btn btn-secondary flex-1"
+              >
+                취소
+              </button>
+              <button
+                onClick={handleResetAll}
+                disabled={resetting}
+                className="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl
+                           bg-red-600 text-white font-medium hover:bg-red-700
+                           active:scale-[0.98] transition-all disabled:opacity-50"
+              >
+                {resetting ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  '초기화 실행'
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -128,4 +128,10 @@ export const securityApi = {
   getSettings: () => invoke<LockSettings>('get_lock_settings'),
   updateSettings: (settings: LockSettings) => invoke<void>('update_lock_settings', { settings }),
   isBiometricAvailable: () => invoke<boolean>('is_biometric_available'),
+  getBiometricType: () => invoke<string>('get_biometric_type'),
+};
+
+// 유틸
+export const utilApi = {
+  resetAllData: () => invoke<void>('reset_all_data'),
 };

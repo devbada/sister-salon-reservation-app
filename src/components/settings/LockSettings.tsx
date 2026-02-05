@@ -5,6 +5,7 @@ import {
   Clock,
   Shield,
   Fingerprint,
+  ScanFace,
   CheckCircle,
   XCircle,
   Loader2,
@@ -12,6 +13,7 @@ import {
 import { securityApi } from '../../lib/tauri';
 import { PinSetup } from '../lock/PinSetup';
 import type { LockSettings as LockSettingsType } from '../../types';
+import type { BiometricType } from '../../hooks/useAppLock';
 
 interface LockSettingsProps {
   onSettingsChange?: () => void;
@@ -21,6 +23,7 @@ export function LockSettings({ onSettingsChange }: LockSettingsProps) {
   const [isLockEnabled, setIsLockEnabled] = useState(false);
   const [settings, setSettings] = useState<LockSettingsType | null>(null);
   const [isBiometricAvailable, setIsBiometricAvailable] = useState(false);
+  const [biometricType, setBiometricType] = useState<BiometricType>('none');
   const [isLoading, setIsLoading] = useState(true);
   const [showPinSetup, setShowPinSetup] = useState<'setup' | 'change' | 'remove' | null>(
     null
@@ -34,14 +37,16 @@ export function LockSettings({ onSettingsChange }: LockSettingsProps) {
   const loadSettings = async () => {
     setIsLoading(true);
     try {
-      const [enabled, loadedSettings, biometric] = await Promise.all([
+      const [enabled, loadedSettings, biometric, bioType] = await Promise.all([
         securityApi.isLockEnabled(),
         securityApi.getSettings(),
         securityApi.isBiometricAvailable(),
+        securityApi.getBiometricType().catch(() => 'none' as const),
       ]);
       setIsLockEnabled(enabled);
       setSettings(loadedSettings);
       setIsBiometricAvailable(biometric);
+      setBiometricType(bioType as BiometricType);
     } catch (error) {
       console.error('Failed to load lock settings:', error);
       setMessage({ success: false, text: '설정을 불러오는데 실패했습니다' });
@@ -230,17 +235,23 @@ export function LockSettings({ onSettingsChange }: LockSettingsProps) {
                 </label>
               </div>
 
-              {/* Biometric (if available) */}
+              {/* Biometric - Face ID / Touch ID / Fingerprint */}
               {isBiometricAvailable && (
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <Fingerprint className="w-4 h-4 text-gray-400" />
+                    {biometricType === 'face_id' ? (
+                      <ScanFace className="w-4 h-4 text-gray-400" />
+                    ) : (
+                      <Fingerprint className="w-4 h-4 text-gray-400" />
+                    )}
                     <div>
                       <p className="text-sm font-medium text-gray-900 dark:text-white">
-                        생체인증
+                        {biometricType === 'face_id' ? 'Face ID' : '지문 인식'}
                       </p>
                       <p className="text-xs text-gray-500 dark:text-gray-400">
-                        Face ID / Touch ID로 잠금 해제
+                        {biometricType === 'face_id'
+                          ? 'Face ID로 빠른 잠금 해제'
+                          : '지문으로 빠른 잠금 해제'}
                       </p>
                     </div>
                   </div>

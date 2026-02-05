@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { Settings, Lock, Database, Clock, BarChart3, Info } from 'lucide-react';
+import { Settings, Lock, Database, Clock, BarChart3, Monitor, Info } from 'lucide-react';
 import { SettingsMain, SettingsCategory } from './SettingsMain';
 import { SecuritySettings } from './SecuritySettings';
 import { DataSettings } from './DataSettings';
 import { BusinessSettings } from './BusinessSettings';
+import { DisplaySettings } from './DisplaySettings';
 import { AppInfoSettings } from './AppInfoSettings';
 import { StatisticsDashboard } from '../statistics/StatisticsDashboard';
 import { SwipeableView } from '../common/SwipeableView';
@@ -44,6 +45,12 @@ const categoryInfo: Record<SettingsCategory, CategoryInfo> = {
     title: '통계',
     subtitle: '예약 통계 및 분석',
   },
+  display: {
+    icon: <Monitor className="w-5 h-5" />,
+    iconBg: 'bg-teal-100 text-teal-600 dark:bg-teal-900/50 dark:text-teal-400',
+    title: '디스플레이',
+    subtitle: '글씨 크기, 버튼 크기, 고대비',
+  },
   appInfo: {
     icon: <Info className="w-5 h-5" />,
     iconBg: 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400',
@@ -73,6 +80,8 @@ export function SettingsPage({ onLockSettingsChange }: SettingsPageProps) {
         return <BusinessSettings />;
       case 'statistics':
         return <StatisticsDashboard />;
+      case 'display':
+        return <DisplaySettings />;
       case 'appInfo':
         return <AppInfoSettings />;
       default:
