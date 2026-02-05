@@ -107,39 +107,39 @@ export function SettingsMain({ onSelectCategory }: SettingsMainProps) {
       ))}
 
       {/* 모두 초기화 */}
-      <div className="pt-6 border-t border-gray-200 dark:border-gray-700 mt-6">
-        {!showResetConfirm ? (
-          <button
-            onClick={() => setShowResetConfirm(true)}
-            className="w-full card p-4 flex items-center justify-between
-                       border-red-200 dark:border-red-900/50
-                       hover:bg-red-50 dark:hover:bg-red-950/30
-                       active:scale-[0.99] transition-all duration-150"
+      <div className="pt-4 mt-4">
+        <button
+          onClick={() => setShowResetConfirm(true)}
+          className="w-full py-3 text-sm text-red-500 dark:text-red-400
+                     hover:text-red-600 dark:hover:text-red-300 transition-colors"
+        >
+          모두 초기화
+        </button>
+      </div>
+
+      {/* 초기화 확인 모달 */}
+      {showResetConfirm && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/50"
+          onClick={() => !resetting && setShowResetConfirm(false)}
+        >
+          <div
+            className="w-full max-w-sm rounded-2xl bg-white dark:bg-gray-800 p-6 space-y-4 shadow-xl animate-scale-in"
+            onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center gap-3">
               <div className="p-2.5 rounded-xl bg-red-100 text-red-600 dark:bg-red-900/50 dark:text-red-400">
                 <AlertTriangle className="w-5 h-5" />
               </div>
-              <div className="text-left">
-                <h3 className="font-semibold text-red-600 dark:text-red-400">
-                  모두 초기화
-                </h3>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
-                  모든 데이터를 삭제하고 처음 상태로 되돌립니다
-                </p>
-              </div>
+              <h3 className="text-lg font-bold text-gray-900 dark:text-white">
+                모두 초기화
+              </h3>
             </div>
-          </button>
-        ) : (
-          <div className="card p-5 border-red-300 dark:border-red-800 space-y-4">
-            <div className="flex items-center gap-2 text-red-600 dark:text-red-400">
-              <AlertTriangle className="w-5 h-5" />
-              <p className="font-semibold">정말 초기화하시겠습니까?</p>
-            </div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              예약, 디자이너, 고객, 설정 등 모든 데이터가 삭제됩니다. 이 작업은 되돌릴 수 없습니다.
+            <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+              예약, 디자이너, 고객, 설정 등 <strong>모든 데이터가 삭제</strong>됩니다.
+              이 작업은 되돌릴 수 없습니다.
             </p>
-            <div className="flex gap-3">
+            <div className="flex gap-3 pt-2">
               <button
                 onClick={() => setShowResetConfirm(false)}
                 disabled={resetting}
@@ -162,8 +162,8 @@ export function SettingsMain({ onSelectCategory }: SettingsMainProps) {
               </button>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
