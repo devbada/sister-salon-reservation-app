@@ -80,7 +80,13 @@
       "Bash(tree:*)",
       "WebSearch",
       "WebFetch(domain:docs.rs)",
-      "WebFetch(domain:devbada.github.io)"
+      "WebFetch(domain:devbada.github.io)",
+      "Bash(git branch:*)",
+      "Bash(emulator:*)",
+      "Bash(~/Library/Android/sdk/emulator/emulator:*)",
+      "Bash(sqlite3:*)",
+      "Bash(mkdir:*)",
+      "Bash(SCRATCH=\"/private/tmp/claude-501/-Users-minam-cho-workspaces-study--side-projects-sisters-salon-reservation-app/be142d15-4d46-481b-9248-e18329d1ad02/scratchpad\":*)"
     ]
   },
   "enableAllProjectMcpServers": true,
