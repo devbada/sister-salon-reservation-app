@@ -126,36 +126,12 @@ pub fn save_settings(conn: &rusqlite::Connection, settings: &LockSettings) -> Re
     Ok(())
 }
 
-/// Check if biometric authentication is available (stub implementation)
+/// Check if biometric authentication is available
+/// Android (fingerprint) and iOS (Face ID/Touch ID) are supported via tauri-plugin-biometric.
+/// Actual check is performed in commands/security.rs using the plugin's AppHandle API.
+#[allow(dead_code)]
 pub fn is_biometric_available() -> bool {
-    // TODO: Implement platform-specific biometric availability check
-    // For now, return false as biometrics require native platform integration
-    #[cfg(target_os = "ios")]
-    {
-        // Would check for Face ID / Touch ID availability
-        false
-    }
-    #[cfg(target_os = "macos")]
-    {
-        // Would check for Touch ID availability
-        false
-    }
-    #[cfg(target_os = "android")]
-    {
-        // Would check for fingerprint availability
-        false
-    }
-    #[cfg(not(any(target_os = "ios", target_os = "macos", target_os = "android")))]
-    {
-        false
-    }
-}
-
-/// Authenticate using biometric (stub implementation)
-pub fn authenticate_biometric() -> Result<bool, String> {
-    // TODO: Implement platform-specific biometric authentication
-    // For now, return error as biometrics require native platform integration
-    Err("Biometric authentication is not yet implemented".to_string())
+    cfg!(any(target_os = "android", target_os = "ios"))
 }
 
 #[cfg(test)]

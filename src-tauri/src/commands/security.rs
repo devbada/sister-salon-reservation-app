@@ -152,11 +152,93 @@ pub fn update_lock_settings(db: State<DbState>, settings: LockSettings) -> Resul
 }
 
 #[tauri::command]
-pub fn authenticate_biometric() -> Result<bool, String> {
-    auth::authenticate_biometric()
+pub fn authenticate_biometric(app: tauri::AppHandle) -> Result<bool, String> {
+    #[cfg(any(target_os = "android", target_os = "ios"))]
+    {
+        use tauri_plugin_biometric::{AuthOptions, BiometricExt, BiometryType};
+
+        let biometry_type = app.biometric().status()
+            .map(|s| s.biometry_type)
+            .unwrap_or(BiometryType::None);
+
+        #[cfg(target_os = "android")]
+        let options = {
+            let (title, subtitle) = match biometry_type {
+                BiometryType::FaceID => ("얼굴 인증", "얼굴 인식으로 앱 잠금을 해제합니다"),
+                _ => ("지문 인증", "지문으로 앱 잠금을 해제합니다"),
+            };
+            AuthOptions {
+                allow_device_credential: false,
+                title: Some(title.to_string()),
+                subtitle: Some(subtitle.to_string()),
+                cancel_title: Some("취소".to_string()),
+                confirmation_required: Some(true),
+                ..Default::default()
+            }
+        };
+
+        #[cfg(target_os = "ios")]
+        let options = AuthOptions {
+            allow_device_credential: false,
+            cancel_title: Some("취소".to_string()),
+            fallback_title: Some("PIN으로 잠금 해제".to_string()),
+            ..Default::default()
+        };
+
+        match app.biometric().authenticate("앱 잠금을 해제합니다".to_string(), options) {
+            Ok(_) => Ok(true),
+            Err(e) => Err(format!("생체인증 실패: {}", e)),
+        }
+    }
+    #[cfg(not(any(target_os = "android", target_os = "ios")))]
+    {
+        let _ = app;
+        Err("생체인증은 모바일에서만 사용 가능합니다".to_string())
+    }
 }
 
 #[tauri::command]
-pub fn is_biometric_available() -> Result<bool, String> {
-    Ok(auth::is_biometric_available())
+pub fn is_biometric_available(app: tauri::AppHandle) -> Result<bool, String> {
+    #[cfg(any(target_os = "android", target_os = "ios"))]
+    {
+        use tauri_plugin_biometric::BiometricExt;
+        match app.biometric().status() {
+            Ok(status) => Ok(status.is_available),
+            Err(_) => Ok(false),
+        }
+    }
+    #[cfg(not(any(target_os = "android", target_os = "ios")))]
+    {
+        let _ = app;
+        Ok(false)
+    }
+}
+
+/// Returns the biometric type: "face_id", "touch_id", or "none"
+#[tauri::command]
+pub fn get_biometric_type(app: tauri::AppHandle) -> Result<String, String> {
+    #[cfg(any(target_os = "android", target_os = "ios"))]
+    {
+        use tauri_plugin_biometric::BiometricExt;
+        match app.biometric().status() {
+            Ok(status) => {
+                if !status.is_available {
+                    return Ok("none".to_string());
+                }
+                // BiometryType: None=0, TouchID=1, FaceID=2
+                let type_str = match status.biometry_type as u8 {
+                    2 => "face_id",
+                    1 => "touch_id",
+                    _ => "none",
+                };
+                Ok(type_str.to_string())
+            }
+            Err(_) => Ok("none".to_string()),
+        }
+    }
+    #[cfg(not(any(target_os = "android", target_os = "ios")))]
+    {
+        let _ = app;
+        Ok("none".to_string())
+    }
 }

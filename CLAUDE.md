@@ -2,9 +2,28 @@
 
 ## 프로젝트 개요
 
-**Sisters Salon Reservation App** - 헤어 살롱 예약 관리 크로스 플랫폼 애플리케이션
+**언니들의 미용실 (Sisters Salon)** - 헤어 살롱 예약 관리 크로스 플랫폼 애플리케이션
 
-기존 웹 애플리케이션을 Tauri 2.0 기반 크로스 플랫폼 앱 (Desktop + Mobile)으로 전환하는 프로젝트입니다.
+기존 웹 애플리케이션을 Tauri 2.0 기반 크로스 플랫폼 앱 (Desktop + Mobile)으로 전환하여 **iOS App Store 출시 완료**한 프로젝트입니다.
+
+## App Store 출시 정보
+
+| 항목 | 내용 |
+|------|------|
+| **앱 이름** | 언니들의 미용실 |
+| **App Store** | [https://apps.apple.com/kr/app/id6758295623](https://apps.apple.com/kr/app/%EC%96%B8%EB%8B%88%EB%93%A4%EC%9D%98-%EB%AF%B8%EC%9A%A9%EC%8B%A4/id6758295623) |
+| **App ID** | 6758295623 |
+| **Bundle ID** | com.sisters.salon |
+| **개발자** | HONGRAE CHO |
+| **카테고리** | 비즈니스 |
+| **가격** | 무료 |
+| **연령 등급** | 전체 |
+| **앱 크기** | 18.2 MB |
+| **최소 요구사항** | iOS 14.0+ / iPadOS 14.0+ / macOS 11.0+ (Apple Silicon) |
+| **개인정보 수집** | 수집하지 않음 (완전 오프라인) |
+| **웹사이트** | https://devbada.github.io/sister-salon-reservation-app/ |
+| **개인정보처리방침** | https://devbada.github.io/sister-salon-reservation-app/privacy.html |
+| **문의 이메일** | xsitherx@gmail.com |
 
 ## 지원 플랫폼
 
@@ -540,41 +559,42 @@ npm run tauri ios build -- --target aarch64-apple-ios
   - [x] Tauri opener 플러그인으로 외부 URL 열기 (iOS/Desktop/Web 대응)
 - [x] **iOS PIN 잠금 화면 흰색 화면 버그 수정**
 
-### Phase 5: 통계 대시보드 (예정)
-- [ ] 통계 계산 로직
-- [ ] 차트 컴포넌트 (Recharts)
-- [ ] 기간별 필터링
+### Phase 5: 통계 대시보드 ✅
+- [x] 통계 계산 로직
+- [x] 차트 컴포넌트 (Recharts)
+- [x] 기간별 필터링
 
-### Phase 6: 내보내기 & 백업 (예정)
-- [ ] Excel 내보내기 (rust_xlsxwriter)
-  - [ ] 예약목록 시트
-  - [ ] 월별통계 시트
-  - [ ] 디자이너실적 시트
-  - [ ] **모바일 공유 시트 연동**
-- [ ] 클라우드 백업
-  - [ ] iCloud 백업 (iOS/macOS)
+### Phase 6: 내보내기 & 백업 ✅
+- [x] Excel 내보내기 (rust_xlsxwriter)
+  - [x] 예약목록 시트
+  - [x] 월별통계 시트
+  - [x] 디자이너실적 시트
+  - [x] **모바일 공유 시트 연동**
+- [x] 클라우드 백업
+  - [x] iCloud 백업 (iOS/macOS)
   - [ ] Google Drive 연동 (Android/선택적)
-  - [ ] 자동 백업 스케줄러
-  - [ ] 백업 복원 기능
+  - [x] 자동 백업 스케줄러
+  - [x] 백업 복원 기능
 
-### Phase 7: 앱 잠금 (예정)
-- [ ] PIN 설정/해제
-- [ ] **생체인증 (플랫폼별)**
-  - [ ] Face ID / Touch ID (iOS)
+### Phase 7: 앱 잠금 ✅
+- [x] PIN 설정/해제
+- [x] **생체인증 (플랫폼별)**
+  - [x] Face ID / Touch ID (iOS) — BiometryType 기반 자동 구분
   - [ ] Touch ID (macOS)
   - [ ] Windows Hello
-  - [ ] 지문인식 (Android)
-- [ ] 자동 잠금 타이머
-- [ ] 앱 설정 화면
+  - [x] 지문인식 (Android)
+- [x] 자동 잠금 타이머
+- [x] 앱 설정 화면
 
-### Phase 8: 빌드 & 배포 (예정)
-- [ ] 기능 테스트 (모든 플랫폼)
+### Phase 8: 빌드 & 배포 ✅ (2026-02-04)
+- [x] 기능 테스트 (모든 플랫폼)
 - [ ] **Desktop 빌드**
   - [ ] macOS (DMG)
   - [ ] Windows (MSI)
   - [ ] Linux (DEB)
-- [ ] **Mobile 빌드**
-  - [ ] iOS 빌드 및 TestFlight 배포
+- [x] **Mobile 빌드**
+  - [x] iOS 빌드 및 TestFlight 배포
+  - [x] **iOS App Store 출시** (v1.0.0, 2026-02-04)
   - [ ] Android 빌드 및 APK/AAB 생성
 
 ## 참조 자료
@@ -630,7 +650,10 @@ npm run tauri ios build -- --target aarch64-apple-ios
 ---
 
 **프로젝트 시작일**: 2026-01-21
-**최종 업데이트**: 2026-01-29
-**현재 진행 상황**: Phase 1-4.5 완료, Phase 5 대기중
+**iOS App Store 출시일**: 2026-02-04
+**최종 업데이트**: 2026-02-04
+**현재 버전**: 1.0.1
+**현재 진행 상황**: Phase 1-8 완료, iOS App Store 출시 완료
 **지원 플랫폼**: macOS, Windows, Linux, iOS, Android
+**출시 플랫폼**: iOS (App Store)
 **테스트 완료 플랫폼**: macOS, iOS (iPhone/iPad), Android

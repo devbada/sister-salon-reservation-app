@@ -2,12 +2,17 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { securityApi } from '../lib/tauri';
 import type { LockSettings } from '../types';
 
+export type BiometricType = 'face_id' | 'touch_id' | 'none';
+
 interface UseAppLockReturn {
   isLocked: boolean;
   isInitializing: boolean;
   isLockEnabled: boolean;
   settings: LockSettings | null;
+  isBiometricAvailable: boolean;
+  biometricType: BiometricType;
   unlock: (pin: string) => Promise<boolean>;
+  unlockBiometric: () => Promise<boolean>;
   lock: () => void;
   refreshSettings: () => Promise<void>;
 }
@@ -24,6 +29,8 @@ export function useAppLock(): UseAppLockReturn {
   const [isInitializing, setIsInitializing] = useState(true);
   const [isLockEnabled, setIsLockEnabled] = useState(false);
   const [settings, setSettings] = useState<LockSettings | null>(null);
+  const [isBiometricAvailable, setIsBiometricAvailable] = useState(false);
+  const [biometricType, setBiometricType] = useState<BiometricType>('none');
   const lastActivityRef = useRef<number>(Date.now());
 
   // Load initial state — lock the app on startup if enabled
@@ -106,8 +113,14 @@ export function useAppLock(): UseAppLockReturn {
    */
   const loadLockStatus = async (shouldLock: boolean) => {
     try {
-      const enabled = await securityApi.isLockEnabled();
+      const [enabled, biometricAvailable, bioType] = await Promise.all([
+        securityApi.isLockEnabled(),
+        securityApi.isBiometricAvailable().catch(() => false),
+        securityApi.getBiometricType().catch(() => 'none' as const),
+      ]);
       setIsLockEnabled(enabled);
+      setIsBiometricAvailable(biometricAvailable);
+      setBiometricType(bioType as BiometricType);
 
       if (enabled) {
         const loadedSettings = await securityApi.getSettings();
@@ -124,6 +137,8 @@ export function useAppLock(): UseAppLockReturn {
     } catch (error) {
       console.error('Failed to check lock status:', error);
       setIsLockEnabled(false);
+      setIsBiometricAvailable(false);
+      setBiometricType('none');
       setSettings(DEFAULT_SETTINGS);
       setIsLocked(false);
     } finally {
@@ -145,6 +160,20 @@ export function useAppLock(): UseAppLockReturn {
     }
   }, []);
 
+  const unlockBiometric = useCallback(async (): Promise<boolean> => {
+    try {
+      const success = await securityApi.authenticateBiometric();
+      if (success) {
+        setIsLocked(false);
+        lastActivityRef.current = Date.now();
+      }
+      return success;
+    } catch (error) {
+      console.error('Biometric authentication failed:', error);
+      return false;
+    }
+  }, []);
+
   const lock = useCallback(() => {
     if (isLockEnabled) {
       setIsLocked(true);
@@ -161,7 +190,10 @@ export function useAppLock(): UseAppLockReturn {
     isInitializing,
     isLockEnabled,
     settings,
+    isBiometricAvailable,
+    biometricType,
     unlock,
+    unlockBiometric,
     lock,
     refreshSettings,
   };

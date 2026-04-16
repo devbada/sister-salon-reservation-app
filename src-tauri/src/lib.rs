@@ -10,6 +10,8 @@ pub fn run() {
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_shell::init())
         .setup(|app| {
+            #[cfg(mobile)]
+            app.handle().plugin(tauri_plugin_biometric::init())?;
             init_database(&app.handle()).expect("Failed to initialize database");
             Ok(())
         })
@@ -71,8 +73,10 @@ pub fn run() {
             commands::security::update_lock_settings,
             commands::security::authenticate_biometric,
             commands::security::is_biometric_available,
+            commands::security::get_biometric_type,
             // 유틸
             commands::utils::open_external_url,
+            commands::utils::reset_all_data,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
